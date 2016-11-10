@@ -4,7 +4,7 @@ title: Get started with subscriptions
 
 ## Get started with plans & subscriptions
 
-Subscriptions are the best way get recurring revenue from your customers. 
+Subscriptions are the best way to get recurring revenue from your customers. 
 ProcessOut automatically handles the subscription lifecycles and does all
 the maths for you with upgrades, downgrades and coupons.
 
@@ -22,7 +22,7 @@ Let's get you started by creating a plan on your
 [Dashboard](https://dashboard.processout.com) &rsaquo; Subscriptions &rsaquo; Plans &rsaquo;
 and create a new plan. You can assign the interval for your plan, which will
 be the number of days between each iteration of the subscription (such as 30 days for
-a monthly subscription), as well as a trial if you want to offer your customers
+a monthly subscription), as well as a trial period if you want to offer your customers
 with a way to test your service. A plan is typically composed of a unique ID that
 you will define, a name, and an amount and currency.
 
@@ -96,9 +96,9 @@ plan, err := client.Plans.Create(&processout.Plan{
 
 #### Create a subscription for your customer
 
-Once you have created the plans you want, you will need to create a customer
-on ProcessOut for each of your customers. ProcessOut customers are objects
-used to link your customers with ProcessOut, and can be used to better track
+Once you have created the plans you want, let's also create a customer object
+on ProcessOut for each of your internal customers. ProcessOut customers are
+used to link your customers with ProcessOut, and can be used to easily track
 your sales in your [Dashboard](https://dashboard.processout.com). Let's create
 a new [`Customer` &nearr;](/refs/index.html#customers):
 
@@ -152,6 +152,12 @@ cust, err := client.Customers.Create(&processout.Customer{
 })
 ```
 </div>
+
+Please note that while we're keeping the above example as simple as possible,
+it is possible to store a lot more information about your customer, which can
+be later searched on your [dashboard &nearr;](https://dashboard.processout.com)
+as well. Find all the available customer attributes 
+[in the API references &nearr;](/refs/index.html).
 
 Now that we have created a customer, you should store its ID in your application or
 database and link it to the customer for which you created it. We can now
