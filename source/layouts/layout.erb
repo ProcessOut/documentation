@@ -185,6 +185,9 @@
                     window.open($(this).attr("href"));
                     return false;
                 });
+                $(".main-content .content a code").hover(function() {
+                    $(this).parent().css("text-decoration", "none");
+                });
             });
         </script>
     </head>
@@ -197,7 +200,7 @@
                     <span style="font-size: 1.1em;">_docs</span>
                 </div>
                 <div class="medium-5 text-left column" style="line-height: 36px;">
-                    <%= link_to 'API references &nearr;', '/refs/index.html', class: "api-ref new-window" %>
+                    <%= link_to 'API references &nearr;', 'https://docs.processout.com/refs/index.html', class: "api-ref new-window" %>
                 </div>
                 <div class="medium-4 text-right column" style="line-height: 36px;">
                     <% link_to 'https://dashboard.processout.com' do %>Dashboard &rarr;<% end %>
