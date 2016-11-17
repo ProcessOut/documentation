@@ -32,12 +32,17 @@ security.
 
 ```html
 <form action="/your-capture-endpoint" method="POST" id="payment-form">
-  <div data-processout-input="cc-card"
+  <div data-processout-input="cc-number"
         data-processout-placeholder="4242 4242 4242 4242"></div>
   <div data-processout-input="cc-exp-month"
         data-processout-placeholder="Expiration month"></div>
   <div data-processout-input="cc-exp-year"
         data-processout-placeholder="Expiration year"></div>
+  
+  <!-- It is also possible to use a unified field for the expiration date: -->
+  <div data-processout-input="cc-exp"
+        data-processout-placeholder="Expiration date (mm / yy)"></div>
+
 
   <div data-processout-input="cc-cvc"
         data-processout-placeholder="CVC"></div>
