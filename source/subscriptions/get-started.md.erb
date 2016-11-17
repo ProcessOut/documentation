@@ -42,14 +42,12 @@ curl https://api.processout.com/plans \
 
 ```javascript
 <%= partial "header-js" %>
-var plan = new ProcessOut.Plan();
-plan.setId("silver-plan");
-plan.setName("Silver plan");
-plan.setAmount("10.00");
-plan.setCurrency("USD");
-plan.setInterval("1m");
-
-plan.create().then(function(plan) {
+client.newPlan({
+    id:       "silver-plan",
+    name:     "Silver plan",
+    amount:   "10.00",
+    interval: "1m"
+}).create().then(function(plan) {
     //
 
 }, function(err) {
@@ -60,37 +58,35 @@ plan.create().then(function(plan) {
 
 ```python
 <%= partial "header-python" %>
-plan = processout.Plan()
-plan.id = "silver-plan"
-plan.name = "Silver plan"
-plan.amount = "10.00"
-plan.currency = "USD"
-plan.interval = "1m"
-
-plan = plan.create()
+plan = client.newPlan({
+    "id":       "silver-plan",
+    "name":     "Silver plan",
+    "amount":   "10.00",
+    "currency": "USD",
+    "interval": "1m"
+}).create()
 ```
 
 ```php
 <%= partial "header-php" %>
-$plan = new \ProcessOut\Plan();
-$plan->setId("silver-plan");
-$plan->setName("Silver plan");
-$plan->setAmount("10.00");
-$plan->setCurrency("USD");
-$plan->setInterval("1m");
-
-$plan = $plan->create();
+$plan = $client->newPlan(array(
+    "id"       => "silver-plan",
+    "name"     => "Silver plan",
+    "amount"   => "10.00",
+    "currency" => "USD",
+    "interval" => "1m"
+))->create();
 ```
 
 ```go
 <%= partial "header-go" %>
-plan, err := client.Plans.Create(&processout.Plan{
+plan, err := client.NewPlan(&processout.Plan{
     ID:       "silver-plan",
     Name:     "Silver plan",
     Amount:   "10.00",
     Currency: "USD",
     Interval: "1m",
-})
+}).Create()
 ```
 </div>
 
@@ -113,11 +109,10 @@ curl https://api.processout.com/customers \
 
 ```javascript
 <%= partial "header-js" %>
-var customer = new ProcessOut.Customer();
-customer.setFirstName("John");
-customer.setLastName("Smith");
-
-customer.create().then(function(customer) {
+client.newCustomer({
+    first_name: "John",
+    last_name:  "Smith"
+}).create().then(function(customer) {
     //
 
 }, function(err) {
@@ -128,28 +123,26 @@ customer.create().then(function(customer) {
 
 ```python
 <%= partial "header-python" %>
-customer = processout.Customer()
-customer.firstName = "John"
-customer.lastName = "Smith"
-
-customer = customer.create()
+customer = client.newCustomer(array(
+    "first_name": "John",
+    "last_name":  "Smith"
+)).create()
 ```
 
 ```php
 <%= partial "header-php" %>
-$customer = new \ProcessOut\Customer();
-$customer->setFirstName("John");
-$customer->setLastName("Smith");
-
-$customer = $customer->create();
+$customer = $client->newCustomer(array(
+    "first_name": "John",
+    "last_name":  "Smith"
+))->create();
 ```
 
 ```go
 <%= partial "header-go" %>
-cust, err := client.Customers.Create(&processout.Customer{
+cust, err := client.NewCustomer(&processout.Customer{
     FirstName: "John",
     LastName:  "Smith",
-})
+}).Create()
 ```
 </div>
 
@@ -177,8 +170,7 @@ curl https://api.processout.com/subscriptions \
 
 ```javascript
 <%= partial "header-js" %>
-var subscription = new ProcessOut.Subscription();
-subscription.createFromPlan("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
+client.newSubscription().createFromPlan("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
     "silver-plan").then(function(subscription) {
         // The subscription is now successfully created
         // for the customer.
@@ -201,8 +193,7 @@ subscription.createFromPlan("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
 
 ```python
 <%= partial "header-python" %>
-subscription = processout.Subscription()
-subscription = subscription.createFromPlan(
+subscription = client.newSubscription().createFromPlan(
     "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan")
 
 # The subscription is now successfully created
@@ -216,8 +207,7 @@ subscription.applySource("card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj")
 
 ```php
 <%= partial "header-php" %>
-$subscription = new \ProcessOut\Subscription();
-$subscription = $subscription->createFromPlan(
+$subscription = $client->newSubscription()->createFromPlan(
     "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan");
 
 // The subscription is now successfully created
@@ -231,7 +221,7 @@ $subscription->applySource("card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj");
 
 ```go
 <%= partial "header-go" %>
-sub, err := client.Subscriptions.CreateFromPlan(&processout.Subscription{}, 
+sub, err := client.NewSubscription().CreateFromPlan(
     "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan")
 if err != nil {
     panic(err)
@@ -241,8 +231,7 @@ if err != nil {
 // for the customer.
 // We can activate it using a source, such as a card
 // token previously generated using ProcessOut.js
-sub, err = client.Subscriptions.ApplySource(sub, 
-    "card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj")
+sub, err = sub.ApplySource("card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj")
 if err != nil {
     panic(err)
 }

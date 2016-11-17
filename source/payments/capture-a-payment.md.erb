@@ -22,18 +22,17 @@ related to the payment.
 curl https://api.processout.com/invoices \
     -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
     -d name="Awesome invoice" \
-    -d amount=9.99 \
+    -d amount="9.99" \
     -d currency=USD 
 ```
 
 ```javascript
 <%= partial "header-js" %>
-var invoice = new ProcessOut.Invoice();
-invoice.setName('Amazing item');
-invoice.setAmount('4.99');
-invoice.setCurrency('USD');
-
-invoice.create().then(function(invoice) {
+client.newInvoice({
+    name:     "Amazing item",
+    amount:   "4.99",
+    currency: "USD"
+}).create().then(function(invoice) {
     // invoice is our newly created resource
 
 }, function(err) {
@@ -44,32 +43,29 @@ invoice.create().then(function(invoice) {
 
 ```python
 <%= partial "header-python" %>
-invoice          = processout.Invoice()
-invoice.name     = 'Amazing item'
-invoice.amount   = '4.99'
-invoice.currency = 'USD'
-
-invoice = invoice.create()
+invoice = client.newInvoice({
+    "name":     "Amazing item",
+    "amount":   "4.99",
+    "currency": "USD"
+}).create()
 ```
 
 ```php
 <%= partial "header-php" %>
-$invoice = new \ProcessOut\Invoice();
-$invoice
-    ->setName('Amazing item')
-    ->setAmount('4.99')
-    ->setCurrency('USD');
-
-$invoice = $invoice->create();
+$invoice = $client->newInvoice(array(
+    "name"     => "Amazing item",
+    "amount"   => "4.99",
+    "currency" => "USD"
+))->create();
 ```
 
 ```go
 <%= partial "header-go" %>
-iv, err := p.Invoices.Create(&processout.Invoice{
+iv, err := client.NewInvoice(&processout.Invoice{
     Name:     "Amazing item",
     Amount:   "4.99",
     Currency: "USD",
-})
+}).Create()
 ```
 </div>
 
@@ -110,7 +106,7 @@ $transaction = $invoice->capture("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ");
 
 ```go
 <%= partial "header-go" %>
-tr, _ := processout.Invoices.Capture(iv, "card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ")
+tr, _ := iv.Capture("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ")
 ```
 </div>
 
@@ -156,7 +152,7 @@ $transaction = $invoice->authorize("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ");
 
 ```go
 <%= partial "header-go" %>
-tr, _ := processout.Invoices.Authorize(iv, "card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ")
+tr, _ := iv.Authorize("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ")
 ```
 </div>
 
@@ -196,7 +192,7 @@ $transaction = $invoice->capture("");
 
 ```go
 <%= partial "header-go" %>
-tr, _ := processout.Invoices.Capture(iv, "")
+tr, _ := iv.Capture("")
 ```
 </div>
 

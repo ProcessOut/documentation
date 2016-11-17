@@ -48,7 +48,7 @@ the payment actually takes place.
 curl https://api.processout.com/invoices \
     -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
     -d name="Awesome invoice" \
-    -d amount=9.99 \
+    -d amount="9.99" \
     -d currency=USD
 
 # And fetch the gateways
@@ -60,14 +60,13 @@ curl https://api.processout.com/projects/proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4/g
 ```javascript
 <%= partial "header-js" %>
 // Let's first create an invoice
-var invoice = new ProcessOut.Invoice();
-invoice.setName('Amazing item');
-invoice.setAmount('4.99');
-invoice.setCurrency('USD');
-
-invoice.create({expand: ["project"]}).then(function(invoice) {
+client.newInvoice({
+    name:     "Amazing item",
+    amount:   "4.99",
+    currency: "USD"
+}).create({expand: ["project"]}).then(function(invoice) {
     // And now fetch the project available gateways for one-off payments
-    invoice.getProject().gatewayConfigurations({
+    invoice.getProject().fetchGatewayConfigurations({
         expand: ["gateway"],
         filter: "tags: redirection flows: one-off"
     }).then(function(gateways) {
@@ -86,14 +85,14 @@ invoice.create({expand: ["project"]}).then(function(invoice) {
 ```python
 <%= partial "header-python" %>
 # Let's first create an invoice
-invoice          = processout.Invoice()
-invoice.name     = 'Amazing item'
-invoice.amount   = '4.99'
-invoice.currency = 'USD'
-invoice = invoice.create({expand: ["project"]})
+invoice = client.newInvoice({
+    "name":     "Amazing item",
+    "amount":   "4.99",
+    "currency": "USD"
+}).create({expand: ["project"]})
 
 # And now fetch the project's available gateways
-gateways = invoice.project.gatewayConfigurations({
+gateways = invoice.project.fetchGatewayConfigurations({
     expand: ["gateway"],
     filter: "tags: redirection flows: one-off"
 })
@@ -102,15 +101,14 @@ gateways = invoice.project.gatewayConfigurations({
 ```php
 <%= partial "header-php" %>
 // Let's first create an invoice
-$invoice = new \ProcessOut\Invoice();
-$invoice
-    ->setName('Amazing item')
-    ->setAmount('4.99')
-    ->setCurrency('USD');
-$invoice = $invoice->create(array("expand" => array("project")));
+$invoice = $client->newInvoice(array(
+    "name"     => "Amazing item",
+    "amount"   => "4.99",
+    "currency" => "USD"
+))->create(array("expand" => array("project")));
 
 // And now fetch the project's available gateways
-$gateways = $invoice->getProject()->gatewayConfigurations(array(
+$gateways = $invoice->getProject()->fetchGatewayConfigurations(array(
     "expand" => array("gateway"),
     "filter" => "tags: redirection flows: one-off"
 ));
@@ -119,11 +117,11 @@ $gateways = $invoice->getProject()->gatewayConfigurations(array(
 ```go
 <%= partial "header-go" %>
 // Let's first create an invoice
-iv, err := p.Invoices.Create(&processout.Invoice{
+iv, err := client.NewInvoice(&processout.Invoice{
     Name:     "Amazing item",
     Amount:   "4.99",
     Currency: "USD",
-}, processout.Options{
+}).Create(processout.Options{
     Expand: []string{"project"},
 })
 if err != nil {
@@ -131,7 +129,7 @@ if err != nil {
 }
 
 // And now fetch the project available gateways for one-off payments
-gateways, erri := p.Projects.GatewayConfigurations(iv.Project, 
+gateways, erri := iv.Project.FetchGatewayConfigurations(
     processout.Options{
         Expand: []string{"gateway"},
         Filter: "tags: redirection flows: one-off",
@@ -262,7 +260,7 @@ $transaction = $invoice->capture("gway_req_V2UncmUgaGlyaW5nIQ==");
 
 ```go
 <%= partial "header-go" %>
-tr, _ := processout.Invoices.Capture(iv, "gway_req_V2UncmUgaGlyaW5nIQ==")
+tr, _ := iv.Capture("gway_req_V2UncmUgaGlyaW5nIQ==")
 ```
 </div>
 

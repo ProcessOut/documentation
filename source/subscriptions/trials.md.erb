@@ -43,7 +43,7 @@ curl -X PUT https://api.processout.com/subscriptions/sub_SSpcwpKNSa2WT2pixBRNyOn
 
 ```javascript
 <%= partial "header-js" %>
-ProcessOut.Subscription.find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR").then(
+client.newSubscription().find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR").then(
     function(subscription) {
         subscription.setTrialEndAt("2022-10-02T15:00:00Z");
         subscription.save().then(function(subscription) {
@@ -60,7 +60,7 @@ ProcessOut.Subscription.find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR").then(
 
 ```python
 <%= partial "header-python" %>
-subscription = processout.Subscription.find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR")
+subscription = client.newSubscription().find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR")
 subscription.trialEndAt = "2022-10-02T15:00:00Z"
 subscription.save()
 
@@ -69,7 +69,7 @@ subscription.save()
 
 ```php
 <%= partial "header-php" %>
-$subscription = \ProcessOut\Subscription::find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR");
+$subscription = $client->newSubscription()->find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR");
 $subscription->trialEndAt("2022-10-02T15:00:00Z");
 $subscription->save();
 
@@ -78,9 +78,9 @@ $subscription->save();
 
 ```go
 <%= partial "header-go" %>
-sub, _ := client.Subscriptions.Find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR")
+sub, _ := client.NewSubscription().Find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR")
 sub.TrialEndAt = "2022-10-02T15:00:00Z"
-sub, err = client.Subscriptions.Save(sub)
+sub, err = sub.Save()
 if err != nil {
     panic(err)
 }

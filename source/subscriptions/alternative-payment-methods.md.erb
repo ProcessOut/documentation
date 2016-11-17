@@ -53,11 +53,10 @@ curl https://api.processout.com/subscriptions \
 ```javascript
 <%= partial "header-js" %>
 // Let's first create an subscription
-var subscription = new ProcessOut.Subscription();
-subscription.createFromPlan("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
+client.newSubscription().createFromPlan("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
     "silver-plan", {expand: ["project"]}).then(function(subscription) {
         // And now fetch the project available gateways for subscriptions
-        subscription.getProject().gatewayConfigurations({
+        subscription.getProject().fetchGatewayConfigurations({
             expand: ["gateway"],
             filter: "tags: redirection flows: one-off"
         }).then(function(gateways) {
@@ -76,13 +75,12 @@ subscription.createFromPlan("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
 ```python
 <%= partial "header-python" %>
 # Let's first create an subscription
-subscription = Subscription()
-subscription = subscription.createFromPlan(
+subscription = client.newSubscription().createFromPlan(
     "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan",
     {expand:["project"]})
 
 # And now fetch the project's available gateways
-gateways = subscription.project.gatewayConfigurations({
+gateways = subscription.project.fetchGatewayConfigurations({
     expand: ["gateway"],
     filter: "tags: redirection flows: subscription"
 })
@@ -91,13 +89,12 @@ gateways = subscription.project.gatewayConfigurations({
 ```php
 <%= partial "header-php" %>
 // Let's first create an subscription
-$subscription = new \ProcessOut\Subscription();
-$subscription = $subscription->createFromPlan(
+$subscription = $client->newSubscription()->createFromPlan(
     "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan",
     array("expand" => array("project")));
 
 // And now fetch the project's available gateways
-$gateways = $subscription->getProject()->gatewayConfigurations(array(
+$gateways = $subscription->getProject()->fetchGatewayConfigurations(array(
     "expand" => array("gateway"),
     "filter" => "tags: redirection flows: subscription"
 ));
@@ -106,7 +103,7 @@ $gateways = $subscription->getProject()->gatewayConfigurations(array(
 ```go
 <%= partial "header-go" %>
 // Let's first create an subscription
-sub, err := client.Subscriptions.CreateFromPlan(&processout.Subscription{}, 
+sub, err := client.NewSubscription().CreateFromPlan(
     "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan",
     processout.Options{
         Expand: []string{"project"},
@@ -116,7 +113,7 @@ if err != nil {
 }
 
 // And now fetch the project available gateways for one-off payments
-gateways, erri := p.Projects.GatewayConfigurations(sub.Project, 
+gateways, erri := sub.Project.FetchGatewayConfigurations(
     processout.Options{
         Expand: []string{"gateway"},
         Filter: "tags: redirection flows: subscription",
@@ -227,7 +224,7 @@ curl -X PUT https://api.processout.com/subscriptions/sub_SSpcwpKNSa2WT2pixBRNyOn
 
 ```javascript
 <%= partial "header-js" %>
-ProcessOut.Subscription.find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR").then(
+client.newSubscription().find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR").then(
     function(subscription) {
         subscription.applySource("gway_req_V2UncmUgaGlyaW5nIQ==").then(
             function(subscription) {
@@ -245,7 +242,7 @@ ProcessOut.Subscription.find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR").then(
 
 ```python
 <%= partial "header-python" %>
-subscription = processout.Subscription.find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR")
+subscription = client.newSubscription().find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR")
 subscription.applySource("gway_req_V2UncmUgaGlyaW5nIQ==")
 
 # The customer is now successfully subscribed to the subscription
@@ -253,7 +250,7 @@ subscription.applySource("gway_req_V2UncmUgaGlyaW5nIQ==")
 
 ```php
 <%= partial "header-php" %>
-$subscription = \ProcessOut\Subscription::find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR");
+$subscription = $client->newSubscription()->find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR");
 $subscription->applySource("gway_req_V2UncmUgaGlyaW5nIQ==");
 
 // The customer is now successfully subscribed to the subscription
@@ -261,9 +258,8 @@ $subscription->applySource("gway_req_V2UncmUgaGlyaW5nIQ==");
 
 ```go
 <%= partial "header-go" %>
-sub, _ := client.Subscriptions.Find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR")
-sub, err = client.Subscriptions.ApplySource(sub, 
-    "gway_req_V2UncmUgaGlyaW5nIQ==")
+sub, _ := client.NewSubscription().Find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR")
+sub, err = sub.ApplySource("gway_req_V2UncmUgaGlyaW5nIQ==")
 if err != nil {
     panic(err)
 }

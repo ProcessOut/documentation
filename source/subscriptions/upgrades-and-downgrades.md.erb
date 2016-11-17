@@ -54,7 +54,7 @@ curl -PUT DELETE https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGI
 
 ```javascript
 <%= partial "header-js" %>
-ProcessOut.Subscription.find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3").then(
+client.newSubscription().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3").then(
     function(subscription)
         // The second parameter means we want to prorate
         subscription.updatePlan("gold-plan", true).then(function(subscription) {
@@ -74,25 +74,25 @@ ProcessOut.Subscription.find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3").then(
 
 ```python
 <%= partial "header-python" %>
-subscription = processout.Subscription.find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
+subscription = client.newSubscription().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
 subscription.updatePlan("gold-plan", true) # true means we want to prorate
 ```
 
 ```php
 <%= partial "header-php" %>
-$subscription = new \ProcessOut\Subscription::find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3");
+$subscription = $this->newSubscription()->find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3");
 $subscription->updatePlan("gold-plan", true); // true means we want to prorate
 ```
 
 ```go
 <%= partial "header-go" %>
-sub, err := client.Subscriptions.Find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
+sub, err := client.NewSubscription().Find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
 if err != nil {
     panic(err)
 }
 
 // The third parameter means we want to prorate
-_, err = client.Subscriptions.UpdatePlan(sub, "gold-plan", true)
+_, err = sub.UpdatePlan("gold-plan", true)
 if err != nil {
     panic(err)
 }

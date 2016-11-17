@@ -52,12 +52,12 @@ curl https://api.processout.com/coupons \
 
 ```javascript
 <%= partial "header-js" %>
-var coupon = new ProcessOut.Coupon();
-coupon.setId("25percentoff");
-coupon.setPercentOff(25);
-coupon.setIterationCount(3);
-coupon.setExpiresAt("2022-10-02T15:00:00Z");
-coupon.create().then(
+client.newCoupon({
+    id:              "25percentoff",
+    percent_off:     25,
+    iteration_count: 3,
+    expires_at:      "2022-10-02T15:00:00Z"
+}).create().then(
     function(coupon) {
         // 
 
@@ -69,33 +69,32 @@ coupon.create().then(
 
 ```python
 <%= partial "header-python" %>
-coupon = processout.Coupon()
-coupon.id = "25percentoff"
-coupon.percentOff = 25
-coupon.iterationCount = 3
-coupon.expiresAt = "2022-10-02T15:00:00Z"
-coupon = coupon.create()
+coupon = client.newCoupon({
+    "id":              "25percentoff",
+    "percent_off":     25,
+    "iteration_count": 3,
+    "expires_at":      "2022-10-02T15:00:00Z"
+}).create()
 ```
 
 ```php
 <%= partial "header-php" %>
-$coupon = new \ProcessOut\Coupon();
-$coupon->setId("25percentoff");
-$coupon->setPercentOff(25);
-$coupon->setIterationCount(3);
-$coupon->setExpiresAt("2022-10-02T15:00:00Z");
-$coupon = $coupon->create();
+$coupon = $client->newCoupon(array(
+    "id":              "25percentoff",
+    "percent_off":     25,
+    "iteration_count": 3,
+    "expires_at":      "2022-10-02T15:00:00Z"
+))->create();
 ```
 
 ```go
 <%= partial "header-go" %>
-coupon := &processout.Coupon{
+coupon, err := client.NewCoupon(&processout.Coupon{
     ID:             "25percentoff",
     PercentOff:     25,
     IterationCount: 3,
     ExpiresAt:      "2022-10-02T15:00:00Z",
-}
-_, err := processout.Coupons.Create(coupon)
+}).Create(coupon)
 if err != nil {
     panic(err)
 }
@@ -123,14 +122,12 @@ curl https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzz
 
 ```javascript
 <%= partial "header-js" %>
-var subscription = new ProcessOut.Subscription();
-subscription.createFromPlan("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
+client.newSubscription().createFromPlan("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
     "silver-plan").then(function(subscription) {
         // The subscription is now successfully created
         // for the customer.
         // Let's apply the coupon
-        var discount = new ProcessOut.Discount();
-        discount.applyCoupon(subscription.getId(), "25percentoff").then(
+        subscription.applyCoupon("25percentoff").then(
             function(discount) {
                 // All good!
 
@@ -146,37 +143,33 @@ subscription.createFromPlan("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
 
 ```python
 <%= partial "header-python" %>
-subscription = processout.Subscription()
-subscription = subscription.createFromPlan(
+subscription = client.newSubscription().createFromPlan(
     "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan")
 
 # The subscription is now successfully created
 # for the customer.
 # Let's apply the coupon
-discount = processout.Discount()
-discount = discount.applyCoupon(subscription.id, "25percentoff")
+discount = subscription.applyCoupon("25percentoff")
 
 # The discount is now applied to the subscription!
 ```
 
 ```php
 <%= partial "header-php" %>
-$subscription = new \ProcessOut\Subscription();
-$subscription = $subscription->createFromPlan(
+$subscription = $client->newSubscription()->createFromPlan(
     "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan");
 
 // The subscription is now successfully created
 // for the customer.
 // Let's apply the coupon
-$discount = new \ProcessOut\Discount();
-$discount = $discount->applyCoupon($subscription->getId(), "25percentoff");
+$discount = $subscription->applyCoupon("25percentoff");
 
 // The discount is now applied to the subscription!
 ```
 
 ```go
 <%= partial "header-go" %>
-sub, err := client.Subscriptions.CreateFromPlan(&processout.Subscription{}, 
+sub, err := client.NewSubscription().CreateFromPlan(
     "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan")
 if err != nil {
     panic(err)
@@ -185,8 +178,7 @@ if err != nil {
 // The subscription is now successfully created
 // for the customer.
 // Let's apply the coupon
-discount, err = client.Discounts.ApplyCoupon(&processout.Discount{}, 
-    sub.ID, "25percentoff")
+discount, err = sub.ApplyCoupon("25percentoff")
 if err != nil {
     panic(err)
 }
@@ -209,7 +201,7 @@ curl -X DELETE https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0
 
 ```javascript
 <%= partial "header-js" %>
-ProcessOut.Subscription.find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3").then(
+client.newSubscription().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3").then(
     function(subscription) 
         subscription.removeDiscount("25percentoff").then(function(subscription) {
             // The coupon discount was successfully removed
@@ -226,23 +218,23 @@ ProcessOut.Subscription.find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3").then(
 
 ```python
 <%= partial "header-python" %>
-subscription = processout.Subscription.find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
+subscription = client.newSubscription().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
 subscription.removeDiscount("25percentoff")
 ```
 
 ```php
 <%= partial "header-php" %>
-$subscription = new \ProcessOut\Subscription::find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3");
+$subscription = $client->newSubscription()->find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3");
 $subscription->removeDiscount("25percentoff");
 ```
 
 ```go
 <%= partial "header-go" %>
-sub, err := client.Subscriptions.Find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
+sub, err := client.NewSubscription().Find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
 if err != nil {
     panic(err)
 }
-_, err = client.Subscriptions.RemoveDiscount(sub, "25percentoff")
+_, err = sub.RemoveDiscount("25percentoff")
 if err != nil {
     panic(err)
 }

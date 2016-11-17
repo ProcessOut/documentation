@@ -39,12 +39,11 @@ curl https://api.processout.com/customers \
 
 ```javascript
 <%= partial "header-js" %>
-var customer = new ProcessOut.Customer();
-customer.setFirstName('John');
-customer.setLastName('Smith');
-customer.setCurrency('USD');
-
-customer.create().then(function(customer) {
+var customer = client.newCustomer({
+    first_name: "John",
+    last_name:  "Smith",
+    currency:   "USD"
+}).create().then(function(customer) {
     //
 
 }, function(err) {
@@ -55,31 +54,29 @@ customer.create().then(function(customer) {
 
 ```python
 <%= partial "header-python" %>
-customer = processout.Customer()
-customer.firstName = 'John'
-customer.lastName = 'Smith'
-customer.currency = 'USD'
-
-customer = customer.create()
+customer = client.newCustomer({
+    "first_name": "John",
+    "last_name":  "Smith",
+    "currency":   "USD"
+}).create()
 ```
 
 ```php
 <%= partial "header-php" %>
-$customer = new \ProcessOut\Customer();
-$customer->setFirstName('John');
-$customer->setLastName('Smith');
-$customer->setCurrency('USD');
-
-$customer = $customer->create();
+$customer = $client->newCustomer(array(
+    "first_name": "John",
+    "last_name":  "Smith",
+    "currency":   "USD"
+))->create();
 ```
 
 ```go
 <%= partial "header-go" %>
-cust, err := client.Customers.Create(&processout.Customer{
+cust, err := client.NewCustomer(&processout.Customer{
     FirstName: "John",
     LastName:  "Smith",
     Currency:  "USD",
-})
+}).Create()
 ```
 </div>
 
@@ -103,31 +100,31 @@ curl https://api.processout.com/customers/cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks 
 
 ```javascript
 <%= partial "header-js" %>
-var token = new ProcessOut.Token();
-token.create("cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks", "card_ZGJ8EnCPfcr298O1wD6u9McfnZQucIv1").
-    then(function(token) {
-        //
-    }, function(err) {
-        // An error occured creating the token
-    });
+client.newToken().create("cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks", 
+    "card_ZGJ8EnCPfcr298O1wD6u9McfnZQucIv1").
+        then(function(token) {
+            //
+        }, function(err) {
+            // An error occured creating the token
+        });
 ```
 
 ```python
 <%= partial "header-js" %>
-token = processout.Token()
-token.create("cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks", "card_ZGJ8EnCPfcr298O1wD6u9McfnZQucIv1")
+token = client.newToken().create("cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks", 
+    "card_ZGJ8EnCPfcr298O1wD6u9McfnZQucIv1")
 ```
 
 ```php
 <%= partial "header-php" %>
-$token = new \ProcessOut\Token();
-$token->create("cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks", "card_ZGJ8EnCPfcr298O1wD6u9McfnZQucIv1");
+$token = $client->newToken()->create("cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks", 
+    "card_ZGJ8EnCPfcr298O1wD6u9McfnZQucIv1");
 ```
 
 ```go
 <%= partial "header-go" %>
-tok, err := client.Tokens.Create(&processout.Token{}, 
-    "cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks", "card_ZGJ8EnCPfcr298O1wD6u9McfnZQucIv1")
+tok, err := client.NewToken().Create("cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks", 
+    "card_ZGJ8EnCPfcr298O1wD6u9McfnZQucIv1")
 ```
 </div>
 
@@ -168,7 +165,7 @@ $transaction = $invoice->capture("cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks");
 
 ```go
 <%= partial "header-go" %>
-tr, _ := processout.Invoices.Capture(iv, "cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks")
+tr, _ := iv.Capture("cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks")
 ```
 </div>
 
@@ -207,6 +204,6 @@ $transaction = $invoice->capture("tok_aKrYfz903uXn9MV0p8ZH7Lfly2JGtZWh");
 
 ```go
 <%= partial "header-go" %>
-tr, _ := processout.Invoices.Capture(iv, "tok_aKrYfz903uXn9MV0p8ZH7Lfly2JGtZWh")
+tr, _ := iv.Capture("tok_aKrYfz903uXn9MV0p8ZH7Lfly2JGtZWh")
 ```
 </div>
