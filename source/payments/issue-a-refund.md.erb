@@ -1,0 +1,88 @@
+---
+title: Issue a refund
+---
+
+## Issuing refunds
+
+Once a payment is placed, your customer might want to be refunded for his
+purchase. In case the transaction was fraudulent, it might also be a good idea
+to refund the transaction before a chargeback is issued. ProcessOut makes it
+easy to issue partial or full refunds.
+
+<hr>
+
+#### Issue a refund from your dashboard
+
+The easiest way of issuing a [`Refund` &nearr;](/refs/index.html#refunds) for a 
+transaction is to do it from your
+[dashboard &nearr;](https://dashboard.processout.com). Refunds can be done
+on the page of a [`Transaction` &nearr;](/refs/index.html#transactions). 
+
+Please note that while most of the gateways supported by ProcessOut support both
+partial and full refunds, some might still not. In this case, the button will
+not be displayed on your dashboard, and it might be best to directly contact
+your customer.
+
+#### Issuing refunds using the API
+
+It is also possible to issue refunds using the ProcessOut API. Refunds are issued
+on transactions, and it is possible to specify an amount to be refunded as well
+as a reason, which must be either `customer_request`, `duplicate` or `fraud`.
+Additional information can also be sent using the `information` attribute of
+the refund.
+
+It is also possible to leave the `amount` attribute empty to automatically issue
+a full refund. If partial refunds were previously applied on the transaction,
+leaving the `amount` field empty will refund whats left of the transaction amount.
+
+<div class="language-selector-wrapper">
+<%= partial "lg-selector" %>
+```shell
+curl https://api.processout.com/transactions/tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC/refunds \
+    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
+    -d reason=customer_request
+    -d amount=4.99
+```
+
+```javascript
+<%= partial "header-js" %>
+client.newRefund({
+    reason: "customer_request",
+    amount: "4.99"
+}).apply("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC").then(
+    function(refund) {
+        // 
+
+    }, function(err) {
+        // An error occured
+
+    });
+```
+
+```python
+<%= partial "header-python" %>
+refund = client.newRefund({
+    "reason": "customer_request",
+    "amount": "4.99"
+}).apply("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC")
+```
+
+```php
+<%= partial "header-php" %>
+$refund = $client->newRefund(array(
+    "reason" => "customer_request",
+    "amount" => "4.99"
+))->apply("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC");
+```
+
+```go
+<%= partial "header-go" %>
+refund, err := client.NewRefund({
+    Reason: "customer_request",
+    Amount: "4.99"
+}).Apply("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC")
+```
+</div>
+
+If the refund was successfully issued, a new refund object is returned. In case
+the refund could not be applied on the transaction, an error will be thrown.

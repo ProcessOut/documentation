@@ -62,7 +62,7 @@ $refund = $client->newRefund(array(
 refund, err := client.NewRefund({
     Reason: "customer_request",
     Amount: "4.99"
-}).Create("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC")
+}).Apply("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC")
 ```
 
 Refunding a transaction can be done by providing the transaction ID to be
