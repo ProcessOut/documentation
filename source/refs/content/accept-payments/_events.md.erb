@@ -113,14 +113,14 @@ from the API.
 
 ### Fetch an event
 
-```sh
+```shell
 curl https://api.processout.com/events/ev_T3wg9169RyGLnf1BIgTjLhrolEZU1DSb \
     -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd
 ```
 
 ```javascript
 <%= partial "header-js" %>
-ProcessOut.Event.find("ev_T3wg9169RyGLnf1BIgTjLhrolEZU1DSb").then(
+client.newEvent().find("ev_T3wg9169RyGLnf1BIgTjLhrolEZU1DSb").then(
     function(event) {
         // We may now access the event
 
@@ -132,17 +132,17 @@ ProcessOut.Event.find("ev_T3wg9169RyGLnf1BIgTjLhrolEZU1DSb").then(
 
 ```python
 <%= partial "header-python" %>
-event = processout.Event.find("ev_T3wg9169RyGLnf1BIgTjLhrolEZU1DSb")
+event = client.newEvent().find("ev_T3wg9169RyGLnf1BIgTjLhrolEZU1DSb")
 ```
 
 ```php
 <%= partial "header-php" %>
-$event = ProcessOut\Event::find("ev_T3wg9169RyGLnf1BIgTjLhrolEZU1DSb");
+$event = $client->newEvent()->find("ev_T3wg9169RyGLnf1BIgTjLhrolEZU1DSb");
 ```
 
 ```go
 <%= partial "header-go" %>
-ev, err := client.Events.Find("ev_T3wg9169RyGLnf1BIgTjLhrolEZU1DSb")
+ev, err := client.NewEvent().Find("ev_T3wg9169RyGLnf1BIgTjLhrolEZU1DSb")
 ```
 
 Fetch an event by its ID. An error is thrown when the event could not be found.

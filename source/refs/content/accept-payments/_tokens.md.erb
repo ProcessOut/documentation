@@ -25,7 +25,7 @@ they were created for.
 
 ### Create a token
 
-```sh
+```shell
 curl https://api.processout.com/customers/cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj/tokens \
     -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
     -d source=card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj
@@ -33,35 +33,31 @@ curl https://api.processout.com/customers/cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj/
 
 ```javascript
 <%= partial "header-js" %>
-var token = new ProcessOut.Token();
-token.create("cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj", 
+client.newToken().create("cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj", 
     "card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj").then(function(invoice) {
-    // 
+        // 
 
-}, function(err) {
-    // An error occured
+    }, function(err) {
+        // An error occured
 
-});
+    });
 ```
 
 ```python
 <%= partial "header-python" %>
-token = processout.Token()
-token = token.create("cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
+token = client.newToken().create("cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
     "card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj")
 ```
 
 ```php
 <%= partial "header-php" %>
-$token = new \ProcessOut\Token();
-$token = $token->create("cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
+$token = $client->newToken()->create("cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
     "card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj");
 ```
 
 ```go
 <%= partial "header-go" %>
-iv, err := client.Tokens.Create(&processout.Token{}, 
-    "cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
+iv, err := client.NewToken().Create("cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
     "card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj")
 ```
 

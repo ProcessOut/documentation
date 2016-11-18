@@ -29,7 +29,7 @@ or database so you can use it later.
 
 <div class="language-selector-wrapper">
 <%= partial "lg-selector" %>
-```sh
+```shell
 curl https://api.processout.com/customers \
     -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
     -d first_name=John \
@@ -92,7 +92,7 @@ belong to it. Customer tokens can be created from the ones returned by
 
 <div class="language-selector-wrapper">
 <%= partial "lg-selector" %>
-```sh
+```shell
 curl https://api.processout.com/customers/cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks \
     -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
     -d source=card_ZGJ8EnCPfcr298O1wD6u9McfnZQucIv1
@@ -136,7 +136,7 @@ of the customer as the source:
 
 <div class="language-selector-wrapper">
 <%= partial "lg-selector" %>
-```sh
+```shell
 curl https://api.processout.com/invoices/iv_lEZFFcQg5WwpKcolBrlzioeeFnnuPmyE/capture \
     -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
     -d source=cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks
@@ -175,7 +175,7 @@ use a specific token, you can too:
 
 <div class="language-selector-wrapper">
 <%= partial "lg-selector" %>
-```sh
+```shell
 curl https://api.processout.com/invoices/iv_lEZFFcQg5WwpKcolBrlzioeeFnnuPmyE/capture \
     -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
     -d source=tok_aKrYfz903uXn9MV0p8ZH7Lfly2JGtZWh

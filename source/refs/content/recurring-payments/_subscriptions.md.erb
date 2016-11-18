@@ -25,7 +25,7 @@ Subscriptions are objects representing your customers' subscriptions.
 
 ### Create a subscription
 
-```sh
+```shell
 curl https://api.processout.com/subscriptions \
     -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
     -d customer_id=cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P \
@@ -37,13 +37,12 @@ curl https://api.processout.com/subscriptions \
 
 ```javascript
 <%= partial "header-js" %>
-var subscription = new ProcessOut.Subscription();
-subscription.setName("Amazing item");
-subscription.setAmount("4.99");
-subscription.setCurrency("USD");
-subscription.setInterval("1m");
-
-subscription.create("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P").then(
+var subscription = client.newSubscription({
+    name:     "Amazing subscription",
+    amount:   "4.99",
+    currency: "USD",
+    interval: "1m"
+}).create("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P").then(
     function(subscription) {
         // 
 
@@ -55,38 +54,32 @@ subscription.create("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P").then(
 
 ```python
 <%= partial "header-python" %>
-subscription          = Subscription()
-subscription.name     = "Amazing item"
-subscription.amount   = "4.99"
-subscription.currency = "USD"
-subscription.interval = "1m"
-
-subscription = subscription.create("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P")
+subscription = client.newSubscription({
+    "name":     "Amazing subscription",
+    "amount":   "4.99",
+    "currency": "USD",
+    "interval": "1m"
+}).create("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P")
 ```
 
 ```php
-<?php
 <%= partial "header-php" %>
-$subscription = new \ProcessOut\Subscription();
-$subscription
-    ->setName("Amazing item")
-    ->setAmount("4.99")
-    ->setCurrency("USD")
-    ->setInterval("1m");
-
-$subscription = $subscription->create("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P");
+$subscription = $client->newSubscription(array(
+    "name":    => "Amazing subscription",
+    "amount"   => "4.99",
+    "currency" => "USD",
+    "interval" => "1m"
+))->create("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P");
 ```
 
 ```go
 <%= partial "header-go" %>
-sub := &processout.Subscription{
+sub, err := client.NewSubscription(&processout.Subscription{
 	Name:     "Amazing item",
 	Amount:   "4.99",
 	Currency: "USD",
 	Interval: "1m",
-}
-
-_, err := client.Subscriptions.Create(sub, "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P")
+}).Create("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P")
 ```
 
 To create a subscription for a specific customer, the field `interval` 
@@ -101,7 +94,7 @@ end at that specific date automatically.
 
 ### Create from a plan
 
-```sh
+```shell
 curl https://api.processout.com/subscriptions \
     -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
     -d plan_id="silver-plan"
@@ -109,8 +102,7 @@ curl https://api.processout.com/subscriptions \
 
 ```javascript
 <%= partial "header-js" %>
-var subscription = new ProcessOut.Subscription();
-subscription.createFromPlan("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
+client.newSubscription().createFromPlan("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
     "silver-plan").then(function(subscription) {
         // 
 
@@ -122,22 +114,20 @@ subscription.createFromPlan("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
 
 ```python
 <%= partial "header-python" %>
-subscription = Subscription()
-subscription = subscription.createFromPlan(
+subscription = client.newSubscription().createFromPlan(
     "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan")
 ```
 
 ```php
 <?php
 <%= partial "header-php" %>
-$subscription = new \ProcessOut\Subscription();
-$subscription = $subscription->createFromPlan(
+$subscription = $client->newSubscription()->createFromPlan(
     "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan");
 ```
 
 ```go
 <%= partial "header-go" %>
-sub, err := client.Subscriptions.CreateFromPlan(&processout.Subscription{}, 
+sub, err := client.NewSubscription().CreateFromPlan( 
     "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan")
 ```
 
@@ -147,14 +137,14 @@ from the API.
 
 ### Fetch a subscription
 
-```sh
+```shell
 curl https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3 \
     -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd
 ```
 
 ```javascript
 <%= partial "header-js" %>
-ProcessOut.Subscription.find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3").then(
+client.newSubscription().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3").then(
     function(subscription) {
         // 
 
@@ -166,17 +156,17 @@ ProcessOut.Subscription.find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3").then(
 
 ```python
 <%= partial "header-python" %>
-subscription = processout.Subscription.find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
+subscription = client.newSubscription().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
 ```
 
 ```php
 <%= partial "header-php" %>
-$subscription = \ProcessOut\Subscription::find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3");
+$subscription = $client->newSubscription()->find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3");
 ```
 
 ```go
 <%= partial "header-go" %>
-sub, err := client.Subscriptions.Find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
+sub, err := client.NewSubscription().Find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
 ```
 
 Fetch a subscription from its ID. Throws an error if the subscription could
@@ -184,7 +174,7 @@ not be found.
 
 ### Activate a subscription
 
-```sh
+```shell
 curl -X PUT https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3 \
     -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
     -d source=card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj
@@ -192,38 +182,36 @@ curl -X PUT https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2
 
 ```javascript
 <%= partial "header-js" %>
-ProcessOut.Subscription.find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3").then(
+client.newSubscription({
+    id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
+}).applySource("card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj").then(
     function(subscription) {
-        subscription.applySource("card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj").then(
-            function(subscription) {
-                // 
-
-            }, function(err) {
-                // An error occured
-            });
+        // 
 
     }, function(err) {
         // An error occured
-
     });
 ```
 
 ```python
 <%= partial "header-python" %>
-subscription = processout.Subscription.find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
-subscription.applySource("card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj")
+subscription = client.newSubscription({
+    "id": "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
+}).applySource("card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj")
 ```
 
 ```php
 <%= partial "header-php" %>
-$subscription = \ProcessOut\Subscription::find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3");
-$subscription->applySource("card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj");
+$subscription = $client->newSubscription(array(
+    "id" => "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
+))->applySource("card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj");
 ```
 
 ```go
 <%= partial "header-go" %>
-sub, err := client.Subscriptions.Find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
-sub, err = client.Subscriptions.ApplySource("card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj")
+sub, err := client.NewSubscription(&processout.Subscription{
+    ID: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+}).ApplySource("card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj")
 ```
 
 Activating a subscription is done by applying a source to the subscription. The
@@ -232,7 +220,7 @@ is thrown if the source could not be used.
 
 ### Change plan
 
-```sh
+```shell
 curl -X PUT https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3 \
     -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
     -d plan_id="gold-plan" \
@@ -241,38 +229,36 @@ curl -X PUT https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2
 
 ```javascript
 <%= partial "header-js" %>
-ProcessOut.Subscription.find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3").then(
+client.newSubscription({
+    id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
+}).updatePlan("gold-plan", true).then(
     function(subscription) {
-        subscription.updatePlan("gold-plan", true).then(
-            function(subscription) {
-                // 
-
-            }, function(err) {
-                // An error occured
-            });
+        // 
 
     }, function(err) {
         // An error occured
-
     });
 ```
 
 ```python
 <%= partial "header-python" %>
-subscription = processout.Subscription.find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
-subscription.updatePlan("gold-plan", true)
+subscription = client.newSubscription({
+    "id": "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
+}).updatePlan("gold-plan", true)
 ```
 
 ```php
 <%= partial "header-php" %>
-$subscription = \ProcessOut\Subscription::find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3");
-$subscription->updatePlan("gold-plan", true);
+$subscription = $client->newSubscription(array(
+    "id" => "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
+))->updatePlan("gold-plan", true);
 ```
 
 ```go
 <%= partial "header-go" %>
-sub, err := client.Subscriptions.Find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
-sub, err = client.Subscriptions.UpdatePlan("gold-plan", true)
+sub, err := client.NewSubscription(&processout.Subscription{
+    ID: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+}).UpdatePlan("gold-plan", true)
 ```
 
 A subscription plan can be changed to upgrade/downgrade the subscription. A
@@ -281,7 +267,7 @@ proration. Learn more about proration [here &nearr;](/subscriptions/upgrades-and
 
 ### Cancel a subscription
 
-```sh
+```shell
 curl -X DELETE https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3 \
     -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
     -d cancel_at="2022-10-02T15:00:00Z"
@@ -289,43 +275,39 @@ curl -X DELETE https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0
 
 ```javascript
 <%= partial "header-js" %>
-ProcessOut.Subscription.find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3").then(
-    function(subscription) {
-        // or cancel("2022-10-02T15:00:00Z", "Cancellation reason")
-        subscription.cancel("Cancellation reason").then(function(subscription) {
-            // 
-
-        }, function(err) {
-            // Could not cancel it
-
-        });
+client.newSubscription({
+    id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
+}).cancel("Cancellation reason").then(function(subscription) {
+        // or cancelAtDate("2022-10-02T15:00:00Z", "Cancellation reason")
 
     }, function(err) {
-        // An error occured
+        // Could not cancel it
 
     });
 ```
 
 ```python
 <%= partial "header-python" %>
-subscription = processout.Subscription.find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
-subscription.cancel("Cancellation reason")
-# or subscription.cancelAt("2022-10-02T15:00:00Z", "Cancellation reason")
+subscription = client.newSubscription({
+    "id": "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
+}).cancel("Cancellation reason")
+# or subscription.cancelAtDate("2022-10-02T15:00:00Z", "Cancellation reason")
 ```
 
 ```php
 <%= partial "header-php" %>
-$subscription = \ProcessOut\Subscription::find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3");
-$subscription->cancel("Cancellation reason");
-// or $subscription->cancelAt("2022-10-02T15:00:00Z", "Cancellation reason");
+$subscription = $client->newSubscription(array(
+    "id": "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
+))->cancel("Cancellation reason");
+// or $subscription->cancelAtDate("2022-10-02T15:00:00Z", "Cancellation reason");
 ```
 
 ```go
 <%= partial "header-go" %>
-sub, err := client.Subscriptions.Find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
-sub, err = client.Subscriptions.Cancel(sub, "Cancellation reason")
-// or sub, err = client.Subscriptions.CancelAt("2022-10-02T15:00:00Z", 
-//      "Cancellation reason")
+sub, err := client.NewSubscription(&processout.Subscription{
+    ID: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+}).Cancel(sub, "Cancellation reason")
+// or sub.CancelAtDate("2022-10-02T15:00:00Z", "Cancellation reason")
 ```
 
 A subscription can be cancelled immediately or at a certain date. A short reason

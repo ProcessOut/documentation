@@ -2,7 +2,7 @@
 
 ### Libraries
 
-```sh
+```shell
 # No setup needed to use cURL
 ```
 
@@ -19,9 +19,9 @@ composer require processout/processout-php
 ```
 
 ```go
-go get gopkg.in/processout.v2
+go get gopkg.in/processout.v3
 
-// The godoc can be found at https://godoc.org/gopkg.in/processout.v2
+// The godoc can be found at https://godoc.org/gopkg.in/processout.v3
 ```
 
 Installing and setting up the libraries/modules/packages in your project is most
@@ -53,7 +53,8 @@ var client = new ProcessOut.ProcessOut(
 from processout.processout import ProcessOut
 
 # Instantiate ProcessOut
-client = ProcessOut("proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4", "key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd")
+client = ProcessOut("proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4", 
+    "key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd")
 ```
 
 ```php
@@ -77,12 +78,9 @@ client := processout.New(
     "key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd")
 ```
 
-> The credentials used in the examples are only examples, and will
-> not work. You must replace them with yours
-
 To use ProcessOut's API, you will need to authenticate yourself using your API keys.
 Your API keys are composed of your `project-id` and `project-secret`. To get
-these keys, you will need to have created a new project on your dashboard.
+these keys, you will need to have created a project on your dashboard.
 
 Once the authentication is done, a `ProcessOut` object should be returned,
 representing your ProcessOut project.

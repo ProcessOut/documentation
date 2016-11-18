@@ -14,7 +14,7 @@ Discount objects represent discounts applied to your customers' subscriptions.
 
 ### Apply a discount
 
-```sh
+```shell
 curl https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/discounts \
     -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
     -d amount=5
@@ -22,9 +22,9 @@ curl https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzz
 
 ```javascript
 <%= partial "header-js" %>
-var discount = new ProcessOut.Discount();
-discount.setAmount(5);
-discount.apply("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3").then(
+client.newDiscount({
+    amount: "5"
+}).apply("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3").then(
     function(discount) {
         // 
 
@@ -35,27 +35,23 @@ discount.apply("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3").then(
 
 ```python
 <%= partial "header-python" %>
-discount = processout.Discount()
-discount.amount = 5
-
-discount = discount.apply("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
+discount = client.newDiscount({
+    "amount": "5"
+}).apply("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
 ```
 
 ```php
-<?php
 <%= partial "header-php" %>
-$discount = new \ProcessOut\Discount();
-$discount->setAmount(5);
-
-$discount = $discount->apply("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3");
+$discount = $client->newDiscount(array(
+    "amount": "5"
+))->apply("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3");
 ```
 
 ```go
 <%= partial "header-go" %>
-discount := &processout.Discount{
+discount, err := client.NewDiscount(&processout.Discount{
     Amount: 5,
-}
-_, err := processout.Discounts.Apply(discount, "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
+}).Apply("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
 ```
 
 Apply a discount for a subscription with the given attributes.
@@ -64,14 +60,14 @@ It is also possible to [apply a coupon to a subscription](#apply-a-coupon).
 
 ### Fetch a discount
 
-```sh
+```shell
 curl https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/discounts/disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq \
     -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd
 ```
 
 ```javascript
 <%= partial "header-js" %>
-ProcessOut.Discount.find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+client.newDiscount().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
     "disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq").then(
         function(discount) {
             // 
@@ -84,19 +80,19 @@ ProcessOut.Discount.find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
 
 ```python
 <%= partial "header-python" %>
-discount = processout.Discount.find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+discount = client.newDiscount().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
     "disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq")
 ```
 
 ```php
 <%= partial "header-php" %>
-$discount = \ProcessOut\Discount::find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+$discount = $client->newDiscount()->find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
     "disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq");
 ```
 
 ```go
 <%= partial "header-go" %>
-discount, err := client.Discounts.Find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+discount, err := client.NewDiscount().Find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
     "disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq")
 ```
 
@@ -105,14 +101,14 @@ not be found.
 
 ### Delete a discount
 
-```sh
+```shell
 curl -X DELETE https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/discounts/disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq \
     -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd
 ```
 
 ```javascript
 <%= partial "header-js" %>
-ProcessOut.Discount.find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+client.newDiscount().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
     "disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq").then(
         function(discount) {
             discount.delete().then(function(success) {
@@ -131,23 +127,23 @@ ProcessOut.Discount.find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
 
 ```python
 <%= partial "header-python" %>
-discount = processout.Discount.find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+discount = client.newDiscount().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
     "disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq")
 discount.delete()
 ```
 
 ```php
 <%= partial "header-php" %>
-$discount = \ProcessOut\Discount::find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+$discount = $client->newDiscount()->find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
     "disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq");
 $discount->delete();
 ```
 
 ```go
 <%= partial "header-go" %>
-discount, err := client.Discounts.Find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+discount, _ := client.NewDiscount().Find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
     "disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq")
-_, err = client.Discounts.Delete(discount)
+_, err := discount.Delete()
 ```
 
 Deletes a discount. An error is thrown if the discount could not be deleted.

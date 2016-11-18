@@ -23,7 +23,7 @@ using the ProcessOut API. To start using invoices, [let's create one](#create-an
 
 ### Create an invoice
 
-```sh
+```shell
 curl https://api.processout.com/invoices \
     -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
     -d name="Amazing item" \
@@ -33,12 +33,11 @@ curl https://api.processout.com/invoices \
 
 ```javascript
 <%= partial "header-js" %>
-var invoice = new ProcessOut.Invoice();
-invoice.setName('Amazing item');
-invoice.setAmount('4.99');
-invoice.setCurrency('USD');
-
-invoice.create().then(function(invoice) {
+client.NewInvoice({
+    name:    "Amazing item",
+    amount:  "4.99",
+    curency: "USD"
+}).create().then(function(invoice) {
     // invoice is our newly created resource
 
 }, function(err) {
@@ -49,32 +48,29 @@ invoice.create().then(function(invoice) {
 
 ```python
 <%= partial "header-python" %>
-invoice          = processout.Invoice()
-invoice.name     = 'Amazing item'
-invoice.amount   = '4.99'
-invoice.currency = 'USD'
-
-invoice = invoice.create()
+invoice = client.newInvoice({
+    "name":    "Amazing item",
+    "amount":  "4.99",
+    "curency": "USD"
+}).create()
 ```
 
 ```php
 <%= partial "header-php" %>
-$invoice = new \ProcessOut\Invoice();
-$invoice
-    ->setName('Amazing item')
-    ->setAmount('4.99')
-    ->setCurrency('USD');
-
-$invoice = $invoice->create();
+$invoice = $client->newInvoice(array(
+    "name"    => "Amazing item",
+    "amount"  => "4.99",
+    "curency" => "USD"
+))->create();
 ```
 
 ```go
 <%= partial "header-go" %>
-iv, err := client.Invoices.Create(&processout.Invoice{
+iv, err := client.NewInvoice(&processout.Invoice{
 	Name:     "Amazing item",
 	Amount:   "4.99",
 	Currency: "USD",
-})
+}).Create()
 ```
 
 Creating an invoice for your customers can be done on your server's backend.
@@ -82,14 +78,14 @@ Simply create an Invoice resource with a `name`, `amount` and `currency`.
 
 ### Fetch an invoice
 
-```sh
+```shell
 curl https://api.processout.com/invoices/iv_MgeLS2Rr3ZGwjqOvDvYSuWx7ce88luXl \
     -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd
 ```
 
 ```javascript
 <%= partial "header-js" %>
-ProcessOut.Invoice.find("iv_MgeLS2Rr3ZGwjqOvDvYSuWx7ce88luXl").then(
+client.newInvoice().find("iv_MgeLS2Rr3ZGwjqOvDvYSuWx7ce88luXl").then(
     function(invoice) {
         // The invoice was fetched
 
@@ -100,17 +96,17 @@ ProcessOut.Invoice.find("iv_MgeLS2Rr3ZGwjqOvDvYSuWx7ce88luXl").then(
 
 ```python
 <%= partial "header-python" %>
-invoice = Invoice.find("iv_MgeLS2Rr3ZGwjqOvDvYSuWx7ce88luXl")
+invoice = client.newInvoice().find("iv_MgeLS2Rr3ZGwjqOvDvYSuWx7ce88luXl")
 ```
 
 ```php
 <%= partial "header-php" %>
-$invoice = \ProcessOut\Invoice::find("iv_MgeLS2Rr3ZGwjqOvDvYSuWx7ce88luXl");
+$invoice = $client->newInvoice()->find("iv_MgeLS2Rr3ZGwjqOvDvYSuWx7ce88luXl");
 ```
 
 ```go
 <%= partial "header-go" %>
-iv, err := client.Invoices.Find("iv_MgeLS2Rr3ZGwjqOvDvYSuWx7ce88luXl")
+iv, err := client.NewInvoice().Find("iv_MgeLS2Rr3ZGwjqOvDvYSuWx7ce88luXl")
 ```
 
 Invoices can be fetched from ProcessOut by using their IDs. If the invoice
@@ -118,7 +114,7 @@ could not be found, an error is thrown.
 
 ### Assign a customer
 
-```sh
+```shell
 curl -X PUT https://api.processout.com/invoices/iv_MgeLS2Rr3ZGwjqOvDvYSuWx7ce88luXl \
     -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
     -d customer_id=cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P
@@ -141,7 +137,7 @@ $invoice->assignCustomer("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P");
 
 ```go
 <%= partial "header-go" %>
-processout.Invoices.AssignCustomer(iv, "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P")
+iv.AssignCustomer("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P")
 ```
 
 It is also possible to assign a customer to an invoice that was previously created.
@@ -153,7 +149,7 @@ a new invoice.
 
 ### Capture an invoice
 
-```sh
+```shell
 curl https://api.processout.com/invoices/iv_MgeLS2Rr3ZGwjqOvDvYSuWx7ce88luXl/capture \
     -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
     -d source=card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ
@@ -186,8 +182,7 @@ $transaction = $invoice->capture("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ");
 ```go
 <%= partial "header-go" %>
 // The source could also be a token tok_fKK4btSG7wd13ZZaevzhMcuNbpjcu1Zy
-tr, _ := processout.Invoices.Capture(iv,
-    "card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ")
+tr, _ := iv.Capture("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ")
 ```
 
 Capturing an invoice is done by calling `capture` on the invoice and passing

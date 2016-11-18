@@ -33,14 +33,14 @@ You may find the full list of transaction statuses [here &nearr;](/payments/hand
 
 ### Fetch a transaction
 
-```sh
+```shell
 curl https://api.processout.com/transactions/tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC \
     -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd
 ```
 
 ```javascript
 <%= partial "header-js" %>
-ProcessOut.Transaction.find("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC").then(
+client.newTransaction().find("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC").then(
     function(transaction) {
         // Transaction was fetched
     }, function(err) {
@@ -50,17 +50,17 @@ ProcessOut.Transaction.find("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC").then(
 
 ```python
 <%= partial "header-python" %>
-transaction = processout.Transaction.find("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC")
+transaction = client.newTransaction().find("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC")
 ```
 
 ```php
 <%= partial "header-php" %>
-$transaction = \ProcessOut\transaction::find("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC");
+$transaction = $client->newTransaction()->find("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC");
 ```
 
 ```go
 <%= partial "header-go" %>
-tr, err := client.Transactions.Find("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC")
+tr, err := client.NewTransaction().Find("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC")
 ```
 
 It is possible to fetch a transaction by its ID. An error is thrown if the 

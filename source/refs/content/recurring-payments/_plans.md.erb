@@ -17,7 +17,7 @@ Plans can be seen as templates for your [subscriptions](#subscriptions).
 
 ### Create a plan
 
-```sh
+```shell
 curl https://api.processout.com/plans \
     -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
     -d id="silver-plan" \
@@ -29,14 +29,13 @@ curl https://api.processout.com/plans \
 
 ```javascript
 <%= partial "header-js" %>
-var plan = new ProcessOut.Plan();
-plan.setId("silver-plan");
-plan.setName("Amazing item");
-plan.setAmount("4.99");
-plan.setCurrency("USD");
-plan.setInterval("1m");
-
-plan.create().then(
+client.newPlan({
+    id:       "silver-plan",
+    name:     "Amazing item",
+    amount:   "4.99",
+    currency: "USD",
+    interval: "1m"
+}).create().then(
     function(plan) {
         // 
 
@@ -48,54 +47,50 @@ plan.create().then(
 
 ```python
 <%= partial "header-python" %>
-plan          = Plan()
-plan.id       = "silver-plan"
-plan.name     = "Amazing item"
-plan.amount   = "4.99"
-plan.currency = "USD"
-plan.interval = "1m"
-
-plan = plan.create()
+plan = client.newPlan({
+    "id":       "silver-plan",
+    "name":     "Amazing item",
+    "amount":   "4.99",
+    "currency": "USD",
+    "interval": "1m"
+}).create()
 ```
 
 ```php
 <?php
 <%= partial "header-php" %>
-$plan = new \ProcessOut\Plan();
-$plan
-    ->setName("Amazing item")
-    ->setAmount("4.99")
-    ->setCurrency("USD")
-    ->setInterval("1m");
-
-$plan = $plan->create();
+$plan = $client->newPlan(array(
+    "id"       => "silver-plan",
+    "name"     => "Amazing item",
+    "amount"   => "4.99",
+    "currency" => "USD",
+    "interval" => "1m"
+))->create();
 ```
 
 ```go
 <%= partial "header-go" %>
-plan := &processout.Plan{
+plan, err := client.NewPlan(&processout.Plan{
     ID:       "silver-plan",
 	Name:     "Amazing item",
 	Amount:   "4.99",
 	Currency: "USD",
 	Interval: "1m",
-}
-
-_, err := client.Plans.Create(plan)
+}).Create(p)
 ```
 
 Create a plan with the given attributes.
 
 ### Fetch a plan
 
-```sh
+```shell
 curl https://api.processout.com/plans/silver-plan \
     -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd
 ```
 
 ```javascript
 <%= partial "header-js" %>
-ProcessOut.Plan.find("silver-plan").then(
+client.newPlan().find("silver-plan").then(
     function(plan) {
         // 
 
@@ -107,63 +102,61 @@ ProcessOut.Plan.find("silver-plan").then(
 
 ```python
 <%= partial "header-python" %>
-plan = processout.Plan.find("silver-plan")
+plan = client.newPlan().find("silver-plan")
 ```
 
 ```php
 <%= partial "header-php" %>
-$plan = \ProcessOut\Plan::find("silver-plan");
+$plan = $client->newPlan()->find("silver-plan");
 ```
 
 ```go
 <%= partial "header-go" %>
-plan, err := client.Plans.Find("silver-plan")
+plan, err := client.NewPlan().Find("silver-plan")
 ```
 
 Fetch a plan from its ID. Throws an error if the plan could
 not be found.
 
-### Delete a subscription
+### Delete a plan
 
-```sh
+```shell
 curl -X DELETE https://api.processout.com/plans/silver-plan \
     -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd
 ```
 
 ```javascript
 <%= partial "header-js" %>
-ProcessOut.Plan.find("silver-plan").then(
-    function(plan) {
-        plan.delete().then(function(success) {
-            // 
-
-        }, function(err) {
-            // Could not delete it
-
-        });
+client.newPlan({
+    id: "silver-plan"
+}).delete().then(function(success) {
+        // 
 
     }, function(err) {
-        // An error occured
+        // Could not delete it
 
     });
 ```
 
 ```python
 <%= partial "header-python" %>
-plan = processout.Plan.find("silver-plan")
-plan.delete()
+client.newPlan({
+    "id": "silver-plan"
+}).delete()
 ```
 
 ```php
 <%= partial "header-php" %>
-$plan = \ProcessOut\Plan::find("silver-plan");
-$plan->delete();
+$client->newPlan(array(
+    "id": "silver-plan"
+))->delete();
 ```
 
 ```go
 <%= partial "header-go" %>
-plan, err := client.Plans.Find("silver-plan")
-plan, err = client.Plans.Delete(plan)
+err := client.NewPlan(&processout.Plan{
+    ID: "silver-plan",
+}).Delete()
 ```
 
 Deletes a plan. An error is thrown if the plan could not be deleted.

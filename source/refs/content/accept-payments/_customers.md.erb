@@ -22,7 +22,7 @@ additional data if needed.
 
 ### Create a customer
 
-```sh
+```shell
 curl https://api.processout.com/customers \
     -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
     -d email="john@smith.com" \
@@ -32,12 +32,11 @@ curl https://api.processout.com/customers \
 
 ```javascript
 <%= partial "header-js" %>
-var customer = new ProcessOut.Customer();
-customer.setEmail('john@smith.com');
-customer.setFirstName('John');
-customer.setLastName('Smith');
-
-customer.create().then(function(customer) {
+var customer = client.newCustomer({
+    "email":      "john@smith.com",
+    "first_name": "John",
+    "last_name":  "Smith"
+}).create().then(function(customer) {
     console.log(customer.getId());
 
 }, function(err) {
@@ -48,33 +47,34 @@ customer.create().then(function(customer) {
 
 ```python
 <%= partial "header-python" %>
-customer = processout.Customer()
-customer.email = 'john@smith.com'
-customer.firstName = 'John'
-customer.lastName = 'Smith'
+customer = client.newCustomer(array(
+    "email":      "john@smith.com",
+    "first_name": "John",
+    "last_name":  "Smith"
+)).create()
 
-customer = customer.create()
 print(customer.id)
 ```
 
 ```php
 <%= partial "header-php" %>
-$customer = new \ProcessOut\Customer();
-$customer->setEmail('john@smith.com');
-$customer->setFirstName('John');
-$customer->setLastName('Smith');
+$customer = $client->newCustomer(array(
+    "email":      "john@smith.com",
+    "first_name": "John",
+    "last_name":  "Smith"
+))->create();
 
-$customer = $customer->create();
 echo $customer->getId();
 ```
 
 ```go
 <%= partial "header-go" %>
-cust, err := client.Customers.Create(&processout.Customer{
-	FirstName: "John",
-	LastName:  "Smith",
-	Email:     "john@smith.com",
-})
+cust, err := client.NewCustomer(&processout.Customer{
+    Email:     "john@smith.com",
+    FirstName: "John",
+    LastName:  "Smith",
+}).Create()
+
 fmt.Println(cust.ID)
 ```
 
@@ -91,14 +91,14 @@ country of the customer.
 
 ### Fetch a customer
 
-```sh
+```shell
 curl https://api.processout.com/customers/cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb \
     -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd
 ```
 
 ```javascript
 <%= partial "header-js" %>
-ProcessOut.Customer.find("cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb").then(
+client.newCustomer().find("cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb").then(
     function(customer) {
         // Customer was fetched
     }, function(err) {
@@ -108,17 +108,17 @@ ProcessOut.Customer.find("cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb").then(
 
 ```python
 <%= partial "header-python" %>
-customer = processout.Customer.find("cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb")
+customer = client.newCustomer().find("cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb")
 ```
 
 ```php
 <%= partial "header-php" %>
-$customer = \ProcessOut\Customer::find("cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb");
+$customer = $client->newCustomer()->find("cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb");
 ```
 
 ```go
 <%= partial "header-go" %>
-cust, err := client.Customers.Find("cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb")
+cust, err := client.NewCustomer().Find("cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb")
 ```
 
 It is possible to fetch a customer by its ID. An error is thrown if the 
@@ -126,7 +126,7 @@ customer could not be found.
 
 ### Update a customer
 
-```sh
+```shell
 curl -X PUT https://api.processout.com/customers/cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb \
     -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
     -d first_name="New Name"
@@ -153,7 +153,7 @@ $customer->save();
 ```go
 <%= partial "header-go" %>
 cust.FirstName = "New name"
-client.Customers.Save(cust)
+cust.Save()
 ```
 
 Update the customer attributes. You must use a previously created or fetched
@@ -161,36 +161,40 @@ customer object in order to guarantee data integrity of the customer object.
 
 ### Delete a customer
 
-```sh
+```shellell
 curl -X DELETE https://api.processout.com/customers/cust_LvjCcLOVe6iWn2aeCNhNmK7RbbG6K8XF \
     -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd
 ```
 
 ```javascript
 <%= partial "header-js" %>
-ProcessOut.Customer.find("cust_LvjCcLOVe6iWn2aeCNhNmK7RbbG6K8XF").then(
-    function(customer) {
-        customer.delete();
+client.newCustomer({
+    id: "cust_LvjCcLOVe6iWn2aeCNhNmK7RbbG6K8XF"
+}).delete().then(
+    function(ok) {
+        //
     }, function() {});
 ```
 
 ```python
 <%= partial "header-python" %>
-customer = processout.Customer.find("cust_LvjCcLOVe6iWn2aeCNhNmK7RbbG6K8XF")
-customer.delete()
+customer = client.newCustomer({
+    "id": "cust_LvjCcLOVe6iWn2aeCNhNmK7RbbG6K8XF"
+}).delete()
 ```
 
 ```php
 <%= partial "header-php" %>
-$customer = \ProcessOut\Customer::find("cust_LvjCcLOVe6iWn2aeCNhNmK7RbbG6K8XF");
-$customer->delete();
+$customer = $client->newCustomer(array(
+    "id" => "cust_LvjCcLOVe6iWn2aeCNhNmK7RbbG6K8XF"
+))->delete();
 ```
 
 ```go
 <%= partial "header-go" %>
-client.Customers.Delete(&processout.Customer{
+cust, _ := client.NewCustomer(&processout.Customer{
     ID: "cust_LvjCcLOVe6iWn2aeCNhNmK7RbbG6K8XF",
-})
+}).Delete()
 ```
 
 Deleting a customer is irreversible and cannot be undone. An error is thrown

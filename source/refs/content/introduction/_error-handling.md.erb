@@ -1,6 +1,6 @@
 ## Error handling
 
-```sh
+```shell
 # Error handling with curl should be handled by checking the status
 # codes of the responses. Non 2xx response codes usually mean an error
 # occured during the request
@@ -26,9 +26,11 @@ invoice.save().then(
 ```
 
 ```python
-from processout.exceptions.apiauthenticationexception import ApiAuthenticationException
-from processout.exceptions.apiexception               import ApiException
-from processout.exceptions.notfoundexception          import NotFoundException
+from processout.errors.authenticationerror import AuthenticationError
+from processout.errors.notfounderror       import NotFoundError
+from processout.errors.validationerror     import ValidationError
+from processout.errors.genericerror        import GenericError
+from processout.errors.internalerror       import InternalError
 
 # Different type of exceptions may be thrown by the
 # ProcessOut's Python library, depending on the situation.
@@ -37,14 +39,20 @@ try:
     # Some ProcessOut related code
     pass
 
-except ApiAuthenticationException as e:
-    print('Looks like your project id or secret is wrong. ' + str(e))
+except AuthenticationError as e:
+    print('Your API credentials couldn't be verified. ' + str(e))
 
-except ApiException as e:
-    print('Looks like theres been an API error. ' + str(e))
+except NotFoundError as e:
+    print('The requested resource could not be found. ' + str(e))
 
-except NotFoundException as e:
-    print('Looks like the ressource you were trying to fetch could not be found' + str(e))
+except ValidationError as e:
+    print('This error describes a validation error' + str(e))
+
+except GenericError as e:
+    print('This is an error that didn't match any of the above' + str(e))
+
+except InternalError as e:
+    print('Something went wrong on the ProcessOut side. This is extremely rare' + str(e))
 ```
 
 ```php
@@ -56,36 +64,65 @@ try
 {
     // Some ProcessOut related code
 }
-catch(ProcessOut\Exceptions\APIAuthenticationException $e)
+catch(ProcessOut\Exceptions\AuthenticationException $e)
 {
-    // It seems your API credentials are wrong
-    echo $e->getMessage();
-}
-catch(ProcessOut\Exceptions\ApiException $e)
-{
-    // There's been an error with your request
+    // Your API credentials couldn't be verified
     echo $e->getMessage();
 }
 catch(ProcessOut\Exceptions\NotFoundException $e)
 {
-    // The ressource you were trying to access
-    // could not be found
+    // The requested resource could not be found
+    echo $e->getMessage();
+}
+catch(ProcessOut\Exceptions\ValidationException $e)
+{
+    // This error describes a validation error
+    echo $e->getMessage();
+}
+catch(ProcessOut\Exceptions\GenericException $e)
+{
+    // This is an error that didn't match any of the above
+    echo $e->getMessage();
+}
+catch(ProcessOut\Exceptions\InternalException $e)
+{
+    // Something went wrong on the ProcessOut side. This 
+    // is extremely rare
     echo $e->getMessage();
 }
 ```
 
 ```go
-// Exceptions types are not supported by the ProcessOut Go library.
-// However, when an error occurs it is returned by the function
-// being called
+// Different type of errors are returned by the ProcessOut's
+// Go library, depending on the situation
+
+switch e := err.(type) {
+case *processout.AuthenticationError:
+    // Your API credentials couldn't be verified
+case *processout.NotFoundError:
+    // The requested resource could not be found
+case *processout.ValidationError:
+    // This error describes a validation error
+case *processout.GenericError:
+    // This is an error that didn't match any of the above
+case *processout.InternalError:
+    // Something went wrong on the ProcessOut side. This 
+    // is extremely rare
+
+default:
+    // The error comes from somewhere else, perhaps
+    // json unmarshaller
+}
 ```
 
 To make it easy for developers to handle errors in their applications,
 ProcessOut provides a set of class/objects to programmatically handle each different case.
 
-##### Exceptions
+##### Errors
 |||
 --:|:--
-API authentication exception | The provided API credentials could not be verified
-API exception | The request could not complete: the parameters are incorrect
-Not found exception | The requested resource could not be found
+Authentication error | Your API credentials could not be verified
+Not found error | The requested resource could not be found
+Validation error | The request contained a field that couldn't be validated
+Generic error | An error that didn't match any of the above
+Internal error | Something went wrong on the ProcessOut side. This is extremely rare

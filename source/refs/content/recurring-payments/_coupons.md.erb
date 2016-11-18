@@ -18,7 +18,7 @@ Coupons can be seen as templates for [subscription discounts](#discounts).
 
 ### Create a coupon
 
-```sh
+```shell
 curl https://api.processout.com/coupons \
     -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
     -d id="25percentoff" \
@@ -27,10 +27,10 @@ curl https://api.processout.com/coupons \
 
 ```javascript
 <%= partial "header-js" %>
-var coupon = new ProcessOut.Coupon();
-coupon.setId("25percentoff");
-coupon.setPercentOff(25);
-coupon.create().then(
+var coupon = client.newCoupon({
+    id:          "25percentoff",
+    percent_off: 25
+}).create().then(
     function(coupon) {
         // 
 
@@ -41,44 +41,41 @@ coupon.create().then(
 
 ```python
 <%= partial "header-python" %>
-coupon = processout.Coupon()
-coupon.id = "25percentoff"
-coupon.percentOff = 25
-
-coupon = coupon.create()
+coupon = client.newCoupon({
+    "id":          "25percentoff",
+    "percent_off": 25
+}).create()
 ```
 
 ```php
 <?php
 <%= partial "header-php" %>
-$coupon = new \ProcessOut\Coupon();
-$coupon->setId("25percentoff")
-    ->setPercentOff(25);
-
-$coupon = $coupon->create();
+$coupon = $client->newCoupon(array(
+    "id"          => "25percentoff",
+    "percent_off" => 25
+))->create();
 ```
 
 ```go
 <%= partial "header-go" %>
-coupon := &processout.Coupon{
+coupon, err := client.NewCoupon(&processout.Coupon{
     ID:         "25percentoff",
     PercentOff: 25,
-}
-_, err := processout.Coupons.Create(coupon)
+}).Create()
 ```
 
 Create a coupon with the given attributes.
 
 ### Fetch a coupon
 
-```sh
+```shell
 curl https://api.processout.com/coupons/25percentoff \
     -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd
 ```
 
 ```javascript
 <%= partial "header-js" %>
-ProcessOut.Coupon.find("25percentoff").then(
+client.newCoupon().find("25percentoff").then(
     function(coupon) {
         // 
 
@@ -90,17 +87,17 @@ ProcessOut.Coupon.find("25percentoff").then(
 
 ```python
 <%= partial "header-python" %>
-coupon = processout.Coupon.find("25percentoff")
+coupon = client.newCoupon().find("25percentoff")
 ```
 
 ```php
 <%= partial "header-php" %>
-$coupon = \ProcessOut\Plan::find("25percentoff");
+$coupon = $client->newCoupon()->find("25percentoff");
 ```
 
 ```go
 <%= partial "header-go" %>
-coupon, err := client.Coupons.Find("25percentoff")
+coupon, err := client.NewCoupon().Find("25percentoff")
 ```
 
 Fetch a coupon from its ID. Throws an error if the coupon could
@@ -108,7 +105,7 @@ not be found.
 
 ### Apply a coupon
 
-```sh
+```shell
 curl https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/discounts \
     -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
     -d coupon_id=25percentoff
@@ -116,56 +113,45 @@ curl https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzz
 
 ```javascript
 <%= partial "header-js" %>
-discount.applyCoupon("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
-    "25percentoff").then(
-        function(discount) {
-            // 
+subscription.applyCoupon("25percentoff").then(
+    function(discount) {
+        // 
 
-        }, function(err) {
-            // An error occured
-        });
+    }, function(err) {
+        // An error occured
+    });
 ```
 
 ```python
 <%= partial "header-python" %>
-discount = processout.Discount()
-discount = discount.applyCoupon("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
-    "25percentoff")
+discount = subscription.applyCoupon("25percentoff")
 ```
 
 ```php
 <%= partial "header-php" %>
-$discount = new \ProcessOut\Discount();
-$discount = $discount->applyCoupon("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
-    "25percentoff");
+$discount = $subscription->applyCoupon("25percentoff");
 ```
 
 ```go
 <%= partial "header-go" %>
-discount, err := processout.Discounts.Apply(&processout.Discount{}, 
-    "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3", "25percentoff")
+discount, err := sub.ApplyCoupon("25percentoff")
 ```
 
 Apply a coupon on a subscription. Throws an error if the coupon could not be applied.
 
 ### Delete a coupon
 
-```sh
+```shell
 curl -X DELETE https://api.processout.com/coupons/25percentoff \
     -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd
 ```
 
 ```javascript
 <%= partial "header-js" %>
-ProcessOut.Coupon.find("25percentoff").then(
-    function(coupon) {
-        coupon.delete().then(function(success) {
-            // 
-
-        }, function(err) {
-            // Could not delete it
-
-        });
+client.newCoupon({
+    id: "25percentoff"
+}).delete("25percentoff").then(function(ok) {
+        // 
 
     }, function(err) {
         // An error occured
@@ -175,20 +161,23 @@ ProcessOut.Coupon.find("25percentoff").then(
 
 ```python
 <%= partial "header-python" %>
-coupon = processout.Coupon.find("25percentoff")
-coupon.delete()
+client.newCoupon({
+    "id": "25percentoff"
+}).delete()
 ```
 
 ```php
 <%= partial "header-php" %>
-$coupon = \ProcessOut\Coupon::find("25percentoff");
-$coupon->delete();
+$client->newCoupon(array(
+    "id" => "25percentof"
+))->delete();
 ```
 
 ```go
 <%= partial "header-go" %>
-coupon, err := client.Coupons.Find("25percentoff")
-coupon, err = client.Coupons.Delete(coupon)
+err = client.NewCoupon(&processout.Client{
+    ID: "25percentoff",
+}).Delete()
 ```
 
 Deletes a plan. An error is thrown if the plan could not be deleted.

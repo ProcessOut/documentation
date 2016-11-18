@@ -28,14 +28,14 @@ prevent ProcessOut from correctly posting webhooks to your application.
 
 ### Usage
 
-```sh
+```shell
 # Webhooks are not supported with cURL.
 ```
 
 ```javascript
 <%= partial "header-js" %>
 // req is filled with the decoded json data from the request body
-ProcessOut.Event.find(req['event_id']).then(function(event) {
+client.newEvent().find(req['event_id']).then(function(event) {
     // We may now access the event
     var data = event.getData();
 
@@ -63,7 +63,7 @@ ProcessOut.Event.find(req['event_id']).then(function(event) {
 <%= partial "header-python" %>
 
 # req is filled with the decoded json data from the request body
-event = processout.Event.find(req['event_id'])
+event = client.newEvent().find(req['event_id'])
 data  = event.data
 
 if data['name'] == 'invoice.completed':
@@ -86,7 +86,7 @@ else:
 $reqRaw = trim(file_get_contents('php://input'));
 $req    = json_decode($reqRaw, true);
 
-$event = ProcessOut\Event::find($req['event_id']);
+$event = $client->newEvent()->find($req['event_id']);
 $data  = $event->getData();
 
 switch($data['name'])
@@ -131,7 +131,7 @@ func handleProcessOutWebhooks(w http.ResponseWriter,
 	json.Unmarshal(reqRaw, &webhook)
 
     // Fetching the associated event
-    event, err := p.Events.Find(webhook.EventID)
+    event, err := client.NewEvent().Find(webhook.EventID)
     if err != nil {
         // Webhook not found, most likely coming from an
         // insecure source
