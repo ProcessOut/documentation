@@ -86,6 +86,20 @@ gateways = subscription.project.fetchGatewayConfigurations({
 })
 ```
 
+```ruby
+<%= partial "header-ruby" %>
+# Let's first create an subscription
+subscription = client.subscription.createFromPlan(
+    "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan",
+    {expand:["project"]})
+
+# And now fetch the project's available gateways
+gateways = subscription.project.fetchGatewayConfigurations({
+    expand: ["gateway"],
+    filter: "tags: redirection flows: subscription"
+})
+```
+
 ```php
 <%= partial "header-php" %>
 // Let's first create an subscription
@@ -243,6 +257,14 @@ client.newSubscription().find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR").then(
 ```python
 <%= partial "header-python" %>
 subscription = client.newSubscription().find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR")
+subscription.applySource("gway_req_V2UncmUgaGlyaW5nIQ==")
+
+# The customer is now successfully subscribed to the subscription
+```
+
+```ruby
+<%= partial "header-ruby" %>
+subscription = client.subscription.find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR")
 subscription.applySource("gway_req_V2UncmUgaGlyaW5nIQ==")
 
 # The customer is now successfully subscribed to the subscription

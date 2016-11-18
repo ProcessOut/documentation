@@ -67,6 +67,17 @@ plan = client.newPlan({
 }).create()
 ```
 
+```ruby
+<%= partial "header-ruby" %>
+plan = client.newPlan(
+    id:       "silver-plan",
+    name:     "Silver plan",
+    amount:   "10.00",
+    currency: "USD",
+    interval: "1m"
+).create
+```
+
 ```php
 <%= partial "header-php" %>
 $plan = $client->newPlan(array(
@@ -123,10 +134,18 @@ client.newCustomer({
 
 ```python
 <%= partial "header-python" %>
-customer = client.newCustomer(array(
+customer = client.newCustomer({
     "first_name": "John",
     "last_name":  "Smith"
-)).create()
+}).create()
+```
+
+```ruby
+<%= partial "header-ruby" %>
+customer = client.customer(
+    first_name: "John",
+    last_name:  "Smith"
+).create
 ```
 
 ```php
@@ -194,6 +213,20 @@ client.newSubscription().createFromPlan("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
 ```python
 <%= partial "header-python" %>
 subscription = client.newSubscription().createFromPlan(
+    "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan")
+
+# The subscription is now successfully created
+# for the customer.
+# We can activate it using a source, such as a card
+# token previously generated using ProcessOut.js
+subscription.applySource("card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj")
+
+# The customer is now successfully subscribed to the subscription
+```
+
+```ruby
+<%= partial "header-ruby" %>
+subscription = client.subscription.createFromPlan(
     "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan")
 
 # The subscription is now successfully created

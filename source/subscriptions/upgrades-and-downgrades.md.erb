@@ -78,6 +78,12 @@ subscription = client.newSubscription().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzz
 subscription.updatePlan("gold-plan", true) # true means we want to prorate
 ```
 
+```ruby
+<%= partial "header-ruby" %>
+subscription = client.subscription.find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
+subscription.updatePlan("gold-plan", true) # true means we want to prorate
+```
+
 ```php
 <%= partial "header-php" %>
 $subscription = $this->newSubscription()->find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3");

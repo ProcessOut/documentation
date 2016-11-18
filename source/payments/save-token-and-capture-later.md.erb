@@ -61,6 +61,15 @@ customer = client.newCustomer({
 }).create()
 ```
 
+```ruby
+<%= partial "header-ruby" %>
+customer = client.customer.new(
+    first_name: "John",
+    last_name:  "Smith",
+    currency:   "USD"
+).create
+```
+
 ```php
 <%= partial "header-php" %>
 $customer = $client->newCustomer(array(
@@ -110,8 +119,14 @@ client.newToken().create("cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks",
 ```
 
 ```python
-<%= partial "header-js" %>
+<%= partial "header-python" %>
 token = client.newToken().create("cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks", 
+    "card_ZGJ8EnCPfcr298O1wD6u9McfnZQucIv1")
+```
+
+```ruby
+<%= partial "header-ruby" %>
+token = client.token.create("cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks", 
     "card_ZGJ8EnCPfcr298O1wD6u9McfnZQucIv1")
 ```
 

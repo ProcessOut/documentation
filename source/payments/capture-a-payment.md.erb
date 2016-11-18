@@ -50,6 +50,15 @@ invoice = client.newInvoice({
 }).create()
 ```
 
+```ruby
+<%= partial "header-ruby" %>
+invoice = client.invoice.new(
+    name:     "Amazing item",
+    amount:   "4.99",
+    currency: "USD"
+).create
+```
+
 ```php
 <%= partial "header-php" %>
 $invoice = $client->newInvoice(array(
@@ -99,6 +108,11 @@ invoice.capture("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ").then(
 transaction = invoice.capture("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ")
 ```
 
+```ruby
+<%= partial "header-ruby" %>
+transaction = invoice.capture("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ")
+```
+
 ```php
 <%= partial "header-php" %>
 $transaction = $invoice->capture("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ");
@@ -145,6 +159,11 @@ invoice.authorize("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ").then(
 transaction = invoice.authorize("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ")
 ```
 
+```ruby
+<%= partial "header-ruby" %>
+transaction = invoice.authorize("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ")
+```
+
 ```php
 <%= partial "header-php" %>
 $transaction = $invoice->authorize("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ");
@@ -182,6 +201,11 @@ invoice.capture("").then(
 
 ```python
 <%= partial "header-python" %>
+transaction = invoice.capture("")
+```
+
+```ruby
+<%= partial "header-ruby" %>
 transaction = invoice.capture("")
 ```
 

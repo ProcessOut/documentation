@@ -53,6 +53,15 @@ invoice = client.newInvoice({
 }).create()
 ```
 
+```ruby
+<%= partial "header-ruby" %>
+invoice = client.invoice.new(
+    name:     "Amazing item",
+    amount:   "4.99",
+    currency: "USD"
+).create()
+```
+
 ```php
 <%= partial "header-php" %>
 $invoice = $client->newInvoice(array(

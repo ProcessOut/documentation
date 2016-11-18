@@ -67,6 +67,15 @@ subscription.save()
 # The trial was correctly set on the subscription
 ```
 
+```ruby
+<%= partial "header-ruby" %>
+subscription = client.subscription.find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR")
+subscription.trialEndAt = "2022-10-02T15:00:00Z"
+subscription.save
+
+# The trial was correctly set on the subscription
+```
+
 ```php
 <%= partial "header-php" %>
 $subscription = $client->newSubscription()->find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR");

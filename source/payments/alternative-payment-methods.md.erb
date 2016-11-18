@@ -98,6 +98,22 @@ gateways = invoice.project.fetchGatewayConfigurations({
 })
 ```
 
+```ruby
+<%= partial "header-ruby" %>
+# Let's first create an invoice
+invoice = client.invoice.new(
+    name:     "Amazing item",
+    amount:   "4.99",
+    currency: "USD"
+).create({expand: ["project"]})
+
+# And now fetch the project's available gateways
+gateways = invoice.project.fetchGatewayConfigurations({
+    expand: ["gateway"],
+    filter: "tags: redirection flows: one-off"
+})
+```
+
 ```php
 <%= partial "header-php" %>
 // Let's first create an invoice
@@ -250,6 +266,11 @@ invoice.capture("gway_req_V2UncmUgaGlyaW5nIQ==").then(
 
 ```python
 <%= partial "header-python" %>
+transaction = invoice.capture("gway_req_V2UncmUgaGlyaW5nIQ==")
+```
+
+```ruby
+<%= partial "header-ruby" %>
 transaction = invoice.capture("gway_req_V2UncmUgaGlyaW5nIQ==")
 ```
 

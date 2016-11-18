@@ -77,6 +77,16 @@ coupon = client.newCoupon({
 }).create()
 ```
 
+```ruby
+<%= partial "header-ruby" %>
+coupon = client.coupon(
+    id:              "25percentoff",
+    percent_off:     25,
+    iteration_count: 3,
+    expires_at:      "2022-10-02T15:00:00Z"
+).create
+```
+
 ```php
 <%= partial "header-php" %>
 $coupon = $client->newCoupon(array(
@@ -154,6 +164,19 @@ discount = subscription.applyCoupon("25percentoff")
 # The discount is now applied to the subscription!
 ```
 
+```ruby
+<%= partial "header-ruby" %>
+subscription = client.subscription.createFromPlan(
+    "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan")
+
+# The subscription is now successfully created
+# for the customer.
+# Let's apply the coupon
+discount = subscription.applyCoupon("25percentoff")
+
+# The discount is now applied to the subscription!
+```
+
 ```php
 <%= partial "header-php" %>
 $subscription = $client->newSubscription()->createFromPlan(
@@ -219,6 +242,12 @@ client.newSubscription().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3").then(
 ```python
 <%= partial "header-python" %>
 subscription = client.newSubscription().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
+subscription.removeDiscount("25percentoff")
+```
+
+```ruby
+<%= partial "header-ruby" %>
+subscription = client.subscription.find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
 subscription.removeDiscount("25percentoff")
 ```
 
