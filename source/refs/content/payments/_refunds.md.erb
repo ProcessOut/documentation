@@ -1,0 +1,113 @@
+## Refunds
+
+Once a payment is placed, the merchant has the ability to refund a part or the 
+entire transaction amount. This is especially useful when doing customer
+support, as refunds are generally free compared to chargebacks. It is strongly
+advised to issue a refund (full or partial) when you think a transaction is
+fraudulent.
+
+##### Attributes
+|||
+--:|:--
+**id**<br />*string*<br />Read-only |
+**transaction**<br />*[Transaction](#transactions)*<br />Read-only |
+**reason**<br />*string*<br /> | Reason for the refund. Can be either `customer_request`, `duplicate` or `fraud`
+**information**<br />*string*<br /> | Additional information regarding the refund
+**amount**<br />*string*<br /> | Refund amount applied on the transaction
+**metadata**<br />[Metadata](#metadata)<br />*dictionary* | Context related to the customer, key-value pair (string - string)
+**sandbox**<br />*boolean*<br />Read-only |
+
+### Issue a refund
+
+```shell
+curl https://api.processout.com/transactions/tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC/refunds \
+    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
+    -d reason=customer_request
+    -d amount=4.99
+```
+
+```javascript
+<%= partial "header-js" %>
+client.newRefund({
+    reason: "customer_request",
+    amount: "4.99"
+}).apply("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC").then(
+    function(refund) {
+        // 
+
+    }, function(err) {
+        // An error occured
+
+    });
+```
+
+```python
+<%= partial "header-python" %>
+refund = client.newRefund({
+    "reason": "customer_request",
+    "amount": "4.99"
+}).apply("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC")
+```
+
+```php
+<%= partial "header-php" %>
+$refund = $client->newRefund(array(
+    "reason" => "customer_request",
+    "amount" => "4.99"
+))->apply("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC");
+```
+
+```go
+<%= partial "header-go" %>
+refund, err := client.NewRefund({
+    Reason: "customer_request",
+    Amount: "4.99"
+}).Create("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC")
+```
+
+Refunding a transaction can be done by providing the transaction ID to be
+refunded, as well as the amount and a reason for the refund, which can be
+either `customer_request`, `duplicate` or `fraud`.
+
+The amount can also be left empty to operate a full refund on the transaction.
+In case partial refunds were previously applied on the transaction, leaving
+the refund amount empty will refund what's left of the transaction amount.
+
+### Fetch a refund
+
+```shell
+curl https://api.processout.com/transactions/tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC/refunds/refd_QKliea9OGXtLBXcar2SJjfD11aY0J2SH \
+    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd
+```
+
+```javascript
+<%= partial "header-js" %>
+client.newRefund().find("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC", 
+    "refd_QKliea9OGXtLBXcar2SJjfD11aY0J2SH").then(
+        function(refund) {
+            // Refund was fetched
+        }, function(err) {
+            // An error occured
+        });
+```
+
+```python
+<%= partial "header-python" %>
+refund = client.newRefund().find("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC",
+    "refd_QKliea9OGXtLBXcar2SJjfD11aY0J2SH")
+```
+
+```php
+<%= partial "header-php" %>
+$refund = $client->newRefund()->find("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC",
+    "refd_QKliea9OGXtLBXcar2SJjfD11aY0J2SH");
+```
+
+```go
+<%= partial "header-go" %>
+refund, err := client.NewRefund().Find("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC",
+    "refd_QKliea9OGXtLBXcar2SJjfD11aY0J2SH")
+```
+
+It is possible to fetch a transaction's refund by its ID. An error is thrown 
+if the refund could not be found for the specified transaction.

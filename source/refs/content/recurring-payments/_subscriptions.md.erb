@@ -15,7 +15,7 @@ Subscriptions are objects representing your customers' subscriptions.
 **currency**<br />*string*<br />Required | Currency of the subscription, in the ISO 4217 format (ex: `USD`)
 **interval**<br />*string*<br />Required | Interval between each subscription iteration. "1m" for monthly subscriptions, "1w" for weekly.
 **trial_end_at**<br />*string* | Date at which the trial of the subscription will end. Defaults to no trial
-**metadata**<br />[Metadata](#metadata)<br />*dictionary* | Context related to the recurring invoice, key-value pair (string => string)
+**metadata**<br />[Metadata](#metadata)<br />*dictionary* | Context related to the recurring invoice, key-value pair (string - string)
 **return_url**<br />*string* | `url` used to redirect the customer once the payment is placed
 **cancel_url**<br />*string* | `url` used to redirect the customer when the payment is canceled |ProcessOut cancelation landing page
 **canceled**<br />*boolean* |

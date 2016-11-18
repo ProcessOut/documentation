@@ -20,7 +20,7 @@ they were created for.
 **customer**<br />*[Customer](#customers)*<br />Read-only |
 **source**<br />*string*<br />Write-only | Source used to create the token. Most of the time will be a `card`
 **is_subscription_only**<br />*boolean*<br />Read-only | Whether or not the token was created for a specific subscription
-**metadata**<br />[Metadata](#metadata)<br />*dictionary* | Context related to the customer, key-value pair (string => string)
+**metadata**<br />[Metadata](#metadata)<br />*dictionary* | Context related to the customer, key-value pair (string - string)
 **sandbox**<br />*boolean*<br />Read-only |
 
 ### Create a token
@@ -34,7 +34,7 @@ curl https://api.processout.com/customers/cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj/
 ```javascript
 <%= partial "header-js" %>
 client.newToken().create("cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj", 
-    "card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj").then(function(invoice) {
+    "card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj").then(function(token) {
         // 
 
     }, function(err) {
