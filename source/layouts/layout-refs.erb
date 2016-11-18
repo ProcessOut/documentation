@@ -95,14 +95,16 @@ under the License.
                             <% language_tabs.each do |lang| %>
                                 <% if lang == 'shell' %>
                                 <a href="#" data-language-name="<%= lang %>" style="line-height: 62px; vertical-align: 62px; font-size: 1.5em; width: 80px; text-align: center;">>_</a>
-                                <% elsif lang == 'php' %>
-                                <a href="#" data-language-name="<%= lang %>" style="line-height: 62px; vertical-align: 62px; font-size: 3em;  width: 80px; text-align: center;"><i class="devicon-php-plain"></i></a>
-                                <% elsif lang == 'python' %>
-                                <a href="#" data-language-name="<%= lang %>" style="line-height: 62px; vertical-align: 62px; font-size: 2.5em; width: 80px; text-align: center;"><i class="devicon-python-plain-wordmark"></i></a>
-                                <% elsif lang == 'go' %>
-                                <a href="#" data-language-name="<%= lang %>" style="line-height: 62px; vertical-align: 62px; font-size: 2.5em; width: 80px; text-align: center;"><i class="devicon-go-plain"></i></a>
                                 <% elsif lang == 'node.js' %>
                                 <a href="#" data-language-name="<%= lang %>" style="line-height: 62px; vertical-align: 62px; font-size: 4em; width: 80px; text-align: center;"><i class="devicon-nodejs-plain-wordmark"></i></a>
+                                <% elsif lang == 'python' %>
+                                <a href="#" data-language-name="<%= lang %>" style="line-height: 62px; vertical-align: 62px; font-size: 2.5em; width: 80px; text-align: center;"><i class="devicon-python-plain-wordmark"></i></a>
+                                <% elsif lang == 'ruby' %>
+                                <a href="#" data-language-name="<%= lang %>" style="line-height: 62px; vertical-align: 62px; font-size: 2.5em; width: 80px; text-align: center;"><i class="devicon-ruby-plain-wordmark"></i></a>
+                                <% elsif lang == 'php' %>
+                                <a href="#" data-language-name="<%= lang %>" style="line-height: 62px; vertical-align: 62px; font-size: 3em;  width: 80px; text-align: center;"><i class="devicon-php-plain"></i></a>
+                                <% elsif lang == 'go' %>
+                                <a href="#" data-language-name="<%= lang %>" style="line-height: 62px; vertical-align: 62px; font-size: 2.5em; width: 80px; text-align: center;"><i class="devicon-go-plain"></i></a>
                                 <% elsif lang.is_a? Hash %>
                                 <a href="#" data-language-name="<%= lang.keys.first %>"><%= lang.values.first %></a>
                                 <% else %>

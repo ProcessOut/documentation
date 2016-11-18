@@ -40,19 +40,41 @@ try:
     pass
 
 except AuthenticationError as e:
-    print('Your API credentials couldn't be verified. ' + str(e))
+    print("Your API credentials couldn't be verified. " + str(e))
 
 except NotFoundError as e:
-    print('The requested resource could not be found. ' + str(e))
+    print("The requested resource could not be found. " + str(e))
 
 except ValidationError as e:
-    print('This error describes a validation error' + str(e))
+    print("This error describes a validation error. " + str(e))
 
 except GenericError as e:
-    print('This is an error that didn't match any of the above' + str(e))
+    print("This is an error that didn't match any of the above. " + str(e))
 
 except InternalError as e:
-    print('Something went wrong on the ProcessOut side. This is extremely rare' + str(e))
+    print("Something went wrong on the ProcessOut side. This is extremely rare. " + str(e))
+```
+
+```ruby
+require "processout"
+
+# Different type of exceptions may be thrown by the
+# ProcessOut's Python library, depending on the situation.
+
+begin
+    # Some ProcessOut related code
+
+rescue ProcessOut::AuthenticationError => e:
+    puts "Your API credentials couldn't be verified. " + str(e)
+rescue ProcessOut::NotFoundError => e:
+    print("The requested resource could not be found. " + str(e))
+rescue ProcessOut::ValidationError => e:
+    print("This error describes a validation error. " + str(e))
+rescue ProcessOut::GenericError => e:
+    print("This is an error that didn't match any of the above. " + str(e))
+rescue ProcessOut::InternalError => e:
+    print("Something went wrong on the ProcessOut side. This is extremely rare. " + str(e))
+end
 ```
 
 ```php

@@ -40,6 +40,13 @@ discount = client.newDiscount({
 }).apply("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
 ```
 
+```ruby
+<%= partial "header-ruby" %>
+discount = client.discount.new(
+    amount: "5"
+).apply("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
+```
+
 ```php
 <%= partial "header-php" %>
 $discount = $client->newDiscount(array(
@@ -81,6 +88,12 @@ client.newDiscount().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
 ```python
 <%= partial "header-python" %>
 discount = client.newDiscount().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    "disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq")
+```
+
+```ruby
+<%= partial "header-ruby" %>
+discount = client.discount.find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
     "disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq")
 ```
 
@@ -130,6 +143,13 @@ client.newDiscount().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
 discount = client.newDiscount().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
     "disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq")
 discount.delete()
+```
+
+```ruby
+<%= partial "header-ruby" %>
+discount = client.discount.find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    "disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq")
+discount.delete
 ```
 
 ```php

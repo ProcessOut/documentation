@@ -56,6 +56,17 @@ plan = client.newPlan({
 }).create()
 ```
 
+```ruby
+<%= partial "header-ruby" %>
+plan = client.plan.new(
+    id:       "silver-plan",
+    name:     "Amazing item",
+    amount:   "4.99",
+    currency: "USD",
+    interval: "1m"
+).create
+```
+
 ```php
 <?php
 <%= partial "header-php" %>
@@ -105,6 +116,11 @@ client.newPlan().find("silver-plan").then(
 plan = client.newPlan().find("silver-plan")
 ```
 
+```ruby
+<%= partial "header-ruby" %>
+plan = client.plan.find("silver-plan")
+```
+
 ```php
 <%= partial "header-php" %>
 $plan = $client->newPlan()->find("silver-plan");
@@ -143,6 +159,13 @@ client.newPlan({
 client.newPlan({
     "id": "silver-plan"
 }).delete()
+```
+
+```ruby
+<%= partial "header-ruby" %>
+client.plan{
+    id: "silver-plan"
+).delete
 ```
 
 ```php

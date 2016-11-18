@@ -35,20 +35,20 @@ prevent ProcessOut from correctly posting webhooks to your application.
 ```javascript
 <%= partial "header-js" %>
 // req is filled with the decoded json data from the request body
-client.newEvent().find(req['event_id']).then(function(event) {
+client.newEvent().find(req["event_id"]).then(function(event) {
     // We may now access the event
     var data = event.getData();
 
-    switch (data['name']) {
-    case 'invoice.completed':
+    switch (data["name"]) {
+    case "invoice.completed":
         // Successful payment
         break;
-    case 'invoice.pending':
+    case "invoice.pending":
         // Payment still needs some time to be processed
         break;
     // ...
     default:
-        console.log('Unknown webhook action');
+        console.log("Unknown webhook action");
         return;
     }
 
@@ -63,14 +63,14 @@ client.newEvent().find(req['event_id']).then(function(event) {
 <%= partial "header-python" %>
 
 # req is filled with the decoded json data from the request body
-event = client.newEvent().find(req['event_id'])
+event = client.newEvent().find(req["event_id"])
 data  = event.data
 
-if data['name'] == 'invoice.completed':
+if data["name"] == "invoice.completed":
     # Successful payment
     pass
 
-elif data['name'] == 'invoice.pending':
+elif data["name"] == "invoice.pending":
     # Payment still needs some time to be processed
     pass
 
@@ -78,28 +78,48 @@ elif data['name'] == 'invoice.pending':
 
 else:
     # Shouldn't be here..
-    print('Unknown webhook action')
+    print("Unknown webhook action")
+```
+
+```ruby
+<%= partial "header-ruby" %>
+
+# req is filled with the decoded json data from the request body
+event = client.event.find(req.event_id)
+data  = event.data
+
+if data["name"] == "invoice.completed"
+    # Successful payment
+elsif data["name"] == "invoice.pending"
+    # Payment still needs some time to be processed
+
+# ...
+
+else
+    # Shouldn't be here..
+    puts "Unknown webhook action"
+end
 ```
 
 ```php
 <%= partial "header-php" %>
-$reqRaw = trim(file_get_contents('php://input'));
+$reqRaw = trim(file_get_contents("php://input"));
 $req    = json_decode($reqRaw, true);
 
-$event = $client->newEvent()->find($req['event_id']);
+$event = $client->newEvent()->find($req["event_id"]);
 $data  = $event->getData();
 
-switch($data['name'])
+switch($data["name"])
 {
-case 'invoice.completed':
+case "invoice.completed":
     // Successful payment
     break;
-case 'invoice.pending':
+case "invoice.pending":
     // Payment still needs some time to be processed
     break;
 // ...
 default:
-    echo 'Unknown webhook action'; exit();
+    echo "Unknown webhook action"; exit();
 }
 ```
 

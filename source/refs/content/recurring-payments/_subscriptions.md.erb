@@ -62,6 +62,16 @@ subscription = client.newSubscription({
 }).create("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P")
 ```
 
+```ruby
+<%= partial "header-ruby" %>
+subscription = client.subscription.new(
+    name:     "Amazing subscription",
+    amount:   "4.99",
+    currency: "USD",
+    interval: "1m"
+).create("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P")
+```
+
 ```php
 <%= partial "header-php" %>
 $subscription = $client->newSubscription(array(
@@ -118,6 +128,12 @@ subscription = client.newSubscription().createFromPlan(
     "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan")
 ```
 
+```ruby
+<%= partial "header-ruby" %>
+subscription = client.subscription.createFromPlan(
+    "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan")
+```
+
 ```php
 <?php
 <%= partial "header-php" %>
@@ -157,6 +173,11 @@ client.newSubscription().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3").then(
 ```python
 <%= partial "header-python" %>
 subscription = client.newSubscription().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
+```
+
+```ruby
+<%= partial "header-ruby" %>
+subscription = client.subscription.find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
 ```
 
 ```php
@@ -200,6 +221,13 @@ subscription = client.newSubscription({
 }).applySource("card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj")
 ```
 
+```ruby
+<%= partial "header-ruby" %>
+subscription = client.subscription(
+    id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
+).applySource("card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj")
+```
+
 ```php
 <%= partial "header-php" %>
 $subscription = $client->newSubscription(array(
@@ -238,6 +266,13 @@ client.newSubscription({
     }, function(err) {
         // An error occured
     });
+```
+
+```ruby
+<%= partial "header-ruby" %>
+subscription = client.subscription(
+    id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
+).updatePlan("gold-plan", true)
 ```
 
 ```python
@@ -291,6 +326,14 @@ client.newSubscription({
 subscription = client.newSubscription({
     "id": "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
 }).cancel("Cancellation reason")
+# or subscription.cancelAtDate("2022-10-02T15:00:00Z", "Cancellation reason")
+```
+
+```ruby
+<%= partial "header-ruby" %>
+subscription = client.subscription(
+    id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
+).cancel("Cancellation reason")
 # or subscription.cancelAtDate("2022-10-02T15:00:00Z", "Cancellation reason")
 ```
 

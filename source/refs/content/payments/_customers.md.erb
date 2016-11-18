@@ -47,13 +47,24 @@ var customer = client.newCustomer({
 
 ```python
 <%= partial "header-python" %>
-customer = client.newCustomer(array(
+customer = client.newCustomer({
     "email":      "john@smith.com",
     "first_name": "John",
     "last_name":  "Smith"
-)).create()
+}).create()
 
 print(customer.id)
+```
+
+```ruby
+<%= partial "header-ruby" %>
+customer = client.customer.new(
+    email:      "john@smith.com",
+    first_name: "John",
+    last_name:  "Smith"
+).create
+
+puts customer.id
 ```
 
 ```php
@@ -111,6 +122,11 @@ client.newCustomer().find("cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb").then(
 customer = client.newCustomer().find("cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb")
 ```
 
+```ruby
+<%= partial "header-ruby" %>
+customer = client.customer.find("cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb")
+```
+
 ```php
 <%= partial "header-php" %>
 $customer = $client->newCustomer()->find("cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb");
@@ -142,6 +158,12 @@ customer.save();
 <%= partial "header-python" %>
 customer.firstName = "New name"
 customer.save()
+```
+
+```ruby
+<%= partial "header-ruby" %>
+customer.first_name = "New name"
+customer.save
 ```
 
 ```php
@@ -181,6 +203,13 @@ client.newCustomer({
 customer = client.newCustomer({
     "id": "cust_LvjCcLOVe6iWn2aeCNhNmK7RbbG6K8XF"
 }).delete()
+```
+
+```ruby
+<%= partial "header-ruby" %>
+customer = client.customer(
+    id: "cust_LvjCcLOVe6iWn2aeCNhNmK7RbbG6K8XF"
+).delete
 ```
 
 ```php

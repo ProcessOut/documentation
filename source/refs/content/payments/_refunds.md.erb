@@ -49,6 +49,14 @@ refund = client.newRefund({
 }).apply("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC")
 ```
 
+```ruby
+<%= partial "header-ruby" %>
+refund = client.refund.new(
+    reason: "customer_request",
+    amount: "4.99"
+).apply("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC")
+```
+
 ```php
 <%= partial "header-php" %>
 $refund = $client->newRefund(array(
@@ -94,6 +102,12 @@ client.newRefund().find("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC",
 ```python
 <%= partial "header-python" %>
 refund = client.newRefund().find("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC",
+    "refd_QKliea9OGXtLBXcar2SJjfD11aY0J2SH")
+```
+
+```ruby
+<%= partial "header-ruby" %>
+refund = client.refund.find("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC",
     "refd_QKliea9OGXtLBXcar2SJjfD11aY0J2SH")
 ```
 

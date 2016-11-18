@@ -55,6 +55,15 @@ invoice = client.newInvoice({
 }).create()
 ```
 
+```ruby
+<%= partial "header-ruby" %>
+invoice = client.invoice.new(
+    name:    "Amazing item",
+    amount:  "4.99",
+    curency: "USD"
+).create
+```
+
 ```php
 <%= partial "header-php" %>
 $invoice = $client->newInvoice(array(
@@ -99,6 +108,11 @@ client.newInvoice().find("iv_MgeLS2Rr3ZGwjqOvDvYSuWx7ce88luXl").then(
 invoice = client.newInvoice().find("iv_MgeLS2Rr3ZGwjqOvDvYSuWx7ce88luXl")
 ```
 
+```ruby
+<%= partial "header-ruby" %>
+invoice = client.invoice.find("iv_MgeLS2Rr3ZGwjqOvDvYSuWx7ce88luXl")
+```
+
 ```php
 <%= partial "header-php" %>
 $invoice = $client->newInvoice()->find("iv_MgeLS2Rr3ZGwjqOvDvYSuWx7ce88luXl");
@@ -127,6 +141,11 @@ invoice.assignCustomer("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P");
 
 ```python
 <%= partial "header-python" %>
+invoice.assignCustomer("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P")
+```
+
+```ruby
+<%= partial "header-ruby" %>
 invoice.assignCustomer("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P")
 ```
 
@@ -169,6 +188,12 @@ invoice.capture("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ").then(
 
 ```python
 <%= partial "header-python" %>
+# The source could also be a token tok_fKK4btSG7wd13ZZaevzhMcuNbpjcu1Zy
+transaction = invoice.capture("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ")
+```
+
+```ruby
+<%= partial "header-ruby" %>
 # The source could also be a token tok_fKK4btSG7wd13ZZaevzhMcuNbpjcu1Zy
 transaction = invoice.capture("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ")
 ```
