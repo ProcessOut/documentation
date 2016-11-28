@@ -250,7 +250,8 @@ curl https://api.processout.com/customers/cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks/
 <%= partial "header-js" %>
 customer.fetchTokens().then(
     function(tokens) {
-        // 
+        // And let's say our customer wants to remove its first token
+        tokens[0].delete(); 
 
     }, function(err) {
         // The customer's tokens could not be fetched
@@ -260,20 +261,32 @@ customer.fetchTokens().then(
 ```python
 <%= partial "header-python" %>
 tokens = customer.fetchTokens()
+
+# And let's say our customer wants to remove its first token
+tokens[0].delete()
 ```
 
 ```ruby
 <%= partial "header-ruby" %> 
 tokens = customer.fetch_tokens()
+
+# And let's say our customer wants to remove its first token
+tokens.first.delete
 ```
 
 ```php
 <%= partial "header-php" %>
 $tokens = $customer->fetchTokens();
+
+// And let's say our customer wants to remove its first token
+$tokens[0]->delete();
 ```
 
 ```go
 <%= partial "header-go" %>
 tok, _ := cust.FetchTokens()
+
+// And let's say our customer wants to remove its first token
+tok.Delete()
 ```
 </div>
