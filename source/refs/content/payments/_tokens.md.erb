@@ -73,3 +73,85 @@ create the token, and a source. The source can be a `card`, but also a
 
 The ID of the token that was created should be stored in your application
 so you can [capture payments](#capture-an-invoice) using it later.
+
+### List a customer's tokens
+
+```shell
+curl https://api.processout.com/customers/cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks/tokens \
+    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd
+```
+
+```javascript
+<%= partial "header-js" %>
+customer.fetchTokens().then(
+    function(tokens) {
+        // And let's say our customer wants to remove its first token
+        tokens[0].delete(); 
+
+    }, function(err) {
+        // The customer's tokens could not be fetched
+    });
+```
+
+```python
+<%= partial "header-python" %>
+tokens = customer.fetchTokens()
+```
+
+```ruby
+<%= partial "header-ruby" %>
+tokens = customer.fetch_tokens()
+```
+
+```php
+<%= partial "header-php" %>
+$tokens = $customer->fetchTokens();
+```
+
+```go
+<%= partial "header-go" %>
+tok, _ := cust.FetchTokens()
+```
+
+Once some tokens have been created for a customer, it is possible to list them
+all.
+
+### Delete a token
+
+```shell
+curl -X DELETE https://api.processout.com/customers/cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks/tokens/tok_aKrYfz903uXn9MV0p8ZH7Lfly2JGtZWh \
+    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd
+```
+
+```javascript
+token.delete().then(
+    function(ok) {
+        // 
+
+    }, function(err) {
+        // The token could not be deleted
+    });
+```
+
+```python
+<%= partial "header-python" %>
+token.delete()
+```
+
+```ruby
+<%= partial "header-ruby" %>
+token.delete
+```
+
+```php
+<%= partial "header-php" %>
+$token->delete();
+```
+
+```go
+<%= partial "header-go" %>
+tok.Delete()
+```
+
+Deleting a token is irreversible and cannot be undone. An error is thrown
+if the token could not be deleted.
