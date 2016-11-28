@@ -173,6 +173,11 @@ invoice.capture("cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks").then(
 transaction = invoice.capture("cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks")
 ```
 
+```ruby
+<%= partial "header-ruby" %>
+transaction = invoice.capture("cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks")
+```
+
 ```php
 <%= partial "header-php" %>
 $transaction = $invoice->capture("cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks");
@@ -212,6 +217,11 @@ invoice.capture("tok_aKrYfz903uXn9MV0p8ZH7Lfly2JGtZWh").then(
 transaction = invoice.capture("tok_aKrYfz903uXn9MV0p8ZH7Lfly2JGtZWh")
 ```
 
+```ruby
+<%= partial "header-ruby" %>
+transaction = invoice.capture("tok_aKrYfz903uXn9MV0p8ZH7Lfly2JGtZWh")
+```
+
 ```php
 <%= partial "header-php" %>
 $transaction = $invoice->capture("tok_aKrYfz903uXn9MV0p8ZH7Lfly2JGtZWh");
@@ -220,5 +230,50 @@ $transaction = $invoice->capture("tok_aKrYfz903uXn9MV0p8ZH7Lfly2JGtZWh");
 ```go
 <%= partial "header-go" %>
 tr, _ := iv.Capture("tok_aKrYfz903uXn9MV0p8ZH7Lfly2JGtZWh")
+```
+</div>
+
+#### Listing and deleting customers' tokens
+
+Once you've stored a token for a customer, you might want to list them
+so you can show them to your customers, or delete them when your customers
+want to remove the payment method.
+
+<div class="language-selector-wrapper">
+<%= partial "lg-selector" %>
+```shell
+curl https://api.processout.com/customers/cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks/tokens \
+    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd
+```
+
+```javascript
+<%= partial "header-js" %>
+customer.fetchTokens().then(
+    function(tokens) {
+        // 
+
+    }, function(err) {
+        // The customer's tokens could not be fetched
+    });
+```
+
+```python
+<%= partial "header-python" %>
+tokens = customer.fetchTokens()
+```
+
+```ruby
+<%= partial "header-ruby" %> 
+tokens = customer.fetch_tokens()
+```
+
+```php
+<%= partial "header-php" %>
+$tokens = $customer->fetchTokens();
+```
+
+```go
+<%= partial "header-go" %>
+tok, _ := cust.FetchTokens()
 ```
 </div>
