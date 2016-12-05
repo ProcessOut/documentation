@@ -5,14 +5,14 @@ Plans can be seen as templates for your [subscriptions](#subscriptions).
 ##### Attributes
 |||
 --:|:--
-**id**<br />*string*<br />Required | ID of the plan. Must be unique to the project
-**name**<br />*string*<br />Required | Name of the plan
-**amount**<br />*string*<br />Required | Amount to be paid at every iteration of the subscription
-**currency**<br />*string*<br />Required | Currency of the subscription, in the ISO 4217 format (ex: `USD`)
-**interval**<br />*string*<br />Required | Interval between each subscription iteration. "1m" for monthly subscriptions, "1w" for weekly.
-**trial_period**<br />*string* | Trial period. "1w" for one week, "3m" for three months.
-**metadata**<br />[Metadata](#metadata)<br />*dictionary* | Context related to the recurring invoice, key-value pair (string - string)
-**sandbox**<br />*boolean*<br />Read-only |
+<span class="console-font">**id**</span><br />*string*<br />Required | ID of the plan. Must be unique to the project
+<span class="console-font">**name**</span><br />*string*<br />Required | Name of the plan
+<span class="console-font">**amount**</span><br />*string*<br />Required | Amount to be paid at every iteration of the subscription
+<span class="console-font">**currency**</span><br />*string*<br />Required | Currency of the subscription, in the ISO 4217 format (ex: `USD`)
+<span class="console-font">**interval**</span><br />*string*<br />Required | Interval between each subscription iteration. "1m" for monthly subscriptions, "1w" for weekly.
+<span class="console-font">**trial_period**</span><br />*string* | Trial period. "1w" for one week, "3m" for three months.
+<span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the recurring invoice, key-value pair (string - string)
+<span class="console-font">**sandbox**</span><br />*boolean*<br />Read-only |
 
 
 ### Create a plan

@@ -161,14 +161,14 @@ occurs.
 ##### Events
 |||
 --:|:--
-<div style="white-space: nowrap; color: #795da3;" class="console-font">invoice.waiting</div> | No payment has been placed yet
-<div style="white-space: nowrap; color: #795da3;" class="console-font">invoice.pending</div> | The payment is pending confirmation by the payment gateway
-<div style="white-space: nowrap; color: #795da3;" class="console-font">invoice.completed</div> | The payment was sucessfully completed
-<div style="white-space: nowrap; color: #795da3;" class="console-font">invoice.failed</div> | The payment has failed
-<div style="white-space: nowrap; color: #795da3;" class="console-font">invoice.disputed</div> | The payment was previously completed but the customer filled a dispute or a chargeback
-<div style="white-space: nowrap; color: #795da3;" class="console-font">invoice.solved</div> | The previous dispute has been resolved in your favor
-<div style="white-space: nowrap; color: #795da3;" class="console-font">invoice.reversed</div> | The previous dispute has been resolved in your customer's favor
-<div style="white-space: nowrap; color: #795da3;" class="console-font">invoice.refunded</div> | You issued a refund for the payment
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">invoice.waiting</div> | No payment has been placed yet
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">invoice.pending</div> | The payment is pending confirmation by the payment gateway
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">invoice.completed</div> | The payment was sucessfully completed
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">invoice.failed</div> | The payment has failed
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">invoice.disputed</div> | The payment was previously completed but the customer filled a dispute or a chargeback
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">invoice.solved</div> | The previous dispute has been resolved in your favor
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">invoice.reversed</div> | The previous dispute has been resolved in your customer's favor
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">invoice.refunded</div> | You issued a refund for the payment
 
 ### Subscription events
 
@@ -182,13 +182,13 @@ completed, and its corresponding event will also be fired.
 ##### Events
 |||
 --:|:--
-<div style="white-space: nowrap; color: #795da3;" class="console-font">subscription.created</div> | A new subscription resource was created
-<div style="white-space: nowrap; color: #795da3;" class="console-font">subscription.started</div> | The subscription started
-<div style="white-space: nowrap; color: #795da3;" class="console-font">subscription.iterated</div> | The customer paid for the current iteration of its subscription
-<div style="white-space: nowrap; color: #795da3;" class="console-font">subscription.trial.ending_soon</div> | The subscription trial is ending soon. You may use this event to notify your customer to update their billing details if not done yet
-<div style="white-space: nowrap; color: #795da3;" class="console-font">subscription.trial.ended</div> | The subscription trial ended
-<div style="white-space: nowrap; color: #795da3;" class="console-font">subscription.payment_failed</div> | The payment of the current subscription period failed
-<div style="white-space: nowrap; color: #795da3;" class="console-font">subscription.canceled</div> | The customer's subscription was canceled <br />*Note:* It might have been canceled because the payment gateway refused your customer's payment (ex: when the credit card expired). The reason of the cancellation is available in the `cancellation_reason` attribute of the subscription
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">subscription.created</div> | A new subscription resource was created
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">subscription.started</div> | The subscription started
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">subscription.iterated</div> | The customer paid for the current iteration of its subscription
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">subscription.trial.ending_soon</div> | The subscription trial is ending soon. You may use this event to notify your customer to update their billing details if not done yet
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">subscription.trial.ended</div> | The subscription trial ended
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">subscription.payment_failed</div> | The payment of the current subscription period failed
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">subscription.canceled</div> | The customer's subscription was canceled <br />*Note:* It might have been canceled because the payment gateway refused your customer's payment (ex: when the credit card expired). The reason of the cancellation is available in the `cancellation_reason` attribute of the subscription
 
 ### Customer events
 
@@ -198,9 +198,9 @@ occurs.
 ##### Events
 |||
 --:|:--
-<div style="white-space: nowrap; color: #795da3;" class="console-font">customer.created</div> | A new customer resource was created
-<div style="white-space: nowrap; color: #795da3;" class="console-font">customer.updated</div> | The customer resource was updated
-<div style="white-space: nowrap; color: #795da3;" class="console-font">customer.deleted</div> | The customer resource was deleted
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">customer.created</div> | A new customer resource was created
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">customer.updated</div> | The customer resource was updated
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">customer.deleted</div> | The customer resource was deleted
 
 ### Customer token events
 
@@ -210,9 +210,9 @@ occurs.
 ##### Events
 |||
 --:|:--
-<div style="white-space: nowrap; color: #795da3;" class="console-font">customer.token.created</div> | A new customer token resource was created
-<div style="white-space: nowrap; color: #795da3;" class="console-font">customer.token.updated</div> | The customer token resource was updated
-<div style="white-space: nowrap; color: #795da3;" class="console-font">customer.token.deleted</div> | The customer token resource was deleted
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">customer.token.created</div> | A new customer token resource was created
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">customer.token.updated</div> | The customer token resource was updated
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">customer.token.deleted</div> | The customer token resource was deleted
 
 ### Plan events
 
@@ -222,9 +222,9 @@ occurs.
 ##### Events
 |||
 --:|:--
-<div style="white-space: nowrap; color: #795da3;" class="console-font">plan.created</div> | A new plan resource was created
-<div style="white-space: nowrap; color: #795da3;" class="console-font">plan.updated</div> | The plan resource was updated
-<div style="white-space: nowrap; color: #795da3;" class="console-font">plan.deleted</div> | The plan resource was deleted
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">plan.created</div> | A new plan resource was created
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">plan.updated</div> | The plan resource was updated
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">plan.deleted</div> | The plan resource was deleted
 
 ### Product events
 
@@ -234,9 +234,9 @@ occurs.
 ##### Events
 |||
 --:|:--
-<div style="white-space: nowrap; color: #795da3;" class="console-font">product.created</div> | A new product resource was created
-<div style="white-space: nowrap; color: #795da3;" class="console-font">product.updated</div> | The product resource was updated
-<div style="white-space: nowrap; color: #795da3;" class="console-font">product.deleted</div> | The product resource was deleted
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">product.created</div> | A new product resource was created
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">product.updated</div> | The product resource was updated
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">product.deleted</div> | The product resource was deleted
 
 ### Coupon events
 
@@ -246,6 +246,6 @@ occurs.
 ##### Events
 |||
 --:|:--
-<div style="white-space: nowrap; color: #795da3;" class="console-font">coupon.created</div> | A new coupon resource was created
-<div style="white-space: nowrap; color: #795da3;" class="console-font">coupon.updated</div> | The coupon resource was updated
-<div style="white-space: nowrap; color: #795da3;" class="console-font">coupon.deleted</div> | The coupon resource was deleted
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">coupon.created</div> | A new coupon resource was created
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">coupon.updated</div> | The coupon resource was updated
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">coupon.deleted</div> | The coupon resource was deleted

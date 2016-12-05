@@ -5,15 +5,15 @@ Coupons can be seen as templates for [subscription discounts](#discounts).
 ##### Attributes
 |||
 --:|:--
-**id**<br />*string*<br />Required | ID of the coupon. Must be unique to the project
-**amount_off**<br />*string*<br />Required if percent_off is null | Amount to be discounted from the subscription
-**percent_off**<br />*integer*<br />Required if amount_off is null | Percentage of the subscription amount to be discounted. Ex: `25` 
-**currency**<br />*string*<br />Required if amount_off is set | Currency of the coupon, in the ISO 4217 format (ex: `USD`)
-**iteration_count**<br />*integer* | Number of iteration of the subscription the coupon will last. `3` on a monthly subscription will make the coupon last 3 months. `0` makes the coupon last forever
-**max_redemptions**<br />*integer* | Maximum number of times a coupon can be redeemed (ie applied on a subscription) by your customers before expiring
-**expires_at**<br />*string* | Date at which the coupon will automatically expire
-**metadata**<br />[Metadata](#metadata)<br />*dictionary* | Context related to the recurring invoice, key-value pair (string - string)
-**sandbox**<br />*boolean*<br />Read-only |
+<span class="console-font">**id**</span><br />*string*<br />Required | ID of the coupon. Must be unique to the project
+<span class="console-font">**amount_off**</span><br />*string*<br />Required if percent_off is null | Amount to be discounted from the subscription
+<span class="console-font">**percent_off**</span><br />*integer*<br />Required if amount_off is null | Percentage of the subscription amount to be discounted. Ex: `25` 
+<span class="console-font">**currency**</span><br />*string*<br />Required if amount_off is set | Currency of the coupon, in the ISO 4217 format (ex: `USD`)
+<span class="console-font">**iteration_count**</span><br />*integer* | Number of iteration of the subscription the coupon will last. `3` on a monthly subscription will make the coupon last 3 months. `0` makes the coupon last forever
+<span class="console-font">**max_redemptions**</span><br />*integer* | Maximum number of times a coupon can be redeemed (ie applied on a subscription) by your customers before expiring
+<span class="console-font">**expires_at**</span><br />*string* | Date at which the coupon will automatically expire
+<span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the recurring invoice, key-value pair (string - string)
+<span class="console-font">**sandbox**</span><br />*boolean*<br />Read-only |
 
 
 ### Create a coupon

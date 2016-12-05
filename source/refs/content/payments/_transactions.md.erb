@@ -12,18 +12,18 @@ its transaction for easy reference.
 ##### Attributes
 |||
 --:|:--
-**id**<br />*string*<br />Read-only |
-**customer**<br />*[Customer](#customers)*<br />Read-only |
-**subscription**<br />*[Subscription](#subscriptions)*<br />Read-only | 
-**name**<br />*string*<br />Read-only | Name of the Transaction
-**authorized_amount**<br />*string*<br />Read-only | Amount that was authorized for the transaction
-**captured_amount**<br />*string*<br />Read-only | Amount that was captured for the transaction
-**currency**<br />*string*<br />Read-only | Currency of the transaction
-**authorized**<br />*boolean*<br />Read-only | Whether or not the transaction was authorized
-**captured**<br />*boolean*<br />Read-only | Whether or not the transaction was captured
-**status**<br />*string*<br />Read-only | [Status](#statuses) of the transaction
-**processout_fee**<br />*string*<br />Read-only | Fee taken by ProcessOut to handle the transaction
-**metadata**<br />[Metadata](#metadata)<br />*dictionary* | Context related to the transaction's invoice, key-value pair (string - string)
+<span class="console-font">**id**</span><br />*string*<br />Read-only |
+<span class="console-font">**customer**</span><br />*[Customer](#customers)*<br />Read-only |
+<span class="console-font">**subscription**</span><br />*[Subscription](#subscriptions)*<br />Read-only | 
+<span class="console-font">**name**</span><br />*string*<br />Read-only | Name of the Transaction
+<span class="console-font">**authorized_amount**</span><br />*string*<br />Read-only | Amount that was authorized for the transaction
+<span class="console-font">**captured_amount**</span><br />*string*<br />Read-only | Amount that was captured for the transaction
+<span class="console-font">**currency**</span><br />*string*<br />Read-only | Currency of the transaction
+<span class="console-font">**authorized**</span><br />*boolean*<br />Read-only | Whether or not the transaction was authorized
+<span class="console-font">**captured**</span><br />*boolean*<br />Read-only | Whether or not the transaction was captured
+<span class="console-font">**status**</span><br />*string*<br />Read-only | [Status](#statuses) of the transaction
+<span class="console-font">**processout_fee**</span><br />*string*<br />Read-only | Fee taken by ProcessOut to handle the transaction
+<span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the transaction's invoice, key-value pair (string - string)
 
 As seen in the transaction's attributes, it also contains a `status`, representing
 the current status of the transaction. This status is automatically updated

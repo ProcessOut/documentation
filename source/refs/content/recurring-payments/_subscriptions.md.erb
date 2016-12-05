@@ -5,22 +5,22 @@ Subscriptions are objects representing your customers' subscriptions.
 ##### Attributes
 |||
 --:|:--
-**id**<br />*string*<br />Read-only |
-**url**<br />*string*<br />Read-only | `url` to the ProcessOut checkout page
-**customer**<br />*[Customer](#customers)*<br />Read-only |
-**plan**<br />*[Plan](#plans)*<br />Read-only | Plan, if one was used when creating the subscription
-**source**<br />*string*<br /> Write-only | The source used to activate the subscription
-**name**<br />*string*<br />Required | Name of the subscription
-**amount**<br />*string*<br />Required | Amount to be paid at every iteration of the subscription
-**currency**<br />*string*<br />Required | Currency of the subscription, in the ISO 4217 format (ex: `USD`)
-**interval**<br />*string*<br />Required | Interval between each subscription iteration. "1m" for monthly subscriptions, "1w" for weekly.
-**trial_end_at**<br />*string* | Date at which the trial of the subscription will end. Defaults to no trial
-**metadata**<br />[Metadata](#metadata)<br />*dictionary* | Context related to the recurring invoice, key-value pair (string - string)
-**return_url**<br />*string* | `url` used to redirect the customer once the payment is placed
-**cancel_url**<br />*string* | `url` used to redirect the customer when the payment is canceled |ProcessOut cancelation landing page
-**canceled**<br />*boolean* |
-**cancellation_reason**<br />*boolean* | If `canceled` is true, represents the reason why the recurring invoice was canceled
-**sandbox**<br />*boolean*<br />Read-only |
+<span class="console-font">**id**</span><br />*string*<br />Read-only |
+<span class="console-font">**url**</span><br />*string*<br />Read-only | `url` to the ProcessOut checkout page
+<span class="console-font">**customer**</span><br />*[Customer](#customers)*<br />Read-only |
+<span class="console-font">**plan**</span><br />*[Plan](#plans)*<br />Read-only | Plan, if one was used when creating the subscription
+<span class="console-font">**source**</span><br />*string*<br /> Write-only | The source used to activate the subscription
+<span class="console-font">**name**</span><br />*string*<br />Required | Name of the subscription
+<span class="console-font">**amount**</span><br />*string*<br />Required | Amount to be paid at every iteration of the subscription
+<span class="console-font">**currency**</span><br />*string*<br />Required | Currency of the subscription, in the ISO 4217 format (ex: `USD`)
+<span class="console-font">**interval**</span><br />*string*<br />Required | Interval between each subscription iteration. "1m" for monthly subscriptions, "1w" for weekly.
+<span class="console-font">**trial_end_at**</span><br />*string* | Date at which the trial of the subscription will end. Defaults to no trial
+<span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the recurring invoice, key-value pair (string - string)
+<span class="console-font">**return_url**</span><br />*string* | `url` used to redirect the customer once the payment is placed
+<span class="console-font">**cancel_url**</span><br />*string* | `url` used to redirect the customer when the payment is canceled |ProcessOut cancelation landing page
+<span class="console-font">**canceled**</span><br />*boolean* |
+<span class="console-font">**cancellation_reason**</span><br />*boolean* | If `canceled` is true, represents the reason why the recurring invoice was canceled
+<span class="console-font">**sandbox**</span><br />*boolean*<br />Read-only |
 
 
 ### Create a subscription
