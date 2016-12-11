@@ -123,27 +123,17 @@ of yours):
 curl https://api.processout.com/subscriptions \
     -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
     -d customer_id=cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P \
-    -d plan_id="silver-plan"
-
-curl https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/discounts \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
-    -d coupon_id=25percentoff
+    -d plan_id="silver-plan" \
+    -d coupon_id="25percentoff"
 ```
 
 ```javascript
 <%= partial "header-js" %>
 client.newSubscription().createFromPlan("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
-    "silver-plan").then(function(subscription) {
-        // The subscription is now successfully created
-        // for the customer.
-        // Let's apply the coupon
-        subscription.applyCoupon("25percentoff").then(
-            function(discount) {
-                // All good!
-
-            }, function(err) {
-                // The discount is now applied to the subscription!
-            });
+    "silver-plan", {
+        "coupon_id": "25percentoff"
+    }).then(function(subscription) {
+        // The discount is now applied to the subscription!
 
     }, function(err) {
         // An error occured
@@ -154,12 +144,9 @@ client.newSubscription().createFromPlan("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
 ```python
 <%= partial "header-python" %>
 subscription = client.newSubscription().createFromPlan(
-    "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan")
-
-# The subscription is now successfully created
-# for the customer.
-# Let's apply the coupon
-discount = subscription.applyCoupon("25percentoff")
+    "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan", {
+        "coupon_id": "25percentoff"
+    })
 
 # The discount is now applied to the subscription!
 ```
@@ -167,12 +154,9 @@ discount = subscription.applyCoupon("25percentoff")
 ```ruby
 <%= partial "header-ruby" %>
 subscription = client.subscription.createFromPlan(
-    "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan")
-
-# The subscription is now successfully created
-# for the customer.
-# Let's apply the coupon
-discount = subscription.applyCoupon("25percentoff")
+    "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan", {
+        coupon_id: "25percentoff"
+    })
 
 # The discount is now applied to the subscription!
 ```
@@ -180,12 +164,9 @@ discount = subscription.applyCoupon("25percentoff")
 ```php
 <%= partial "header-php" %>
 $subscription = $client->newSubscription()->createFromPlan(
-    "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan");
-
-// The subscription is now successfully created
-// for the customer.
-// Let's apply the coupon
-$discount = $subscription->applyCoupon("25percentoff");
+    "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan", array(
+        "coupon_id" => "25percentoff"
+    ));
 
 // The discount is now applied to the subscription!
 ```
