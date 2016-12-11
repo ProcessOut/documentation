@@ -1,0 +1,60 @@
+## Expanding resources
+
+```shell
+curl https://api.processout.com/customers/cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb \
+    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd
+    -d expand[]=subscriptions
+```
+
+```javascript
+<%= partial "header-js" %>
+client.newCustomer().find("cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb", {
+    expand: ["subscriptions"]
+}).then(
+    function(customer) {
+        // Customer was fetched
+    }, function(err) {
+        // An error occured
+    });
+```
+
+```python
+<%= partial "header-python" %>
+customer = client.newCustomer().find("cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb", {
+    "expand": ["subscriptions"]
+})
+```
+
+```ruby
+<%= partial "header-ruby" %>
+customer = client.customer.find("cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb", {
+    expand: ["subscriptions"]
+})
+```
+
+```php
+<%= partial "header-php" %>
+$customer = $client->newCustomer()->find("cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb", array(
+    "expand" => array("subscriptions")
+));
+```
+
+```go
+<%= partial "header-go" %>
+cust, err := client.NewCustomer().Find("cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb", 
+    processout.Options{
+        Expand: []string{"subscriptions"},
+    })
+```
+
+Often, resources fetched through the API will not expand their sub resources by default (such
+as a transactions's customer will not be expanded by default). This behaviour can be
+overridden using the expand option. For example, expanding the Transaction's
+Customer can be done by setting `expand` to `customer`.
+
+It is also possible to expand nested sub resources by using the dot notation.
+To expand the Subscriptions of a Customer in a Transaction, you can set
+`expand` to `customer.subscriptions`.
+
+Multiple expansions can also be done within a single request by providing them
+in the `expand` array.
