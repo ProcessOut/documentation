@@ -63,7 +63,7 @@ client.newEvent().find(req["event_id"]).then(function(event) {
 <%= partial "header-python" %>
 
 # req is filled with the decoded json data from the request body
-event = client.newEvent().find(req["event_id"])
+event = client.new_event().find(req["event_id"])
 data  = event.data
 
 if data["name"] == "invoice.completed":

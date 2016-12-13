@@ -47,7 +47,7 @@ var customer = client.newCustomer({
 
 ```python
 <%= partial "header-python" %>
-customer = client.newCustomer({
+customer = client.new_customer({
     "email":      "john@smith.com",
     "first_name": "John",
     "last_name":  "Smith"
@@ -119,7 +119,7 @@ client.newCustomer().find("cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb").then(
 
 ```python
 <%= partial "header-python" %>
-customer = client.newCustomer().find("cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb")
+customer = client.new_customer().find("cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb")
 ```
 
 ```ruby
@@ -156,7 +156,7 @@ customer.save();
 
 ```python
 <%= partial "header-python" %>
-customer.firstName = "New name"
+customer.first_name = "New name"
 customer.save()
 ```
 
@@ -200,7 +200,7 @@ client.newCustomer({
 
 ```python
 <%= partial "header-python" %>
-customer = client.newCustomer({
+customer = client.new_customer({
     "id": "cust_LvjCcLOVe6iWn2aeCNhNmK7RbbG6K8XF"
 }).delete()
 ```

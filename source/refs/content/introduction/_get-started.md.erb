@@ -43,51 +43,23 @@ You can find all our repositories on the [ProcessOut Github](https://github.com/
 ### Setting up
 
 ```javascript
-// Load package
-var ProcessOut = require('processout');
-
-// Instantiate ProcessOut
-var client = new ProcessOut.ProcessOut(
-    "proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4",
-    "key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd");
+<%= partial "header-js" %>
 ```
 
 ```python
-# Load dependencies
-from processout.processout import ProcessOut
-
-# Instantiate ProcessOut
-client = ProcessOut("proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4", 
-    "key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd")
+<%= partial "header-python" %>
 ```
 
 ```ruby
-require "processout"
-
-# Instantiate ProcessOut
-client = ProcessOut::Client.new("proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4", 
-    "key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd")
+<%= partial "header-ruby" %>
 ```
 
 ```php
-<?php
-// Load dependencies
-require 'vendor/autoload.php';
-
-// Instantiate ProcessOut
-$client = new \ProcessOut\ProcessOut(
-    "proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4",
-    "key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd");
+<%= partial "header-php" %>
 ```
 
 ```go
-// Package import
-import "gopkg.in/processout.v3"
-
-// Instantiate ProcessOut (in a method)
-client := processout.New(
-    "proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4", 
-    "key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd")
+<%= partial "header-go" %>
 ```
 
 To use ProcessOut's API, you will need to authenticate yourself using your API keys.

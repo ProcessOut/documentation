@@ -51,7 +51,7 @@ client.NewInvoice({
 
 ```python
 <%= partial "header-python" %>
-invoice = client.newInvoice({
+invoice = client.new_invoice({
     "name":                 "Amazing item",
     "statement_descriptor": "amazing item",
     "amount":               "4.99",
@@ -111,7 +111,7 @@ client.newInvoice().find("iv_MgeLS2Rr3ZGwjqOvDvYSuWx7ce88luXl").then(
 
 ```python
 <%= partial "header-python" %>
-invoice = client.newInvoice().find("iv_MgeLS2Rr3ZGwjqOvDvYSuWx7ce88luXl")
+invoice = client.new_invoice().find("iv_MgeLS2Rr3ZGwjqOvDvYSuWx7ce88luXl")
 ```
 
 ```ruby
@@ -147,12 +147,12 @@ invoice.assignCustomer("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P");
 
 ```python
 <%= partial "header-python" %>
-invoice.assignCustomer("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P")
+invoice.assign_customer("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P")
 ```
 
 ```ruby
 <%= partial "header-ruby" %>
-invoice.assignCustomer("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P")
+invoice.assign_customer("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P")
 ```
 
 ```php

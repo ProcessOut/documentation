@@ -54,7 +54,7 @@ var subscription = client.newSubscription({
 
 ```python
 <%= partial "header-python" %>
-subscription = client.newSubscription({
+subscription = client.new_subscription({
     "name":     "Amazing subscription",
     "amount":   "4.99",
     "currency": "USD",
@@ -124,13 +124,13 @@ client.newSubscription().createFromPlan("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
 
 ```python
 <%= partial "header-python" %>
-subscription = client.newSubscription().createFromPlan(
+subscription = client.new_subscription().create_from_plan(
     "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan")
 ```
 
 ```ruby
 <%= partial "header-ruby" %>
-subscription = client.subscription.createFromPlan(
+subscription = client.subscription.create_from_plan(
     "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan")
 ```
 
@@ -172,7 +172,7 @@ client.newSubscription().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3").then(
 
 ```python
 <%= partial "header-python" %>
-subscription = client.newSubscription().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
+subscription = client.new_subscription().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
 ```
 
 ```ruby
@@ -216,16 +216,16 @@ client.newSubscription({
 
 ```python
 <%= partial "header-python" %>
-subscription = client.newSubscription({
+subscription = client.new_subscription({
     "id": "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
-}).applySource("card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj")
+}).apply_source("card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj")
 ```
 
 ```ruby
 <%= partial "header-ruby" %>
 subscription = client.subscription(
     id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
-).applySource("card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj")
+).apply_source("card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj")
 ```
 
 ```php
@@ -268,18 +268,18 @@ client.newSubscription({
     });
 ```
 
+```python
+<%= partial "header-python" %>
+subscription = client.new_subscription({
+    "id": "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
+}).update_plan("gold-plan", true)
+```
+
 ```ruby
 <%= partial "header-ruby" %>
 subscription = client.subscription(
     id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
-).updatePlan("gold-plan", true)
-```
-
-```python
-<%= partial "header-python" %>
-subscription = client.newSubscription({
-    "id": "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
-}).updatePlan("gold-plan", true)
+).update_plan("gold-plan", true)
 ```
 
 ```php
@@ -323,10 +323,10 @@ client.newSubscription({
 
 ```python
 <%= partial "header-python" %>
-subscription = client.newSubscription({
+subscription = client.new_subscription({
     "id": "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
 }).cancel("Cancellation reason")
-# or subscription.cancelAtDate("2022-10-02T15:00:00Z", "Cancellation reason")
+# or subscription.cancel_at_date("2022-10-02T15:00:00Z", "Cancellation reason")
 ```
 
 ```ruby
@@ -334,7 +334,7 @@ subscription = client.newSubscription({
 subscription = client.subscription(
     id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
 ).cancel("Cancellation reason")
-# or subscription.cancelAtDate("2022-10-02T15:00:00Z", "Cancellation reason")
+# or subscription.cancel_at_date("2022-10-02T15:00:00Z", "Cancellation reason")
 ```
 
 ```php

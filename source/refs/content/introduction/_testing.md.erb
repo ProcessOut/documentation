@@ -7,44 +7,28 @@ curl https://api.processout.com/ \
 ```
 
 ```javascript
-var ProcessOut = require('processout');
+<%= partial "header-js" %>
 // Prefix project ID with `test-`
-var client = new ProcessOut.ProcessOut(
-    "test-proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4",
-    "key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd");
 ```
 
 ```python
-from processout.processout import ProcessOut
+<%= partial "header-python" %>
 # Prefix project ID with `test-`
-client = ProcessOut(
-    "test-proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4", 
-    "key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd")
 ```
 
 ```ruby
-require "processout"
-
+<%= partial "header-ruby" %>
 # Prefix project ID with `test-`
-client = ProcessOut::Client.new(
-    "test-proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4", 
-    "key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd")
 ```
 
 ```php
-<?php
+<%= partial "header-php" %>
 // Prefix project ID with `test-`
-$client = new \ProcessOut\ProcessOut(
-    "test-proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4",
-    "key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd");
 ```
 
 ```go
-import "gopkg.in/processout.v3"
+<%= partial "header-go" %>
 // Prefix project ID with `test-`
-client := processout.New(
-    "test-proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4", 
-    "key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd")
 ```
 
 It is useful to be able to go through the whole payment process without

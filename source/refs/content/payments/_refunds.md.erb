@@ -43,7 +43,7 @@ client.newRefund({
 
 ```python
 <%= partial "header-python" %>
-refund = client.newRefund({
+refund = client.new_refund({
     "reason": "customer_request",
     "amount": "4.99"
 }).apply("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC")
@@ -101,7 +101,7 @@ client.newRefund().find("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC",
 
 ```python
 <%= partial "header-python" %>
-refund = client.newRefund().find("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC",
+refund = client.new_refund().find("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC",
     "refd_QKliea9OGXtLBXcar2SJjfD11aY0J2SH")
 ```
 

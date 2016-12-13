@@ -29,7 +29,7 @@ curl https://api.processout.com/plans \
 
 ```javascript
 <%= partial "header-js" %>
-client.newPlan({
+client.new_plan({
     id:       "silver-plan",
     name:     "Amazing item",
     amount:   "4.99",
@@ -47,7 +47,7 @@ client.newPlan({
 
 ```python
 <%= partial "header-python" %>
-plan = client.newPlan({
+plan = client.new_plan({
     "id":       "silver-plan",
     "name":     "Amazing item",
     "amount":   "4.99",
@@ -113,7 +113,7 @@ client.newPlan().find("silver-plan").then(
 
 ```python
 <%= partial "header-python" %>
-plan = client.newPlan().find("silver-plan")
+plan = client.new_plan().find("silver-plan")
 ```
 
 ```ruby
@@ -156,7 +156,7 @@ client.newPlan({
 
 ```python
 <%= partial "header-python" %>
-client.newPlan({
+client.new_plan({
     "id": "silver-plan"
 }).delete()
 ```

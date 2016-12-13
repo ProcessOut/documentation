@@ -13,8 +13,9 @@ its transaction for easy reference.
 |||
 --:|:--
 <span class="console-font">**id**</span><br />*string*<br />Read-only |
-<span class="console-font">**customer**</span><br />*[Customer](#customers)*<br />Read-only |
-<span class="console-font">**subscription**</span><br />*[Subscription](#subscriptions)*<br />Read-only | 
+<span class="console-font">**customer**</span><br />*[Customer](#customers)*<br />Read-only, expandable |
+<span class="console-font">**invoice**</span><br />*[Invoice](#invoices)*<br />Read-only, expandable |
+<span class="console-font">**subscription**</span><br />*[Subscription](#subscriptions)*<br />Read-only, expandable | 
 <span class="console-font">**name**</span><br />*string*<br />Read-only | Name of the Transaction
 <span class="console-font">**authorized_amount**</span><br />*string*<br />Read-only | Amount that was authorized for the transaction
 <span class="console-font">**captured_amount**</span><br />*string*<br />Read-only | Amount that was captured for the transaction
@@ -50,7 +51,7 @@ client.newTransaction().find("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC").then(
 
 ```python
 <%= partial "header-python" %>
-transaction = client.newTransaction().find("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC")
+transaction = client.new_transaction().find("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC")
 ```
 
 ```ruby

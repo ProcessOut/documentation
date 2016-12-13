@@ -41,7 +41,7 @@ var coupon = client.newCoupon({
 
 ```python
 <%= partial "header-python" %>
-coupon = client.newCoupon({
+coupon = client.new_coupon({
     "id":          "25percentoff",
     "percent_off": 25
 }).create()
@@ -95,7 +95,7 @@ client.newCoupon().find("25percentoff").then(
 
 ```python
 <%= partial "header-python" %>
-coupon = client.newCoupon().find("25percentoff")
+coupon = client.new_coupon().find("25percentoff")
 ```
 
 ```ruby
@@ -137,12 +137,12 @@ subscription.applyCoupon("25percentoff").then(
 
 ```python
 <%= partial "header-python" %>
-discount = subscription.applyCoupon("25percentoff")
+discount = subscription.apply_coupon("25percentoff")
 ```
 
 ```ruby
 <%= partial "header-ruby" %>
-discount = subscription.applyCoupon("25percentoff")
+discount = subscription.apply_coupon("25percentoff")
 ```
 
 ```php
@@ -179,7 +179,7 @@ client.newCoupon({
 
 ```python
 <%= partial "header-python" %>
-client.newCoupon({
+client.new_coupon({
     "id": "25percentoff"
 }).delete()
 ```

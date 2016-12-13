@@ -35,7 +35,7 @@ client.newDiscount({
 
 ```python
 <%= partial "header-python" %>
-discount = client.newDiscount({
+discount = client.new_discount({
     "amount": "5"
 }).apply("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
 ```
@@ -87,7 +87,7 @@ client.newDiscount().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
 
 ```python
 <%= partial "header-python" %>
-discount = client.newDiscount().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+discount = client.new_discount().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
     "disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq")
 ```
 
@@ -140,7 +140,7 @@ client.newDiscount().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
 
 ```python
 <%= partial "header-python" %>
-discount = client.newDiscount().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+discount = client.new_discount().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
     "disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq")
 discount.delete()
 ```

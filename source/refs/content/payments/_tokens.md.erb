@@ -45,7 +45,7 @@ client.newToken().create("cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
 
 ```python
 <%= partial "header-python" %>
-token = client.newToken().create("cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
+token = client.new_token().create("cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
     "card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj")
 ```
 
@@ -95,7 +95,7 @@ customer.fetchTokens().then(
 
 ```python
 <%= partial "header-python" %>
-tokens = customer.fetchTokens()
+tokens = customer.fetch_tokens()
 ```
 
 ```ruby
