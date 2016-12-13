@@ -9,6 +9,7 @@
 
         <link href="//www.processout.com/css/app.css" rel="stylesheet" type="text/css" />
         <link href="//www.processout.com/css/sero.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
 
         <%= stylesheet_link_tag :highlighting %>
         
@@ -29,7 +30,7 @@
             }
 
             .main-content .menu-bar {
-                padding-top: 2em;
+                padding-top: 0.9375rem;
             }
             .main-content .menu-bar h6 {
                 padding-top: 1rem; 
@@ -138,6 +139,16 @@
                 font-family: Consolas, "Liberation Mono", Courier, monospace;
                 font-size: 0.9em;
             }
+
+            .search-wrapper {
+                width: 100%;
+            }
+            .search-wrapper span {
+                width: 100%;
+            }
+            #searchinput {
+                width: 100%;
+            }
         </style>
 
         <script>
@@ -223,6 +234,10 @@
             <div class="large-12 columns">
                 <div class="row">
                     <div class="medium-3 columns menu-bar">
+                        <div class="search-wrapper">
+                            <input type="text" id="searchinput" placeholder="Search" />
+                        </div>
+
                         <h6>Welcome</h6>
                         <ul class="no-bullet">
                             <li><%= link_to 'Home', '/index.html' %></li> 
@@ -270,5 +285,16 @@
                 </div>
             </div>
         </div>
+
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+        <script type="text/javascript"> 
+        docsearch({
+            apiKey: '3ca8960647dd9f8a01c2f72d241af023',
+            indexName: 'processout',
+            inputSelector: '#searchinput',
+            debug: false // Set debug to true if you want to inspect the dropdown
+        });
+        </script>
+    </body>
     </body>
 </html>
