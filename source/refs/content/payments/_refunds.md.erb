@@ -10,10 +10,10 @@ fraudulent.
 |||
 --:|:--
 <span class="console-font">**id**</span><br />*string*<br />Read-only |
-<span class="console-font">**transaction**</span><br />*[Transaction](#transactions)*<br />Read-only |
-<span class="console-font">**reason**</span><br />*string*<br /> | Reason for the refund. Can be either `customer_request`, `duplicate` or `fraud`
+<span class="console-font">**transaction**</span><br />*[Transaction](#transactions)*<br />Read-only, expandable | Transaction for which the refund was issued
+<span class="console-font">**reason**</span><br />*string*<br /><span class="highlighted">Required</span>| Reason for the refund. Can be either `customer_request`, `duplicate` or `fraud`
 <span class="console-font">**information**</span><br />*string*<br /> | Additional information regarding the refund
-<span class="console-font">**amount**</span><br />*string*<br /> | Refund amount applied on the transaction
+<span class="console-font">**amount**</span><br />*string*<br /><span class="highlighted">Required</span> | Refund amount applied on the transaction
 <span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the customer, key-value pair (string - string)
 <span class="console-font">**sandbox**</span><br />*boolean*<br />Read-only |
 

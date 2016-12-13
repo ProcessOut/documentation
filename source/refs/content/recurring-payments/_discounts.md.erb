@@ -5,8 +5,10 @@ Discount objects represent discounts applied to your customers' subscriptions.
 ##### Attributes
 |||
 --:|:--
-<span class="console-font">**id**</span><br />*string*<br />Required | ID of the coupon. Must be unique to the project
-<span class="console-font">**amount**</span><br />*string*<br />Required | Amount discounted from the subscription
+<span class="console-font">**id**</span><br />*string* | 
+<span class="console-font">**subscription**</span><br />*[Subscription](#subscriptions)*<br />Read-only, expandable | Subscription on which the discount was applied
+<span class="console-font">**coupon**</span><br />*[Coupon](#coupons)*<br />Read-only, expandable | Coupon used to generate the discount
+<span class="console-font">**amount**</span><br />*string*<br /><span class="highlighted">Required</span> | Amount discounted from the subscription
 <span class="console-font">**expires_at**</span><br />*string* | Date at which the coupon will automatically expire
 <span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the recurring invoice, key-value pair (string - string)
 <span class="console-font">**sandbox**</span><br />*boolean*<br />Read-only |

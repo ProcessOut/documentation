@@ -7,13 +7,13 @@ Subscriptions are objects representing your customers' subscriptions.
 --:|:--
 <span class="console-font">**id**</span><br />*string*<br />Read-only |
 <span class="console-font">**url**</span><br />*string*<br />Read-only | `url` to the ProcessOut checkout page
-<span class="console-font">**customer**</span><br />*[Customer](#customers)*<br />Read-only |
-<span class="console-font">**plan**</span><br />*[Plan](#plans)*<br />Read-only | Plan, if one was used when creating the subscription
+<span class="console-font">**customer**</span><br />*[Customer](#customers)*<br />Read-only, expandable | Customer owning the subscription
+<span class="console-font">**plan**</span><br />*[Plan](#plans)*<br />Read-only, expandable | Plan, if one was used when creating the subscription
 <span class="console-font">**source**</span><br />*string*<br /> Write-only | The source used to activate the subscription
-<span class="console-font">**name**</span><br />*string*<br />Required | Name of the subscription
-<span class="console-font">**amount**</span><br />*string*<br />Required | Amount to be paid at every iteration of the subscription
-<span class="console-font">**currency**</span><br />*string*<br />Required | Currency of the subscription, in the ISO 4217 format (ex: `USD`)
-<span class="console-font">**interval**</span><br />*string*<br />Required | Interval between each subscription iteration. "1m" for monthly subscriptions, "1w" for weekly.
+<span class="console-font">**name**</span><br />*string* | Name of the subscription
+<span class="console-font">**amount**</span><br />*string* | Amount to be paid at every iteration of the subscription
+<span class="console-font">**currency**</span><br />*string* | Currency of the subscription, in the ISO 4217 format (ex: `USD`)
+<span class="console-font">**interval**</span><br />*string* | Interval between each subscription iteration. "1m" for monthly subscriptions, "1w" for weekly.
 <span class="console-font">**trial_end_at**</span><br />*string* | Date at which the trial of the subscription will end. Defaults to no trial
 <span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the recurring invoice, key-value pair (string - string)
 <span class="console-font">**return_url**</span><br />*string* | `url` used to redirect the customer once the payment is placed
