@@ -56,5 +56,5 @@ It is also possible to expand nested sub resources by using the dot notation.
 To expand the Subscriptions of a Customer in a Transaction, you can set
 `expand` to `customer.subscriptions`.
 
-Multiple expansions can also be done within a single request by providing them
-in the `expand` array.
+Because `expand` is an array, multiple expansions can be done at once. Simply
+append all the expansions to be done in the array.
