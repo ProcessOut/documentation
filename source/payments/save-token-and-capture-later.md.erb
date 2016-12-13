@@ -54,7 +54,7 @@ var customer = client.newCustomer({
 
 ```python
 <%= partial "header-python" %>
-customer = client.newCustomer({
+customer = client.new_customer({
     "first_name": "John",
     "last_name":  "Smith",
     "currency":   "USD"
@@ -120,7 +120,7 @@ client.newToken().create("cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks",
 
 ```python
 <%= partial "header-python" %>
-token = client.newToken().create("cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks", 
+token = client.new_token().create("cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks", 
     "card_ZGJ8EnCPfcr298O1wD6u9McfnZQucIv1")
 ```
 
@@ -260,7 +260,7 @@ customer.fetchTokens().then(
 
 ```python
 <%= partial "header-python" %>
-tokens = customer.fetchTokens()
+tokens = customer.fetch_tokens()
 
 # And let's say our customer wants to remove its first token
 tokens[0].delete()

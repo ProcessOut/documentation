@@ -85,7 +85,7 @@ client.newInvoice({
 ```python
 <%= partial "header-python" %>
 # Let's first create an invoice
-invoice = client.newInvoice({
+invoice = client.new_invoice({
     "name":     "Amazing item",
     "amount":   "4.99",
     "currency": "USD"
@@ -108,7 +108,7 @@ invoice = client.invoice.new(
 ).create({expand: ["project"]})
 
 # And now fetch the project's available gateways
-gateways = invoice.project.fetchGatewayConfigurations({
+gateways = invoice.project.fetch_gateway_configurations({
     expand: ["gateway"],
     filter: "tags: redirection flows: one-off"
 })

@@ -58,7 +58,7 @@ client.newSubscription().find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR").then(
 
 ```python
 <%= partial "header-python" %>
-subscription = client.newSubscription().find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR")
+subscription = client.new_subscription().find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR")
 subscription.cancel("Cancellation reason")
 
 # The subscription was successfully marked for cancellation
@@ -131,8 +131,8 @@ client.newSubscription().find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR").then(
 
 ```python
 <%= partial "header-python" %>
-subscription = client.newSubscription().find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR")
-subscription.cancelAtDate("2022-10-02T15:00:00Z", "Cancellation reason")
+subscription = client.new_subscription().find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR")
+subscription.cancel_at_date("2022-10-02T15:00:00Z", "Cancellation reason")
 
 # The subscription was successfully marked for cancellation
 ```
@@ -140,7 +140,7 @@ subscription.cancelAtDate("2022-10-02T15:00:00Z", "Cancellation reason")
 ```ruby
 <%= partial "header-ruby" %>
 subscription = client.subscription.find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR")
-subscription.cancelAtDate("2022-10-02T15:00:00Z", "Cancellation reason")
+subscription.cancel_at_date("2022-10-02T15:00:00Z", "Cancellation reason")
 
 # The subscription was successfully marked for cancellation
 ```

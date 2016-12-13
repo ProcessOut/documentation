@@ -74,14 +74,14 @@ client.newSubscription().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3").then(
 
 ```python
 <%= partial "header-python" %>
-subscription = client.newSubscription().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
-subscription.updatePlan("gold-plan", true) # true means we want to prorate
+subscription = client.new_subscription().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
+subscription.update_plan("gold-plan", true) # true means we want to prorate
 ```
 
 ```ruby
 <%= partial "header-ruby" %>
 subscription = client.subscription.find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
-subscription.updatePlan("gold-plan", true) # true means we want to prorate
+subscription.update_plan("gold-plan", true) # true means we want to prorate
 ```
 
 ```php

@@ -75,7 +75,7 @@ client.newSubscription().createFromPlan("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
 ```python
 <%= partial "header-python" %>
 # Let's first create an subscription
-subscription = client.newSubscription().createFromPlan(
+subscription = client.new_subscription().create_from_plan(
     "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan",
     {expand:["project"]})
 
@@ -89,12 +89,12 @@ gateways = subscription.project.fetchGatewayConfigurations({
 ```ruby
 <%= partial "header-ruby" %>
 # Let's first create an subscription
-subscription = client.subscription.createFromPlan(
+subscription = client.subscription.create_from_plan(
     "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan",
     {expand:["project"]})
 
 # And now fetch the project's available gateways
-gateways = subscription.project.fetchGatewayConfigurations({
+gateways = subscription.project.fetch_gateway_configurations({
     expand: ["gateway"],
     filter: "tags: redirection flows: subscription"
 })
@@ -256,8 +256,8 @@ client.newSubscription().find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR").then(
 
 ```python
 <%= partial "header-python" %>
-subscription = client.newSubscription().find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR")
-subscription.applySource("gway_req_V2UncmUgaGlyaW5nIQ==")
+subscription = client.new_subscription().find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR")
+subscription.apply_source("gway_req_V2UncmUgaGlyaW5nIQ==")
 
 # The customer is now successfully subscribed to the subscription
 ```
@@ -265,7 +265,7 @@ subscription.applySource("gway_req_V2UncmUgaGlyaW5nIQ==")
 ```ruby
 <%= partial "header-ruby" %>
 subscription = client.subscription.find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR")
-subscription.applySource("gway_req_V2UncmUgaGlyaW5nIQ==")
+subscription.apply_source("gway_req_V2UncmUgaGlyaW5nIQ==")
 
 # The customer is now successfully subscribed to the subscription
 ```

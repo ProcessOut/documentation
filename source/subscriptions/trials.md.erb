@@ -60,8 +60,8 @@ client.newSubscription().find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR").then(
 
 ```python
 <%= partial "header-python" %>
-subscription = client.newSubscription().find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR")
-subscription.trialEndAt = "2022-10-02T15:00:00Z"
+subscription = client.new_subscription().find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR")
+subscription.trial_end_at = "2022-10-02T15:00:00Z"
 subscription.save()
 
 # The trial was correctly set on the subscription
@@ -70,7 +70,7 @@ subscription.save()
 ```ruby
 <%= partial "header-ruby" %>
 subscription = client.subscription.find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR")
-subscription.trialEndAt = "2022-10-02T15:00:00Z"
+subscription.trial_end_at = "2022-10-02T15:00:00Z"
 subscription.save
 
 # The trial was correctly set on the subscription
