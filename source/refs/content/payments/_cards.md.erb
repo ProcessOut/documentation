@@ -1,0 +1,38 @@
+## Cards
+
+Cards resources are card tokens created using [ProcessOut.js](/payments/processoutjs.html).
+A card token is an immutable object that should only be used once. Once the card
+resource has been used to capture a payment or create a customer token, the 
+card token may not be used anymore. 
+
+For this reason, if you wish to capture
+several payments using the card (at once or in the future), you must create 
+a [customer token](#tokens).
+
+ProcessOut will also fire [events](#events) when a card is going to expire so that you 
+can ask your customers to update their payment details.
+
+##### Attributes
+|||
+--:|:--
+<span class="console-font">**id**</span><br />*string*<br />Read-only |
+<span class="console-font">**scheme**</span><br />*string*<br />Read-only | Scheme of the card, such as Visa or Mastercard
+<span class="console-font">**type**</span><br />*string*<br />Read-only | Type of card, such as debit or credit
+<span class="console-font">**bank_name**</span><br />*string*<br />Read-only | Card issuing bank
+<span class="console-font">**brand**</span><br />*string*<br />Read-only | Brand of the card, such as Electron, Classic or Gold
+<span class="console-font">**iin**</span><br />*string*<br />Read-only | Issuer identification number. Corresponds to first 6 digits of the card
+<span class="console-font">**last_4_digits**</span><br />*string*<br />Read-only | Last 4 digits of the card
+<span class="console-font">**exp_month**</span><br />*integer*<br />Read-only | Expiry year of the card
+<span class="console-font">**exp_year**</span><br />*string*<br />Read-only | Expiry year of the card
+<span class="console-font">**cvc_check**</span><br />*string*<br />Read-only | CVC check status. Can be `pending`, `unavailable`, `unknown`, `failed`, or `passed`
+<span class="console-font">**avs_check**</span><br />*string*<br />Read-only | AVS check status. Can be `pending`, `unavailable`, `unknown`, `failed`, `failed-name`, `failed-address`, `failed-postal`, `failed-address-passed-postal`, `failed-postal-passed-address`, or `passed`
+<span class="console-font">**name**</span><br />*string*<br />Read-only | Cardholder name
+<span class="console-font">**address1**</span><br />*string*<br />Read-only | Cardholder primary address line
+<span class="console-font">**address2**</span><br />*string*<br />Read-only | Cardholder secondary address line
+<span class="console-font">**city**</span><br />*string*<br />Read-only | Cardholder city
+<span class="console-font">**state**</span><br />*string*<br />Read-only | Cardholder state
+<span class="console-font">**country**</span><br />*string*<br />Read-only | Cardholder country
+<span class="console-font">**zip**</span><br />*string*<br />Read-only | Cardholder zip
+<span class="console-font">**expires_soon**</span><br />*boolean*<br />Read-only | Whether or not the card will expire soon. This is automatically set by ProcessOut before firing a `card.expires_soon` [event](#events)
+<span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the card, key-value pair (string - string)
+<span class="console-font">**sandbox**</span><br />*boolean*<br />Read-only |
