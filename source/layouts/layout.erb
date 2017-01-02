@@ -63,9 +63,17 @@
             .main-content table {
                 margin-top: 2em;
                 box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.1), 0 5px 8px 0 rgba(0, 0, 0, 0.1);
+                border-radius: 4px;
+                background: rgba(236, 240, 241, 0.5);
             }
             .main-content table, .main-content table thead, .main-content table tbody {
                 border: none;
+            }
+            .main-content table tbody:before, .main-content table tbody:after {
+                content: '';
+                display: block;
+                height: 1em;
+                background: rgba(236, 240, 241, 0.5);
             }
             .main-content table th {
                 display: none;
@@ -86,10 +94,19 @@
                 text-decoration: none;
             }
             .main-content .content pre {
-                margin-bottom: 1rem;
-                background: rgba(236, 240, 241, 0.7);
-                padding: 1.5em;
                 box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.1), 0 3px 8px 0 rgba(0, 0, 0, 0.1);
+                margin-bottom: 1rem;
+                border-radius: 4px;
+            }
+            .main-content .content pre > code {
+                background: #F5F5F5;
+                padding: 1em;
+                font-weight: 500;
+                display: block;
+                overflow-x: auto;
+            }
+            .main-content .content pre > code.hljs-line-numbers {
+                background: #fafafa;
             }
             .main-content .content a code {
                 color: #5abe96;
@@ -104,10 +121,6 @@
             .main-content .content code {
                 background: none; border: none;
                 font-weight: 600;
-            }
-            .main-content .content pre code {
-                background: none; border: none;
-                font-weight: 500;
             }
             .main-content .language-selector {
                 margin-bottom: 0.25em;
@@ -215,7 +228,7 @@
     </head>
 
     <body>
-        <div class="big-wrapper colorful dotify lighten-content padding" style="padding: 1em; color:white">
+        <div class="big-wrapper colorful kashmir lighten-content padding" style="padding: 1em; color:white">
             <div class="row">
                 <div class="medium-3 text-left column">
                     <a href="https://www.processout.com" style="font-size: 1.5em; font-weight: bold;">ProcessOut</a>
@@ -286,6 +299,7 @@
             </div>
         </div>
 
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
         <script type="text/javascript"> 
         docsearch({
@@ -293,6 +307,13 @@
             indexName: 'processout',
             inputSelector: '#searchinput',
             debug: false // Set debug to true if you want to inspect the dropdown
+        });
+        !function(e){"use strict";function t(){"complete"===document.readyState?n():e.addEventListener("DOMContentLoaded",n)}function n(){try{var e=document.querySelectorAll("code.hljs");for(var t in e)e.hasOwnProperty(t)&&r(e[t])}catch(n){console.error("LineNumbers error: ",n)}}function r(e){if("object"==typeof e){var t=e.parentNode,n=o(t.textContent);if(n>1){for(var r="",c=0;n>c;c++)r+=c+1+"\n";var l=document.createElement("code");l.className="hljs hljs-line-numbers",l.style["float"]="left",l.textContent=r,t.insertBefore(l,e)}}}function o(e){if(0===e.length)return 0;var t=/\r\n|\r|\n/g,n=e.match(t);return n=n?n.length:0,e[e.length-1].match(t)||(n+=1),n}"undefined"==typeof e.hljs?console.error("highlight.js not detected!"):(e.hljs.initLineNumbersOnLoad=t,e.hljs.lineNumbersBlock=r)}(window);
+
+        $(document).ready(function() {
+            $('code.highlight').each(function(i, block) {
+                hljs.lineNumbersBlock(block);
+            });
         });
         </script>
     </body>
