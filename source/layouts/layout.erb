@@ -29,6 +29,15 @@
                 text-decoration: underline;
             }
 
+            .menu-title {
+                font-size: 1.8em; 
+                font-weight: 900; 
+                text-shadow: 1px 0px 0px white;
+            }
+            .menu-title:hover {
+                text-decoration: none;
+            }
+
             .main-content .menu-bar {
                 padding-top: 0.9375rem;
             }
@@ -231,13 +240,13 @@
         <div class="big-wrapper colorful kashmir lighten-content padding" style="padding: 1em; color:white">
             <div class="row">
                 <div class="medium-3 text-left column">
-                    <a href="https://www.processout.com" style="font-size: 1.5em; font-weight: bold;">ProcessOut</a>
+                    <a href="https://www.processout.com" class="menu-title">ProcessOut</a>
                     <span style="font-size: 1.1em;">_docs</span>
                 </div>
-                <div class="medium-5 text-left column" style="line-height: 36px;">
+                <div class="medium-5 text-left column" style="line-height: 43px;">
                     <%= link_to 'API references &nearr;', 'https://docs.processout.com/refs/index.html', class: "api-ref new-window" %>
                 </div>
-                <div class="medium-4 text-right column" style="line-height: 36px;">
+                <div class="medium-4 text-right column" style="line-height: 43px;">
                     <% link_to 'https://dashboard.processout.com' do %>Dashboard &rarr;<% end %>
                 </div>
             </div>
