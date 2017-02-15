@@ -24,6 +24,8 @@ its transaction for easy reference.
 <span class="console-font">**captured**</span><br />*boolean*<br />Read-only | Whether or not the transaction was captured
 <span class="console-font">**status**</span><br />*string*<br />Read-only | [Status](#statuses) of the transaction
 <span class="console-font">**processout_fee**</span><br />*string*<br />Read-only | Fee taken by ProcessOut to handle the transaction
+<span class="console-font">**estimated_fee**</span><br />*string*<br />Read-only | Gateway fee estimated before processing the payment
+<span class="console-font">**gateway_fee**</span><br />*string*<br />Read-only | Fee taken by the payment gateway to process the payment
 <span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the transaction's invoice, key-value pair (string - string)
 
 As seen in the transaction's attributes, it also contains a `status`, representing
