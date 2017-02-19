@@ -139,6 +139,9 @@ client.newSubscription().createFromPlan("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
         // An error occured
 
     });
+
+// or
+subscription.applyCoupon("25percentoff");
 ```
 
 ```python
@@ -148,7 +151,8 @@ subscription = client.new_subscription().create_from_plan(
         "coupon_id": "25percentoff"
     })
 
-# The discount is now applied to the subscription!
+# or
+subscription.apply_coupon("25percentoff")
 ```
 
 ```ruby
@@ -158,7 +162,8 @@ subscription = client.subscription.create_from_plan(
         coupon_id: "25percentoff"
     })
 
-# The discount is now applied to the subscription!
+# or
+subscription.apply_coupon("25percentoff")
 ```
 
 ```php
@@ -168,7 +173,8 @@ $subscription = $client->newSubscription()->createFromPlan(
         "coupon_id" => "25percentoff"
     ));
 
-// The discount is now applied to the subscription!
+// or
+$subscription->applyCoupon("25percentoff");
 ```
 
 ```go
@@ -186,8 +192,6 @@ discount, err = sub.ApplyCoupon("25percentoff")
 if err != nil {
     panic(err)
 }
-
-// The discount is now applied to the subscription!
 ```
 </div>
 
