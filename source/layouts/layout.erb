@@ -218,7 +218,9 @@
 
                 $(".language-selector a").click(function() {
                     setCookie("selected-language", $(this).attr("data-language"), 7);
+                    var curOffset = $(this).offset().top - $(document).scrollTop();
                     refreshSelectors();
+                    $(document).scrollTop($(this).offset().top-curOffset);
 
                     return false;
                 });
