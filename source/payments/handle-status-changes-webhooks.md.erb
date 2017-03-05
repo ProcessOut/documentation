@@ -56,7 +56,7 @@ You may find the list of all the available transaction's statuses below:
 First, we'll have to create an endpoint on our online service that accepts
 requests from the Internet. This is the address to which ProcessOut will
 `POST` JSON data to notify you of the new events. Any `CSRF` protection
-should also be removed from this endpoint to ensure to correct processing
+should also be removed from this endpoint to ensure the correct processing
 of the webhook.
 
 Handling the webhook data is very simple: ProcessOut will post the ID of the 
