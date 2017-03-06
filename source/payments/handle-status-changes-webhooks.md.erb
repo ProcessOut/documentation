@@ -4,8 +4,8 @@ title: Events & webhooks
 
 ## Handle status changes and webhooks
 
-When using the [`capture` &nearr;](/payments/capture-a-payment.html) endpoint, a 
-[`Transaction` &nearr;](/refs/index.html#transactions) is
+When using the [`capture` &nearr;](/payments/capture-a-payment) endpoint, a 
+[`Transaction` &nearr;](/refs/#transactions) is
 returned if there was no error when processing the payment. However, the
 payment may still be pending, and a few fail-safes should be put in place.
 
@@ -218,7 +218,7 @@ func handleProcessOutWebhooks(w http.ResponseWriter,
 ```
 </div>
 
-The full list of events can be found in our [`API reference` &nearr;](/refs/index.html#invoice-events).
+The full list of events can be found in our [`API reference` &nearr;](/refs/#invoice-events).
 
 #### Set up webhook endpoints
 

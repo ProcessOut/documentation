@@ -13,14 +13,14 @@ lets you accept subscriptions through alternative payment methods, such as
 #### Native to the payment modal
 
 Before getting into the white-label integration, it is important to note that the
-[ProcessOut modal &nearr;](/payments/payment-modal.html) comes with the alternative payment methods right from
+[ProcessOut modal &nearr;](/payments/payment-modal) comes with the alternative payment methods right from
 the start, without any additional work needed. 
 
 #### Alternative payment methods flow
 
-The alternative payment methods flow for [`Subscription` &nearr;](/refs/index.html#subscriptions) is very similar to the one
+The alternative payment methods flow for [`Subscription` &nearr;](/refs/#subscriptions) is very similar to the one
 for one-off payments, that's been covered in its guides 
-[here &nearr;](/payments/alternative-payment-methods.html).
+[here &nearr;](/payments/alternative-payment-methods).
 
 However, it is important to note that subscriptions activated using alternative
 payment methods aren't as flexible as the ones created directly within 
@@ -139,7 +139,7 @@ gateways, erri := sub.Project.FetchGatewayConfigurations(
 
 The `gateways` variable fetched in the previous steps now contains all the
 available alternative payment gateways that were configured and activated
-on your project. We also created a new [`Subscription` &nearr;](/refs/index.html#subscriptions) that we'll
+on your project. We also created a new [`Subscription` &nearr;](/refs/#subscriptions) that we'll
 use to redirect the customer to the payment page.
 
 A payment link for an alternative payment gateway is as follows:

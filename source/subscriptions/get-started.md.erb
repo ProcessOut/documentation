@@ -26,7 +26,7 @@ a monthly subscription), as well as a trial period if you want to offer your cus
 with a way to test your service. A plan is typically composed of a unique ID that
 you will define, a name, and an amount and currency.
 
-It's also possible to create a [`Plan` &nearr;](/refs/index.html#plans) using the API:
+It's also possible to create a [`Plan` &nearr;](/refs/#plans) using the API:
 
 <div class="language-selector-wrapper">
 <%= partial "lg-selector" %>
@@ -107,7 +107,7 @@ Once you have created the plans you want, let's also create a customer object
 on ProcessOut for each of your internal customers. ProcessOut customers are
 used to link your customers with ProcessOut, and can be used to easily track
 your sales in your [Dashboard](https://dashboard.processout.com). Let's create
-a new [`Customer` &nearr;](/refs/index.html#customers):
+a new [`Customer` &nearr;](/refs/#customers):
 
 <div class="language-selector-wrapper">
 <%= partial "lg-selector" %>
@@ -169,7 +169,7 @@ Please note that while we're keeping the above example as simple as possible,
 it is possible to store a lot more information about your customer, which can
 be later searched on your [dashboard &nearr;](https://dashboard.processout.com)
 as well. Find all the available customer attributes 
-[in the API references &nearr;](/refs/index.html).
+[in the API references &nearr;](/refs/).
 
 Now that we have created a customer, you should store its ID in your application or
 database and link it to the customer for which you created it. We can now
@@ -279,10 +279,10 @@ if err != nil {
 and you will automatically be paid at each iteration of the subscription.
 
 However, now that the subscription is fully set up you might want to handle
-[events & webhooks &nearr;](/payments/handle-status-changes-webhooks.html) 
+[events & webhooks &nearr;](/payments/handle-status-changes-webhooks) 
 so you know when a customer cancels its subscription, or when a payment goes 
 through or fails to be paid. You might also be interested in: 
-[setting up trials &nearr;](/subscriptions/trials.html), 
-[upgrades & downgrades &nearr;](/subscriptions/upgrades-and-downgrades.html), 
-[cancelling a subscription &nearr;](/subscriptions/cancel-a-subscription.html), 
-and [discounts & coupons &nearr;](/subscriptions/coupons-and-discounts.html).
+[setting up trials &nearr;](/subscriptions/trials), 
+[upgrades & downgrades &nearr;](/subscriptions/upgrades-and-downgrades), 
+[cancelling a subscription &nearr;](/subscriptions/cancel-a-subscription), 
+and [discounts & coupons &nearr;](/subscriptions/coupons-and-discounts).

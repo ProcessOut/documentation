@@ -221,7 +221,7 @@ the `source` to be used to capture the payment in the parameters. If an error
 occured while capturing the payment, an error is thrown. Otherwise, the
 transaction linked to the invoice is updated and returned.
 
-Be sure to check the [status](/payments/handle-status-changes-webhooks.html#transaction-statuses) field of the [Transaction](#transactions)
+Be sure to check the [status](/payments/handle-status-changes-webhooks/#transaction-statuses) field of the [Transaction](#transactions)
 to make sure the payment fully made it through. If the payment is not yet
 completed, we will create new [Events](#events) to keep you updated regarding the status
 of the transaction.

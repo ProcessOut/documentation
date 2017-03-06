@@ -47,6 +47,8 @@ activate :syntax
 
 page "/refs/*", :layout => "layout-refs"
 
+activate :directory_indexes
+
 # This is needed for Github pages, since they're hosted on a subdomain
 activate :relative_assets
 set :relative_links, true

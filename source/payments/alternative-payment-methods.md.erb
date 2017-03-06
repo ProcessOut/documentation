@@ -157,7 +157,7 @@ gateways, erri := iv.Project.FetchGatewayConfigurations(
 
 The `gateways` variable fetched in the previous steps now contains all the
 available alternative payment gateways that were configured and activated
-on your project. We also created a new [`Invoice` &nearr;](/refs/index.html#invoices) that we'll
+on your project. We also created a new [`Invoice` &nearr;](/refs/#invoices) that we'll
 use to redirect the customer to the payment page.
 
 A payment link for an alternative payment gateway is as follows:
@@ -292,6 +292,6 @@ of the token is therefore directly encoded inside it, in base64.
 The capture should return a transaction if it was successful. It is strongly
 advised to check its `status` attribute is set to `completed` to make sure the 
 payment made it through. We highly recommand you to set up a way to 
-[receive webhooks &nearr;](/payments/handle-status-changes-webhooks.html) as
+[receive webhooks &nearr;](/payments/handle-status-changes-webhooks) as
 this will make you able to handle updates on payments made using alternative
 payment methods. 
