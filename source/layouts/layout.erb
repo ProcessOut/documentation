@@ -173,6 +173,17 @@
             #searchinput {
                 width: 100%;
             }
+
+            h1 .anchor, h2 .anchor, h3 .anchor, h4 .anchor, h5 .anchor {
+                display: none;
+                font-size: 0.8em;
+                text-decoration: none;
+                margin-left: 0.7em;
+                color: #C8CBCC;
+            }
+            h1:hover .anchor, h2:hover .anchor, h3:hover .anchor, h4:hover .anchor, h5:hover .anchor {
+                display: inline;
+            }
         </style>
 
         <script>
@@ -236,6 +247,11 @@
                 $(".main-content .content a code").hover(function() {
                     $(this).parent().css("text-decoration", "none");
                 });
+
+                $(".main-content h1, .main-content h2, .main-content h3, .main-content h4, .main-content h5").each(function() {
+                    var l = $("<a/>").html("#").addClass("anchor").attr("href", "#"+$(this).attr("id"));
+                    $(this).append(l);
+                })
             });
         </script>
     </head>
