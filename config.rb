@@ -14,13 +14,13 @@ set :markdown, :fenced_code_blocks => true, :smartypants => true, :disable_inden
 
 # Env manager
 @bucket         = 'docs.processout.ninja'
-@distributionId = 'EKM6NBPVRPO7P'
+@distributionId = 'E3GA5RMWGG0DB3'
 @host           = 'processout.ninja'
 
 case ENV['TARGET'].to_s.downcase
 when 'production'
     @bucket         = 'docs.processout.com'
-    @distributionId = 'E3F02539SX8S53'
+    @distributionId = 'EX89GBCWQ9F9S'
     @host           = 'processout.com'
 end
 
@@ -74,7 +74,7 @@ end
 # S3 sync plugin
 activate :s3_sync do |s3_sync|
   s3_sync.bucket                     = @bucket
-  s3_sync.region                     = 'us-west-1'
+  s3_sync.region                     = 'us-east-1'
   s3_sync.delete                     = true
   s3_sync.after_build                = false
   s3_sync.prefer_gzip                = true
