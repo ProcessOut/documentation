@@ -45,7 +45,7 @@ the payment actually takes place.
 ```shell
 # Let's first create a subscription
 curl https://api.processout.com/subscriptions \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
+    <%= partial "header-curl" %> \
     -d customer_id=cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P \
     -d plan_id="silver-plan"
 ```
@@ -232,7 +232,7 @@ a card token.
 <%= partial "lg-selector" %>
 ```shell
 curl -X PUT https://api.processout.com/subscriptions/sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
+    <%= partial "header-curl" %> \
     -d source="gway_req_V2UncmUgaGlyaW5nIQ=="
 ```
 

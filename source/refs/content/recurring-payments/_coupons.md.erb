@@ -20,7 +20,7 @@ Coupons can be seen as templates for [subscription discounts](#discounts).
 
 ```shell
 curl https://api.processout.com/coupons \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
+    <%= partial "header-curl" %> \
     -d id="25percentoff" \
     -d percent_off=25
 ```
@@ -78,7 +78,7 @@ Create a coupon with the given attributes.
 
 ```shell
 curl https://api.processout.com/coupons/25percentoff \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd
+    <%= partial "header-curl" %>
 ```
 
 ```javascript
@@ -120,7 +120,7 @@ not be found.
 
 ```shell
 curl https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/discounts \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
+    <%= partial "header-curl" %> \
     -d coupon_id=25percentoff
 ```
 
@@ -161,7 +161,7 @@ Apply a coupon on a subscription. Throws an error if the coupon could not be app
 
 ```shell
 curl -X DELETE https://api.processout.com/coupons/25percentoff \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd
+    <%= partial "header-curl" %>
 ```
 
 ```javascript

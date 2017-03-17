@@ -21,8 +21,8 @@ fraudulent.
 
 ```shell
 curl https://api.processout.com/transactions/tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC/refunds \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
-    -d reason=customer_request
+    <%= partial "header-curl" %> \
+    -d reason=customer_request \
     -d amount=4.99
 ```
 
@@ -85,7 +85,7 @@ the refund amount empty will refund what's left of the transaction amount.
 
 ```shell
 curl https://api.processout.com/transactions/tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC/refunds/refd_QKliea9OGXtLBXcar2SJjfD11aY0J2SH \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd
+    <%= partial "header-curl" %>
 ```
 
 ```javascript

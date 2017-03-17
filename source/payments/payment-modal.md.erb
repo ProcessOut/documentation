@@ -23,7 +23,7 @@ To get started, let's create an [`Invoice` &nearr;](/refs/#invoices):
 <%= partial "lg-selector" %>
 ```shell
 curl https://api.processout.com/invoices \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
+    <%= partial "header-curl" %> \
     -d name="Awesome invoice" \
     -d amount="9.99" \
     -d currency=USD 

@@ -46,7 +46,7 @@ the payment actually takes place.
 ```shell
 # Let's first create an invoice
 curl https://api.processout.com/invoices \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
+    <%= partial "header-curl" %> \
     -d name="Awesome invoice" \
     -d amount="9.99" \
     -d currency=USD
@@ -249,7 +249,7 @@ gateway checkout is *identical* to the capture of a card token.
 <%= partial "lg-selector" %>
 ```shell
 curl https://api.processout.com/invoices/iv_tIWEiBcrXIFHzJeXcZzqyp8EpY0xwmuT/capture \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
+    <%= partial "header-curl" %> \
     -d source="gway_req_V2UncmUgaGlyaW5nIQ=="
 ```
 

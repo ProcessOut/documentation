@@ -27,7 +27,7 @@ Subscriptions are objects representing your customers' subscriptions.
 
 ```shell
 curl https://api.processout.com/subscriptions \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
+    <%= partial "header-curl" %> \
     -d customer_id=cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P \
     -d name="Amazing item" \
     -d amount="4.99" \
@@ -106,7 +106,7 @@ end at that specific date automatically.
 
 ```shell
 curl https://api.processout.com/subscriptions \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
+    <%= partial "header-curl" %> \
     -d plan_id="silver-plan"
 ```
 
@@ -155,7 +155,7 @@ from the API.
 
 ```shell
 curl https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3 \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd
+    <%= partial "header-curl" %>
 ```
 
 ```javascript
@@ -197,7 +197,7 @@ not be found.
 
 ```shell
 curl -X PUT https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3 \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
+    <%= partial "header-curl" %> \
     -d source=card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj
 ```
 
@@ -250,7 +250,7 @@ is thrown if the source could not be used.
 
 ```shell
 curl -X PUT https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3 \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
+    <%= partial "header-curl" %> \
     -d plan_id="gold-plan" \
     -d prorate=true
 ```
@@ -304,7 +304,7 @@ proration. Learn more about proration [here &nearr;](/subscriptions/upgrades-and
 
 ```shell
 curl -X DELETE https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3 \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
+    <%= partial "header-curl" %> \
     -d cancel_at="2022-10-02T15:00:00Z"
 ```
 

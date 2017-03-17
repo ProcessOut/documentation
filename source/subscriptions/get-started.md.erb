@@ -32,7 +32,7 @@ It's also possible to create a [`Plan` &nearr;](/refs/#plans) using the API:
 <%= partial "lg-selector" %>
 ```shell
 curl https://api.processout.com/plans \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
+    <%= partial "header-curl" %> \
     -d id="silver-plan" \
     -d name="Silver plan" \
     -d amount="10.00" \
@@ -113,7 +113,7 @@ a new [`Customer` &nearr;](/refs/#customers):
 <%= partial "lg-selector" %>
 ```shell
 curl https://api.processout.com/customers \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
+    <%= partial "header-curl" %> \
     -d first_name=John \
     -d last_name=Smith
 ```
@@ -181,7 +181,7 @@ ID `silver-plan`. This ID can be anything you used when creating your plans.
 <%= partial "lg-selector" %>
 ```shell
 curl https://api.processout.com/subscriptions \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
+    <%= partial "header-curl" %> \
     -d customer_id=cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P \
     -d plan_id="silver-plan" \
     -d source=card_Tpu6ZOCDu1tnDKp0kTnPOcVDMUbW7dTU

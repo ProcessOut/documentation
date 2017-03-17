@@ -26,7 +26,7 @@ using the ProcessOut API. To start using invoices, [let's create one](#create-an
 
 ```shell
 curl https://api.processout.com/invoices \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
+    <%= partial "header-curl" %> \
     -d name="Amazing item" \
     -d statement_descriptor="amazing item" \
     -d amount="4.99" \
@@ -95,7 +95,7 @@ Simply create an Invoice resource with a `name`, `amount` and `currency`.
 
 ```shell
 curl https://api.processout.com/invoices/iv_MgeLS2Rr3ZGwjqOvDvYSuWx7ce88luXl \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd
+    <%= partial "header-curl" %>
 ```
 
 ```javascript
@@ -136,7 +136,7 @@ could not be found, an error is thrown.
 
 ```shell
 curl -X PUT https://api.processout.com/invoices/iv_MgeLS2Rr3ZGwjqOvDvYSuWx7ce88luXl \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
+    <%= partial "header-curl" %> \
     -d customer_id=cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P
 ```
 
@@ -176,7 +176,7 @@ a new invoice.
 
 ```shell
 curl https://api.processout.com/invoices/iv_MgeLS2Rr3ZGwjqOvDvYSuWx7ce88luXl/capture \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
+    <%= partial "header-curl" %> \
     -d source=card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ
 ```
 

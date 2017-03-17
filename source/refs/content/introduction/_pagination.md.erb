@@ -1,0 +1,77 @@
+## Pagination
+
+```shell
+curl -X GET https://api.processout.com/customers \
+    <%= partial "header-curl" %> \
+    -d start_after=cust_FM5ZDn3PjkCmDVXYnqrZFrnlypilDicD \
+    -d limit=20 \
+    -d order=asc
+```
+
+```javascript
+<%= partial "header-js" %>
+client.newCustomer().all({
+    startAfter: "cust_FM5ZDn3PjkCmDVXYnqrZFrnlypilDicD",
+    limit:      20,
+    order:      "asc"
+}).then(function(customers) {
+    // Customers were fetched
+}, function(err) {
+    // An error occured
+});
+```
+
+```python
+<%= partial "header-python" %>
+customers = client.new_customer().all({
+    "start_after": "cust_FM5ZDn3PjkCmDVXYnqrZFrnlypilDicD",
+    "limit":       20,
+    "order":       "asc"
+})
+```
+
+```ruby
+<%= partial "header-ruby" %>
+customers = client.customer.new().all(
+    start_after: "cust_FM5ZDn3PjkCmDVXYnqrZFrnlypilDicD",
+    limit:       20,
+    order:       "asc"
+)
+```
+
+```php
+<%= partial "header-php" %>
+$customers = $client->newCustomer()->all(array(
+    "startAfter" => "cust_FM5ZDn3PjkCmDVXYnqrZFrnlypilDicD",
+    "limit"      => 20,
+    "order"      => "asc"
+));
+```
+
+```go
+<%= partial "header-go" %>
+customers, err := client.NewCustomer().All(&processout.CustomerAllParameters{
+    Options: &processout.Options{
+        StartAfter: "cust_FM5ZDn3PjkCmDVXYnqrZFrnlypilDicD",
+        Limit:      20,
+        Order:      "asc",
+    },
+})
+```
+
+ProcessOut uses **cursor-based pagination**. Instead of specifying the page you
+want to fetch, you instead specify the **resource ID** from which you want to start
+fetching. Although this prevents you from randomly accessing items, this makes
+sure that the results you fetch are consistent and not duplicated. In fact,
+one common drawback of *page-based* pagination is offsets: when an item gets added
+to the list in between fetches, the page will shift, producing incorrect results
+when paginating. The cursor-based approach solves this problem.
+
+Most of the listable resources on ProcessOut ([Customers](#customers), 
+[Transactions](#transactions), [Subscriptions](#subscriptions) for example) can
+be paginated. Pagination is done using 4 attributes: `start_after`, 
+`end_before`, `limit` and `order`. You can only specify either `start_after` or
+`end_before` at a time. The cursor (i.e. the item used to paginate) is always
+omitted from the results. `limit` defaults to `10` and may only be a positive
+integer with a maximum value of `100`. `order` can be either `asc` or `desc`, and
+defaults to `desc`.

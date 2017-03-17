@@ -43,7 +43,7 @@ For reference, let's create one through the API:
 <%= partial "lg-selector" %>
 ```shell
 curl https://api.processout.com/coupons \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
+    <%= partial "header-curl" %> \
     -d id="25percentoff" \
     -d percent_off=25 \
     -d iteration_count=3 \
@@ -121,7 +121,7 @@ of yours):
 <%= partial "lg-selector" %>
 ```shell
 curl https://api.processout.com/subscriptions \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
+    <%= partial "header-curl" %> \
     -d customer_id=cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P \
     -d plan_id="silver-plan" \
     -d coupon_id="25percentoff"
@@ -204,7 +204,7 @@ can be done by providing the coupon with which the discount was created:
 <%= partial "lg-selector" %>
 ```shell
 curl -X DELETE https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/discounts/25percentoff \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd
+    <%= partial "header-curl" %>
 ```
 
 ```javascript

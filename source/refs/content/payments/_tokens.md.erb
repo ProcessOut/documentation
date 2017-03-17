@@ -28,7 +28,7 @@ they were created for.
 
 ```shell
 curl https://api.processout.com/customers/cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj/tokens \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
+    <%= partial "header-curl" %> \
     -d source=card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj
 ```
 
@@ -79,7 +79,7 @@ so you can [capture payments](#capture-an-invoice) using it later.
 
 ```shell
 curl https://api.processout.com/customers/cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks/tokens \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd
+    <%= partial "header-curl" %>
 ```
 
 ```javascript
@@ -121,7 +121,7 @@ all.
 
 ```shell
 curl -X DELETE https://api.processout.com/customers/cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks/tokens/tok_aKrYfz903uXn9MV0p8ZH7Lfly2JGtZWh \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd
+    <%= partial "header-curl" %>
 ```
 
 ```javascript

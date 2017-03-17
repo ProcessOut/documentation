@@ -31,7 +31,7 @@ or database so you can use it later.
 <%= partial "lg-selector" %>
 ```shell
 curl https://api.processout.com/customers \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
+    <%= partial "header-curl" %> \
     -d first_name=John \
     -d last_name=Smith \
     -d currency=USD
@@ -103,7 +103,7 @@ belong to it. Customer tokens can be created from the ones returned by
 <%= partial "lg-selector" %>
 ```shell
 curl https://api.processout.com/customers/cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
+    <%= partial "header-curl" %> \
     -d source=card_ZGJ8EnCPfcr298O1wD6u9McfnZQucIv1
 ```
 
@@ -153,7 +153,7 @@ of the customer as the source:
 <%= partial "lg-selector" %>
 ```shell
 curl https://api.processout.com/invoices/iv_lEZFFcQg5WwpKcolBrlzioeeFnnuPmyE/capture \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
+    <%= partial "header-curl" %> \
     -d source=cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks
 ```
 
@@ -197,7 +197,7 @@ use a specific token, you can too:
 <%= partial "lg-selector" %>
 ```shell
 curl https://api.processout.com/invoices/iv_lEZFFcQg5WwpKcolBrlzioeeFnnuPmyE/capture \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
+    <%= partial "header-curl" %> \
     -d source=tok_aKrYfz903uXn9MV0p8ZH7Lfly2JGtZWh
 ```
 
@@ -243,7 +243,7 @@ want to remove the payment method.
 <%= partial "lg-selector" %>
 ```shell
 curl https://api.processout.com/customers/cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks/tokens \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd
+    <%= partial "header-curl" %>
 ```
 
 ```javascript

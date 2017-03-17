@@ -19,7 +19,7 @@ Plans can be seen as templates for your [subscriptions](#subscriptions).
 
 ```shell
 curl https://api.processout.com/plans \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
+    <%= partial "header-curl" %> \
     -d id="silver-plan" \
     -d name="Amazing item" \
     -d amount="4.99" \
@@ -96,7 +96,7 @@ Create a plan with the given attributes.
 
 ```shell
 curl https://api.processout.com/plans/silver-plan \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd
+    <%= partial "header-curl" %>
 ```
 
 ```javascript
@@ -138,7 +138,7 @@ not be found.
 
 ```shell
 curl -X DELETE https://api.processout.com/plans/silver-plan \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd
+    <%= partial "header-curl" %>
 ```
 
 ```javascript

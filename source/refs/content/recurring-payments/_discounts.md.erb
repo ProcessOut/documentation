@@ -18,7 +18,7 @@ Discount objects represent discounts applied to your customers' subscriptions.
 
 ```shell
 curl https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/discounts \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
+    <%= partial "header-curl" %> \
     -d amount=5
 ```
 
@@ -71,7 +71,7 @@ It is also possible to [apply a coupon to a subscription](#apply-a-coupon).
 
 ```shell
 curl https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/discounts/disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd
+    <%= partial "header-curl" %>
 ```
 
 ```javascript
@@ -118,7 +118,7 @@ not be found.
 
 ```shell
 curl -X DELETE https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/discounts/disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd
+    <%= partial "header-curl" %>
 ```
 
 ```javascript

@@ -24,7 +24,7 @@ additional data if needed.
 
 ```shell
 curl https://api.processout.com/customers \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
+    <%= partial "header-curl" %> \
     -d email="john@smith.com" \
     -d first_name="John" \
     -d last_name="Smith"
@@ -70,9 +70,9 @@ puts customer.id
 ```php
 <%= partial "header-php" %>
 $customer = $client->newCustomer(array(
-    "email":      "john@smith.com",
-    "first_name": "John",
-    "last_name":  "Smith"
+    "email"      => "john@smith.com",
+    "first_name" => "John",
+    "last_name"  => "Smith"
 ))->create();
 
 echo $customer->getId();
@@ -104,7 +104,7 @@ country of the customer.
 
 ```shell
 curl https://api.processout.com/customers/cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd
+    <%= partial "header-curl" %>
 ```
 
 ```javascript
@@ -144,7 +144,7 @@ customer could not be found.
 
 ```shell
 curl -X PUT https://api.processout.com/customers/cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
+    <%= partial "header-curl" %> \
     -d first_name="New Name"
 ```
 
@@ -183,9 +183,9 @@ customer object in order to guarantee data integrity of the customer object.
 
 ### Delete a customer
 
-```shellell
+```shell
 curl -X DELETE https://api.processout.com/customers/cust_LvjCcLOVe6iWn2aeCNhNmK7RbbG6K8XF \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd
+    <%= partial "header-curl" %>
 ```
 
 ```javascript

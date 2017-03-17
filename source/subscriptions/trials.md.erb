@@ -37,7 +37,7 @@ be ignored and reset when the trial gets to an end.
 <%= partial "lg-selector" %>
 ```shell
 curl -X PUT https://api.processout.com/subscriptions/sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
+    <%= partial "header-curl" %> \
     -d trial_end_at="2022-10-02T15:00:00Z"
 ```
 

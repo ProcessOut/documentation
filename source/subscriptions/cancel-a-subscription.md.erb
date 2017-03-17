@@ -36,7 +36,7 @@ pull the subscription and cancel it.
 <%= partial "lg-selector" %>
 ```shell
 curl -X DELETE https://api.processout.com/subscriptions/sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
+    <%= partial "header-curl" %> \
     -d reason="Cancellation reason"
 ```
 
@@ -107,7 +107,7 @@ will automatically be canceled at that date.
 <%= partial "lg-selector" %>
 ```shell
 curl -X DELETE https://api.processout.com/subscriptions/sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR \
-    -u proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4:key-qiOniTQlt8OazoMrnYJKaSnBhRpWN5Rd \
+    <%= partial "header-curl" %> \
     -d cancel_at="2022-10-02T15:00:00Z" \
     -d reason="Cancellation reason"
 ```
