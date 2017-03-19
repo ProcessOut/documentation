@@ -11,7 +11,7 @@ Plans can be seen as templates for your [subscriptions](#subscriptions).
 <span class="console-font">**currency**</span><br />*string*<br /><span class="highlighted">Required</span> | Currency of the subscription, in the ISO 4217 format (ex: `USD`)
 <span class="console-font">**interval**</span><br />*string*<br /><span class="highlighted">Required</span> | Interval between each subscription iteration. "1m" for monthly subscriptions, "1w" for weekly.
 <span class="console-font">**trial_period**</span><br />*string* | Trial period. "1w" for one week, "3m" for three months.
-<span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the recurring invoice, key-value pair (string - string)
+<span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the plan, key-value pair (string - string)
 <span class="console-font">**sandbox**</span><br />*boolean*<br />Read-only |
 
 
@@ -29,65 +29,66 @@ curl https://api.processout.com/plans \
 
 ```javascript
 <%= partial "header-js" %>
-client.new_plan({
+client.new_plan().create({
     id:       "silver-plan",
     name:     "Amazing item",
     amount:   "4.99",
     currency: "USD",
     interval: "1m"
-}).create().then(
-    function(plan) {
-        // 
+}).then(function(plan) {
+    // 
 
-    }, function(err) {
-        // An error occured
+}, function(err) {
+    // An error occured
 
-    });
+});
 ```
 
 ```python
 <%= partial "header-python" %>
-plan = client.new_plan({
+plan = client.new_plan().create({
     "id":       "silver-plan",
     "name":     "Amazing item",
     "amount":   "4.99",
     "currency": "USD",
     "interval": "1m"
-}).create()
+})
 ```
 
 ```ruby
 <%= partial "header-ruby" %>
-plan = client.plan.new(
+plan = client.plan.new().create(
     id:       "silver-plan",
     name:     "Amazing item",
     amount:   "4.99",
     currency: "USD",
     interval: "1m"
-).create
+)
 ```
 
 ```php
 <?php
 <%= partial "header-php" %>
-$plan = $client->newPlan(array(
+$plan = $client->newPlan()->create(array(
     "id"       => "silver-plan",
     "name"     => "Amazing item",
     "amount"   => "4.99",
     "currency" => "USD",
     "interval" => "1m"
-))->create();
+));
 ```
 
 ```go
 <%= partial "header-go" %>
-plan, err := client.NewPlan(&processout.Plan{
-    ID:       "silver-plan",
-	Name:     "Amazing item",
-	Amount:   "4.99",
-	Currency: "USD",
-	Interval: "1m",
-}).Create(p)
+plan, err := client.NewPlan().Create(&processout.PlanCreate{
+    Plan: &processout.Plan{
+        ID:       "silver-plan",
+        Name:     "Amazing item",
+        Amount:   "4.99",
+        Currency: "USD",
+        Interval: "1m",
+    },
+})
 ```
 
 Create a plan with the given attributes.

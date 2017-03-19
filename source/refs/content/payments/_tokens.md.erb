@@ -17,8 +17,8 @@ they were created for.
 |||
 --:|:--
 <span class="console-font">**id**</span><br />*string*<br />Read-only |
-<span class="console-font">**customer**</span><br />*[Customer](#customers)*<br />Read-only, expandable | Customer for which the token was created
-<span class="console-font">**card**</span><br />*[Card](#cards)*<br />Read-only, expandable | Card used to create the token
+<span class="console-font">**customer**</span><br />*customer_id*<br />*[Customer](#customers) expandable* | Customer for which the token was created
+<span class="console-font">**card**</span><br />*card_id*<br />*[Card](#cards) expandable* | Card used to create the token
 <span class="console-font">**type**</span><br />*string*<br />Read-only | Source used to create the token. Most of the time will be a `card`
 <span class="console-font">**is_subscription_only**</span><br />*boolean*<br />Read-only | Whether or not the token was created for a specific subscription
 <span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the customer, key-value pair (string - string)
@@ -34,38 +34,50 @@ curl https://api.processout.com/customers/cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj/
 
 ```javascript
 <%= partial "header-js" %>
-client.newToken().create("cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj", 
-    "card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj").then(function(token) {
-        // 
+client.newToken().create({
+    customer_id: "cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj", 
+    source:      "card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj"
+}).then(function(token) {
+    // 
 
-    }, function(err) {
-        // An error occured
+}, function(err) {
+    // An error occured
 
-    });
+});
 ```
 
 ```python
 <%= partial "header-python" %>
-token = client.new_token().create("cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
-    "card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj")
+token = client.new_token().create({
+    "customer_id": "cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
+    "source":      "card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj"
+})
 ```
 
 ```ruby
 <%= partial "header-ruby" %>
-token = client.token.create("cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
-    "card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj")
+token = client.token.create(
+    customer_id: "cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
+    source:      "card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj"
+)
 ```
 
 ```php
 <%= partial "header-php" %>
-$token = $client->newToken()->create("cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
-    "card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj");
+$token = $client->newToken()->create(array(
+    "customer_id" => "cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
+    "source"      => "card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj"
+));
 ```
 
 ```go
 <%= partial "header-go" %>
-iv, err := client.NewToken().Create("cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
-    "card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj")
+iv, err := client.NewToken().Create(&processout.TokenCreateParameter{
+    Token: &processout.Token{
+        CustomerID: "cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
+    },
+    Source: "card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
+})
 ```
 
 Creating a customer token can be done by providing a customer ID for which to

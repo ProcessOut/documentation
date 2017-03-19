@@ -6,11 +6,11 @@ Discount objects represent discounts applied to your customers' subscriptions.
 |||
 --:|:--
 <span class="console-font">**id**</span><br />*string* | 
-<span class="console-font">**subscription**</span><br />*[Subscription](#subscriptions)*<br />Read-only, expandable | Subscription on which the discount was applied
-<span class="console-font">**coupon**</span><br />*[Coupon](#coupons)*<br />Read-only, expandable | Coupon used to generate the discount
+<span class="console-font">**subscription**</span><br />*subscription_id*<br />*[Subscription](#subscriptions) expandable* | Subscription on which the discount was applied
+<span class="console-font">**coupon**</span><br />*coupon_id*<br />*[Coupon](#coupons) expandable* | Coupon used to generate the discount
 <span class="console-font">**amount**</span><br />*string*<br /><span class="highlighted">Required</span> | Amount discounted from the subscription
 <span class="console-font">**expires_at**</span><br />*string* | Date at which the coupon will automatically expire
-<span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the recurring invoice, key-value pair (string - string)
+<span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the subscription, key-value pair (string - string)
 <span class="console-font">**sandbox**</span><br />*boolean*<br />Read-only |
 
 
@@ -20,47 +20,89 @@ Discount objects represent discounts applied to your customers' subscriptions.
 curl https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/discounts \
     <%= partial "header-curl" %> \
     -d amount=5
+
+# or
+curl https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/discounts \
+    <%= partial "header-curl" %> \
+    -d coupon_id=25percentoff
 ```
 
 ```javascript
 <%= partial "header-js" %>
-client.newDiscount({
-    amount: "5"
-}).apply("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3").then(
+client.newDiscount().apply({
+    subscription_id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    amount:          "5"
+}).then(
     function(discount) {
         // 
 
     }, function(err) {
         // An error occured
     });
+
+// or
+client.newDiscount().create({
+    subscription_id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    coupon_id:       "25percentoff"
+});
 ```
 
 ```python
 <%= partial "header-python" %>
-discount = client.new_discount({
-    "amount": "5"
-}).apply("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
+discount = client.new_discount().apply({
+    "subscription_id": "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    "amount":          "5"
+})
+
+# or 
+discount = client.new_discount().create({
+    "subscription_id": "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    "coupon_id":       "25percentoff"
+})
 ```
 
 ```ruby
 <%= partial "header-ruby" %>
-discount = client.discount.new(
-    amount: "5"
-).apply("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
+discount = client.discount.new().apply(
+    subscription_id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    amount:          "5"
+)
+
+# or
+discount = client.discount.new().create(
+    subscription_id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    coupon_id:       "25percentoff"
+)
 ```
 
 ```php
 <%= partial "header-php" %>
-$discount = $client->newDiscount(array(
-    "amount": "5"
-))->apply("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3");
+$discount = $client->newDiscount()->apply(array(
+    "subscription_id" => "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    "amount"          => "5"
+));
+
+// or
+$discount = $client->newDiscount()->create(array(
+    "subscription_id" => "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    "coupon_id"       => "25percentoff"
+));
 ```
 
 ```go
 <%= partial "header-go" %>
-discount, err := client.NewDiscount(&processout.Discount{
-    Amount: 5,
-}).Apply("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
+discount, err := client.NewDiscount().Apply(&processout.DiscountCreateParameter{
+    Discount: &processout.Discount{
+        SubscriptionID: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+        Amount:         5,
+    }})
+
+// or 
+discount, err := client.NewDiscount().Create(&processout.DiscountCreateParameter{
+    Discount: &processout.Discount{
+        SubscriptionID: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+        CouponID:       "25percentoff",
+    }})
 ```
 
 Apply a discount for a subscription with the given attributes.
@@ -123,49 +165,40 @@ curl -X DELETE https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0
 
 ```javascript
 <%= partial "header-js" %>
-client.newDiscount().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+client.newDiscount().delete("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
     "disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq").then(
-        function(discount) {
-            discount.delete().then(function(success) {
-                // 
-
-            }, function(err) {
-                // Could not delete it
-
-            });
+        function(success) {
+            // 
 
         }, function(err) {
-            // An error occured
+            // Could not delete it
 
         });
 ```
 
 ```python
 <%= partial "header-python" %>
-discount = client.new_discount().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+client.new_discount().delete("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
     "disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq")
-discount.delete()
 ```
 
 ```ruby
 <%= partial "header-ruby" %>
-discount = client.discount.find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+client.discount.delete("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
     "disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq")
-discount.delete
 ```
 
 ```php
 <%= partial "header-php" %>
-$discount = $client->newDiscount()->find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+$client->newDiscount()->delete("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
     "disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq");
-$discount->delete();
 ```
 
 ```go
 <%= partial "header-go" %>
-discount, _ := client.NewDiscount().Find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+err := client.NewDiscount().Delete("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
     "disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq")
-_, err := discount.Delete()
 ```
 
-Deletes a discount. An error is thrown if the discount could not be deleted.
+Removes a discount from a subscription. An error is thrown if the discount 
+could not be removed.

@@ -7,19 +7,21 @@ Subscriptions are objects representing your customers' subscriptions.
 --:|:--
 <span class="console-font">**id**</span><br />*string*<br />Read-only |
 <span class="console-font">**url**</span><br />*string*<br />Read-only | `url` to the ProcessOut checkout page
-<span class="console-font">**customer**</span><br />*[Customer](#customers)*<br />Read-only, expandable | Customer owning the subscription
-<span class="console-font">**plan**</span><br />*[Plan](#plans)*<br />Read-only, expandable | Plan, if one was used when creating the subscription
-<span class="console-font">**source**</span><br />*string*<br /> Write-only | The source used to activate the subscription
+<span class="console-font">**customer**</span><br />*customer_id*<br />*[Customer](#customers) expandable* | Customer owning the subscription
+<span class="console-font">**plan**</span><br />*plan_id*<br />*[Plan](#plans) expandable* | Plan, if one was used when creating the subscription
+<span class="console-font">**token**</span><br />*token_id*<br />*[Token](#tokens) expandable* | Token used to capture payments of the subscription
+<span class="console-font">**discounts**</span><br />*[Discounts](#discounts) expandable* | Discounts list applied to the subscription
+<span class="console-font">**addons**</span><br />*[Addons](#addons) expandable* | Addons list applied to the subscription
 <span class="console-font">**name**</span><br />*string* | Name of the subscription
 <span class="console-font">**amount**</span><br />*string* | Amount to be paid at every iteration of the subscription
 <span class="console-font">**currency**</span><br />*string* | Currency of the subscription, in the ISO 4217 format (ex: `USD`)
 <span class="console-font">**interval**</span><br />*string* | Interval between each subscription iteration. "1m" for monthly subscriptions, "1w" for weekly.
 <span class="console-font">**trial_end_at**</span><br />*string* | Date at which the trial of the subscription will end. Defaults to no trial
-<span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the recurring invoice, key-value pair (string - string)
+<span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the subscription, key-value pair (string - string)
 <span class="console-font">**return_url**</span><br />*string* | `url` used to redirect the customer once the payment is placed
 <span class="console-font">**cancel_url**</span><br />*string* | `url` used to redirect the customer when the payment is canceled |ProcessOut cancelation landing page
 <span class="console-font">**canceled**</span><br />*boolean* |
-<span class="console-font">**cancellation_reason**</span><br />*boolean* | If `canceled` is true, represents the reason why the recurring invoice was canceled
+<span class="console-font">**cancellation_reason**</span><br />*boolean* | If `canceled` is true, represents the reason why the subscription was canceled
 <span class="console-font">**sandbox**</span><br />*boolean*<br />Read-only |
 
 
@@ -37,59 +39,107 @@ curl https://api.processout.com/subscriptions \
 
 ```javascript
 <%= partial "header-js" %>
-var subscription = client.newSubscription({
+var subscription = client.newSubscription().create({
+    customer_id: "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
+
     name:     "Amazing subscription",
     amount:   "4.99",
     currency: "USD",
     interval: "1m"
-}).create("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P").then(
-    function(subscription) {
-        // 
+}).then(function(subscription) {
+    // 
 
-    }, function(err) {
-        // An error occured
+}, function(err) {
+    // An error occured
 
-    });
+});
+
+// or
+var subscription = client.newSubscription().create({
+    customer_id: "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
+    plan_id:     "silver-plan"
+}).then(function(subscription) {
+    // 
+
+}, function(err) {
+    // An error occured
+
+});
 ```
 
 ```python
 <%= partial "header-python" %>
-subscription = client.new_subscription({
+subscription = client.new_subscription().create({
+    "customer_id": "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
+
     "name":     "Amazing subscription",
     "amount":   "4.99",
     "currency": "USD",
     "interval": "1m"
-}).create("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P")
+})
+
+# or
+subscription = client.new_subscription().create({
+    "customer_id": "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
+    "plan_id":     "silver-plan"
+})
 ```
 
 ```ruby
 <%= partial "header-ruby" %>
-subscription = client.subscription.new(
+subscription = client.subscription.new().create(
+    customer_id: "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
+
     name:     "Amazing subscription",
     amount:   "4.99",
     currency: "USD",
     interval: "1m"
-).create("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P")
+)
+
+# or
+subscription = client.subscription.new().create(
+    customer_id: "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
+    plan_id:     "silver-plan"
+)
 ```
 
 ```php
 <%= partial "header-php" %>
-$subscription = $client->newSubscription(array(
+$subscription = $client->newSubscription()->create(array(
+    "customer_id" => "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
+
     "name":    => "Amazing subscription",
     "amount"   => "4.99",
     "currency" => "USD",
     "interval" => "1m"
-))->create("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P");
+));
+
+// or
+$subscription = $client->newSubscription()->create(array(
+    "customer_id" => "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
+    "plan_id"     => "silver-plan"
+));
 ```
 
 ```go
 <%= partial "header-go" %>
-sub, err := client.NewSubscription(&processout.Subscription{
-	Name:     "Amazing item",
-	Amount:   "4.99",
-	Currency: "USD",
-	Interval: "1m",
-}).Create("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P")
+sub, err := client.NewSubscription().Create(&processout.SubscriptionCreateParameter{
+    Subscription: &processout.Subscription{
+        CustomerID: "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
+        Name:       "Amazing item",
+        Amount:     "4.99",
+        Currency:   "USD",
+        Interval:   "1m",
+    },
+})
+
+// or
+sub, err := client.NewSubscription().Create(&processout.SubscriptionCreateParameter{
+    Subscription: &processout.Subscription{
+        CustomerID: "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
+        PlanID:     "silver-plan",
+    },
+})
 ```
 
 To create a subscription for a specific customer, the field `interval` 
@@ -101,55 +151,6 @@ and "y" for years. `interval` must represent a positive number of days.
 The field `trial_end_at` may also be set to a specific date to add a trial to 
 the subscription, during which the customer will not be charged. The trial will 
 end at that specific date automatically.
-
-### Create from a plan
-
-```shell
-curl https://api.processout.com/subscriptions \
-    <%= partial "header-curl" %> \
-    -d plan_id="silver-plan"
-```
-
-```javascript
-<%= partial "header-js" %>
-client.newSubscription().createFromPlan("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
-    "silver-plan").then(function(subscription) {
-        // 
-
-    }, function(err) {
-        // An error occured
-
-    });
-```
-
-```python
-<%= partial "header-python" %>
-subscription = client.new_subscription().create_from_plan(
-    "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan")
-```
-
-```ruby
-<%= partial "header-ruby" %>
-subscription = client.subscription.create_from_plan(
-    "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan")
-```
-
-```php
-<?php
-<%= partial "header-php" %>
-$subscription = $client->newSubscription()->createFromPlan(
-    "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan");
-```
-
-```go
-<%= partial "header-go" %>
-sub, err := client.NewSubscription().CreateFromPlan( 
-    "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan")
-```
-
-It is also possible to create a subscription from a plan that you'd have
-created from your [Dashboard](https://dashboard.processout.com) or directly 
-from the API.
 
 ### Fetch a subscription
 
@@ -203,9 +204,10 @@ curl -X PUT https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2
 
 ```javascript
 <%= partial "header-js" %>
-client.newSubscription({
-    id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
-}).applySource("card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj").then(
+client.newSubscription().save({
+    id:     "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    source: "card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj"
+}).then(
     function(subscription) {
         // 
 
@@ -216,37 +218,43 @@ client.newSubscription({
 
 ```python
 <%= partial "header-python" %>
-subscription = client.new_subscription({
-    "id": "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
-}).apply_source("card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj")
+subscription = client.new_subscription().save({
+    "id":     "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    "source": "card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj"
+})
 ```
 
 ```ruby
 <%= partial "header-ruby" %>
-subscription = client.subscription(
-    id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
-).apply_source("card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj")
+subscription = client.subscription().save(
+    id:     "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    source: "card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj"
+)
 ```
 
 ```php
 <%= partial "header-php" %>
-$subscription = $client->newSubscription(array(
-    "id" => "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
-))->applySource("card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj");
+$subscription = $client->newSubscription()->save(array(
+    "id"     => "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    "source" => "card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj"
+));
 ```
 
 ```go
 <%= partial "header-go" %>
-sub, err := client.NewSubscription(&processout.Subscription{
-    ID: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
-}).ApplySource("card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj")
+sub, err := client.NewSubscription().ApplySource(&processout.SubscriptionSaveParameter{
+    Subscription: &processout.Subscription{
+        ID: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    },
+    Source: "card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
+})
 ```
 
 Activating a subscription is done by applying a source to the subscription. The
 source can be a `card`, a [Token](#tokens) or a [Gateway Request](#). An error
 is thrown if the source could not be used.
 
-### Change plan
+### Update a subscription
 
 ```shell
 curl -X PUT https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3 \
@@ -257,9 +265,11 @@ curl -X PUT https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2
 
 ```javascript
 <%= partial "header-js" %>
-client.newSubscription({
-    id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
-}).updatePlan("gold-plan", true).then(
+client.newSubscription().save({
+    id:      "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    plan_id: "gold-plan",
+    prorate: true
+}).then(
     function(subscription) {
         // 
 
@@ -270,34 +280,45 @@ client.newSubscription({
 
 ```python
 <%= partial "header-python" %>
-subscription = client.new_subscription({
-    "id": "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
-}).update_plan("gold-plan", true)
+subscription = client.new_subscription().save({
+    "id":      "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    "plan_id": "gold-plan",
+    "prorate": true
+})
 ```
 
 ```ruby
 <%= partial "header-ruby" %>
-subscription = client.subscription(
-    id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
-).update_plan("gold-plan", true)
+subscription = client.subscription().save(
+    id:      "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    plan_id: "gold-plan",
+    prorate: true
+)
 ```
 
 ```php
 <%= partial "header-php" %>
-$subscription = $client->newSubscription(array(
-    "id" => "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
-))->updatePlan("gold-plan", true);
+$subscription = $client->newSubscription()->save(array(
+    "id"      => "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    "plan_id" => "gold-plan",
+    "prorate" => true
+));
 ```
 
 ```go
 <%= partial "header-go" %>
-sub, err := client.NewSubscription(&processout.Subscription{
-    ID: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
-}).UpdatePlan("gold-plan", true)
+sub, err := client.NewSubscription().Save(&processout.SubscriptionSave{
+    Subscription: &processout.Subscription{
+        ID:     "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+        PlanID: "gold-plan",
+    },
+    Prorate: true,   
+})
 ```
 
-A subscription plan can be changed to upgrade/downgrade the subscription. A
-prorate field is also available to define whether or not you want to enable
+A subscription plan can be changed to upgrade/downgrade the subscription. 
+
+A prorate field is also available to define whether or not you want to enable
 proration. Learn more about proration [here &nearr;](/subscriptions/upgrades-and-downgrades).
 
 ### Cancel a subscription
@@ -305,52 +326,61 @@ proration. Learn more about proration [here &nearr;](/subscriptions/upgrades-and
 ```shell
 curl -X DELETE https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3 \
     <%= partial "header-curl" %> \
-    -d cancel_at="2022-10-02T15:00:00Z"
+    -d cancel_at="2022-10-02T15:00:00Z" \
+    -d cancellation_reason="Cancellation reason"
 ```
 
 ```javascript
 <%= partial "header-js" %>
-client.newSubscription({
-    id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
-}).cancel("Cancellation reason").then(function(subscription) {
-        // or cancelAtDate("2022-10-02T15:00:00Z", "Cancellation reason")
+client.newSubscription().cancel({
+    id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    cancellation_reason: "Cancellation reason",
+    cancel_at:           "2022-10-02T15:00:00Z",
+}).then(function(subscription) {
+    //
 
-    }, function(err) {
-        // Could not cancel it
+}, function(err) {
+    // Could not cancel it
 
-    });
+});
 ```
 
 ```python
 <%= partial "header-python" %>
-subscription = client.new_subscription({
-    "id": "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
-}).cancel("Cancellation reason")
-# or subscription.cancel_at_date("2022-10-02T15:00:00Z", "Cancellation reason")
+subscription = client.new_subscription().cancel({
+    "id": "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    "cancellation_reason": "Cancellation reason",
+    "cancel_at":           "2022-10-02T15:00:00Z"
+})
 ```
 
 ```ruby
 <%= partial "header-ruby" %>
-subscription = client.subscription(
-    id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
-).cancel("Cancellation reason")
-# or subscription.cancel_at_date("2022-10-02T15:00:00Z", "Cancellation reason")
+subscription = client.subscription().cancel(
+    id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    cancellation_reason: "Cancellation reason",
+    cancel_at:           "2022-10-02T15:00:00Z"
+)
 ```
 
 ```php
 <%= partial "header-php" %>
-$subscription = $client->newSubscription(array(
-    "id": "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
-))->cancel("Cancellation reason");
-// or $subscription->cancelAtDate("2022-10-02T15:00:00Z", "Cancellation reason");
+$subscription = $client->newSubscription()->cancel(array(
+    "id": "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    "cancellation_reason" => "Cancellation reason",
+    "cancel_at"           => "2022-10-02T15:00:00Z"
+));
 ```
 
 ```go
 <%= partial "header-go" %>
-sub, err := client.NewSubscription(&processout.Subscription{
-    ID: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
-}).Cancel(sub, "Cancellation reason")
-// or sub.CancelAtDate("2022-10-02T15:00:00Z", "Cancellation reason")
+sub, err := client.NewSubscription().Cancel(&processout.SubscriptionCancelParameter{
+    Subscription: &processout.Subscription{
+        ID: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+        CancellationReason: "Cancellation reason",
+        CancelAt:           "2022-10-02T15:00:00Z",
+    },
+)
 ```
 
 A subscription can be cancelled immediately or at a certain date. A short reason

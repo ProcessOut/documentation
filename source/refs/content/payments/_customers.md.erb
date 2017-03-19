@@ -32,12 +32,12 @@ curl https://api.processout.com/customers \
 
 ```javascript
 <%= partial "header-js" %>
-var customer = client.newCustomer({
+var customer = client.newCustomer().create({
     "email":      "john@smith.com",
     "first_name": "John",
     "last_name":  "Smith"
-}).create().then(function(customer) {
-    console.log(customer.getId());
+}).then(function(customer) {
+    //
 
 }, function(err) {
     // An error occured
@@ -47,46 +47,40 @@ var customer = client.newCustomer({
 
 ```python
 <%= partial "header-python" %>
-customer = client.new_customer({
+customer = client.new_customer().create({
     "email":      "john@smith.com",
     "first_name": "John",
     "last_name":  "Smith"
-}).create()
-
-print(customer.id)
+})
 ```
 
 ```ruby
 <%= partial "header-ruby" %>
-customer = client.customer.new(
+customer = client.customer.new().create(
     email:      "john@smith.com",
     first_name: "John",
     last_name:  "Smith"
-).create
-
-puts customer.id
+)
 ```
 
 ```php
 <%= partial "header-php" %>
-$customer = $client->newCustomer(array(
+$customer = $client->newCustomer()->create(array(
     "email"      => "john@smith.com",
     "first_name" => "John",
     "last_name"  => "Smith"
-))->create();
-
-echo $customer->getId();
+));
 ```
 
 ```go
 <%= partial "header-go" %>
-cust, err := client.NewCustomer(&processout.Customer{
-    Email:     "john@smith.com",
-    FirstName: "John",
-    LastName:  "Smith",
-}).Create()
-
-fmt.Println(cust.ID)
+cust, err := client.NewCustomer().Create(&processout.CustomerCreateParameter{
+    Customer: &processout.Customer{
+        Email:     "john@smith.com",
+        FirstName: "John",
+        LastName:  "Smith",
+    },
+})
 ```
 
 Create a new customer.
@@ -111,7 +105,7 @@ curl https://api.processout.com/customers/cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb 
 <%= partial "header-js" %>
 client.newCustomer().find("cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb").then(
     function(customer) {
-        // Customer was fetched
+        //
     }, function(err) {
         // An error occured
     });

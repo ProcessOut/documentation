@@ -62,10 +62,8 @@ customers, err := client.NewCustomer().All(&processout.CustomerAllParameters{
 ProcessOut uses **cursor-based pagination**. Instead of specifying the page you
 want to fetch, you instead specify the **resource ID** from which you want to start
 fetching. Although this prevents you from randomly accessing items, this makes
-sure that the results you fetch are consistent and not duplicated. In fact,
-one common drawback of *page-based* pagination is offsets: when an item gets added
-to the list in between fetches, the page will shift, producing incorrect results
-when paginating. The cursor-based approach solves this problem.
+sure that the results you fetch are consistent and not duplicated. [More about
+it can be found here](https://www.citusdata.com/blog/2016/03/30/five-ways-to-paginate/).
 
 Most of the listable resources on ProcessOut ([Customers](#customers), 
 [Transactions](#transactions), [Subscriptions](#subscriptions) for example) can

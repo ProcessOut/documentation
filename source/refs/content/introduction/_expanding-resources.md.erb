@@ -48,13 +48,14 @@ cust, err := client.NewCustomer().Find("cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb",
 ```
 
 Often, resources fetched through the API will not expand their sub resources by default (such
-as a transactions's customer will not be expanded by default). This behaviour can be
-overridden using the expand option. For example, expanding the Transaction's
-Customer can be done by setting `expand` to `customer`.
+as a transactions's customer). This behaviour can be overridden using the expand option. 
+For example, expanding the Transaction's Customer can be done by setting `expand` 
+to `customer`.
 
 It is also possible to expand nested sub resources by using the dot notation.
 To expand the Subscriptions of a Customer in a Transaction, you can set
-`expand` to `customer.subscriptions`.
+`expand` to `customer.subscriptions`. This will expand the transaction's customer,
+and then the customer's subscriptions.
 
 Because `expand` is an array, multiple expansions can be done at once. Simply
 append all the expansions to be done in the array.

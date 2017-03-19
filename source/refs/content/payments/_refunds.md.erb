@@ -10,7 +10,7 @@ fraudulent.
 |||
 --:|:--
 <span class="console-font">**id**</span><br />*string*<br />Read-only |
-<span class="console-font">**transaction**</span><br />*[Transaction](#transactions)*<br />Read-only, expandable | Transaction for which the refund was issued
+<span class="console-font">**transaction**</span><br />*transaction_id*<br />*[Transaction](#transactions) expandable* | Transaction for which the refund was issued
 <span class="console-font">**reason**</span><br />*string*<br /><span class="highlighted">Required</span>| Reason for the refund. Can be either `customer_request`, `duplicate` or `fraud`
 <span class="console-font">**information**</span><br />*string*<br /> | Additional information regarding the refund
 <span class="console-font">**amount**</span><br />*string*<br /><span class="highlighted">Required</span> | Refund amount applied on the transaction
@@ -28,49 +28,55 @@ curl https://api.processout.com/transactions/tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC
 
 ```javascript
 <%= partial "header-js" %>
-client.newRefund({
-    reason: "customer_request",
-    amount: "4.99"
-}).apply("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC").then(
-    function(refund) {
-        // 
+client.newRefund().create({
+    transaction_id: "tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC",
+    reason:         "customer_request",
+    amount:         "4.99"
+}).then(function(refund) {
+    // 
 
-    }, function(err) {
-        // An error occured
+}, function(err) {
+    // An error occured
 
-    });
+});
 ```
 
 ```python
 <%= partial "header-python" %>
-refund = client.new_refund({
-    "reason": "customer_request",
-    "amount": "4.99"
-}).apply("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC")
+refund = client.new_refund().create({
+    "transaction_id": "tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC",
+    "reason":         "customer_request",
+    "amount":         "4.99"
+})
 ```
 
 ```ruby
 <%= partial "header-ruby" %>
-refund = client.refund.new(
-    reason: "customer_request",
-    amount: "4.99"
-).apply("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC")
+refund = client.refund.new().create(
+    transaction_id: "tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC",
+    reason:         "customer_request",
+    amount:         "4.99"
+)
 ```
 
 ```php
 <%= partial "header-php" %>
-$refund = $client->newRefund(array(
-    "reason" => "customer_request",
-    "amount" => "4.99"
-))->apply("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC");
+$refund = $client->newRefund()->create(array(
+    "transaction_id" => "tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC",
+    "reason"         => "customer_request",
+    "amount"         => "4.99"
+));
 ```
 
 ```go
 <%= partial "header-go" %>
-refund, err := client.NewRefund({
-    Reason: "customer_request",
-    Amount: "4.99"
-}).Apply("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC")
+refund, err := client.NewRefund().Create(&processout.RefundCreateParameter{
+    Refund: {
+        TransactionID: "tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC",
+        Reason:        "customer_request",
+        Amount:        "4.99"
+    },
+})
 ```
 
 Refunding a transaction can be done by providing the transaction ID to be

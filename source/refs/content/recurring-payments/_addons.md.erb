@@ -1,0 +1,377 @@
+## Addons
+
+Addons objects represent addons applied to your customers' subscriptions.
+
+Addons are additional billable objects that'll be used to compute billed at each
+subscription cycle. Such addon could be used for:
+
+- Billing per user using your service
+- Billing for additional features
+- Billing for metered usage of your service (such as number of API calls)
+
+##### Attributes
+|||
+--:|:--
+<span class="console-font">**id**</span><br />*string* | 
+<span class="console-font">**subscription**</span><br />*subscription_id*<br />*[Subscription](#subscriptions) expandable* | Subscription on which the addon was applied
+<span class="console-font">**plan**</span><br />*plan_id*<br />*[Plan](#plans) expandable* | Plan used to generate the addon
+<span class="console-font">**name**</span><br />*string*<br /><span class="highlighted">Required</span> | Name of the addon
+<span class="console-font">**type**</span><br />*string* | Type of the addon, either `recurring` or `metered`. Defaults to `recurring`
+<span class="console-font">**amount**</span><br />*string*<br /><span class="highlighted">Required</span> | Amount of the addon billed at each cycle
+<span class="console-font">**quantity**</span><br />*integer* | Multiplier for the addon price. Defaults to 1, must be greater or equal to 0
+<span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the subscription, key-value pair (string - string)
+<span class="console-font">**sandbox**</span><br />*boolean*<br />Read-only |
+
+### Apply an addon
+
+```shell
+curl https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/addons \
+    <%= partial "header-curl" %> \
+    -d name="Addon name" \
+    -d amount="5.00" \
+    -d quantity=1 \
+    -d type=metered \
+    -d prorate=true
+
+# or 
+curl https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/addons \
+    <%= partial "header-curl" %> \
+    -d plan_id="addon-per-api-call" \
+    -d type=metered \
+    -d prorate=true
+```
+
+```javascript
+<%= partial "header-js" %>
+client.newAddon().create({
+    subscription_id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+
+    name:     "Addon name",
+    amount:   "5.00",
+    quantity: 1,
+    type:     "metered",
+
+    prorate: true
+}).then(
+    function(addon) {
+        // 
+
+    }, function(err) {
+        // An error occured
+    });
+
+// or 
+client.newAddon().create({
+    subscription_id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+
+    plan_id: "addon-per-api-call",
+    type:    "metered",
+
+    prorate: true
+});
+```
+
+```python
+<%= partial "header-python" %>
+addon = client.new_addon().create({
+    "subscription_id": "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+
+    "name":     "Addon name",
+    "amount":   "5.00",
+    "quantity": 1,
+    "type":     "metered",
+
+    "prorate": true
+})
+
+# or 
+addon = client.new_addon().create({
+    "subscription_id": "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+
+    "plan_id": "addon-per-api-call",
+    "type":    "metered",
+
+    "prorate": true
+})
+```
+
+```ruby
+<%= partial "header-ruby" %>
+addon = client.addon.new().create(
+    subscription_id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+
+    name:     "Addon name",
+    amount:   "5.00",
+    quantity: 1,
+    type:     "metered",
+
+    prorate: true
+)
+
+# or 
+addon = client.addon.new().create(
+    subscription_id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+
+    plan_id: "addon-per-api-call",
+    type:    "metered",
+
+    prorate: true
+)
+```
+
+```php
+<%= partial "header-php" %>
+$addon = $client->newAddon()->create(array(
+    "subscription_id" => "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+
+    "name"     => "Addon name",
+    "amount"   => "5.00",
+    "quantity" => 1,
+    "type"     => "metered",
+
+    "prorate" => true
+));
+
+// or 
+$addon = $client->newAddon()->create(array(
+    "subscription_id" => "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+
+    "plan_id" => "addon-per-api-call",
+    "type"    => "metered",
+
+    "prorate" => true
+));
+```
+
+```go
+<%= partial "header-go" %>
+addon, err := client.NewAddon().Create(&processout.AddonApplyParameter{
+    Addon: &processout.Addon{
+        SubscriptionID: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+
+        Name:     "Addon name",
+        Amount:   "5.00",
+        Quantity: 1,
+        Type:     "metered",
+    },
+    Prorate: true,
+})
+
+# or
+addon, err := client.NewAddon().Create(&processout.AddonApplyParameter{
+    Addon: &processout.Addon{
+        SubscriptionID: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+
+        PlanID: "addon-per-api-call",
+        Type:   "metered",
+    },
+    Prorate: true,
+})
+```
+
+Apply an addon for a subscription with the given attributes.
+
+It's also possible to create an addon from an existing [Plan](#plans).
+
+It is possible to prorate the addon application by setting `prorate` to `true`.
+Learn more about proration [here &nearr;](/subscriptions/upgrades-and-downgrades).
+
+### Fetch an addon
+
+```shell
+curl https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/addons/addon_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq \
+    <%= partial "header-curl" %>
+```
+
+```javascript
+<%= partial "header-js" %>
+client.newAddon().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    "addon_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq").then(
+        function(addon) {
+            // 
+
+        }, function(err) {
+            // An error occured
+
+        });
+```
+
+```python
+<%= partial "header-python" %>
+addon = client.new_addon().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    "addon_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq")
+```
+
+```ruby
+<%= partial "header-ruby" %>
+addon = client.addon.find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    "addon_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq")
+```
+
+```php
+<%= partial "header-php" %>
+$addon = $client->newAddon()->find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    "addon_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq");
+```
+
+```go
+<%= partial "header-go" %>
+addon, err := client.NewAddon().Find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    "addon_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq")
+```
+
+Fetch an addon from its ID and subscription. Throws an error if the addon could
+not be found.
+
+### Update an addon
+
+```shell
+curl -X PUT https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/addons/addon_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq \
+    <%= partial "header-curl" %> \
+    quantity=10 \
+    prorate=true
+```
+
+```javascript
+<%= partial "header-js" %>
+addon.setQuantity(10)
+addon.save({
+    prorate: true
+}).then(function(addon) {
+    // 
+
+}, function(err) {
+    // An error occured
+
+});
+
+// or
+addon.save({
+    increment_quantity_by: 1,
+    prorate:               true
+});
+```
+
+```python
+<%= partial "header-python" %>
+addon.quantity = 10
+addon.save({
+    "prorate": true
+})
+
+# or
+addon.save({
+    "increment_quantity_by": 1,
+    "prorate":               true
+})
+```
+
+```ruby
+<%= partial "header-ruby" %>
+addon.quantity = 10
+addon.save(
+    prorate: true
+)
+
+#or
+addon.save(
+    increment_quantity_by: 1,
+    prorate:               true
+)
+```
+
+```php
+<%= partial "header-php" %>
+$addon->setQuantity(10);
+$addon->save(array(
+    "prorate" => true
+));
+
+// or
+$addon->save(array(
+    "increment_quantity_by" => 1,
+    "prorate"               => true
+));
+```
+
+```go
+<%= partial "header-go" %>
+addon.Quantity = 10
+_, err := addon.Save(&processout.AddonSaveParameter{
+    Prorate: true,
+})
+
+// or
+_, err := addon.Save(&processout.AddonSaveParameter{
+    IncrementQuantityBy: 1,
+    Prorate:             true,
+})
+```
+
+Update an addon. Currently, only updating the quantity of an addon is possible.
+
+The quantity of an addon can also be incremented, which removes the need to store
+the quantity on your side. This is especially useful when dealing with metered
+addons: you can update the addon at each API call made to your service for example,
+and increment the quantity by 1.
+
+### Delete an addon
+
+```shell
+curl -X DELETE https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/addons/addon_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq \
+    <%= partial "header-curl" %> \
+    -d prorate=true
+```
+
+```javascript
+<%= partial "header-js" %>
+client.newAddon().delete("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    "addon_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq", {
+        prorate: true
+    }).then(
+        function(success) {
+                // 
+
+        }, function(err) {
+            // Could not delete it
+
+        });
+```
+
+```python
+<%= partial "header-python" %>
+client.new_addon().delete("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    "addon_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq", {
+        "prorate": true
+    })
+```
+
+```ruby
+<%= partial "header-ruby" %>
+client.addon.delete("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    "addon_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq", {
+        prorate: true
+    })
+```
+
+```php
+<%= partial "header-php" %>
+$client->newAddon()->delete("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    "addon_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq", array(
+        "prorate" => true
+    ));
+```
+
+```go
+<%= partial "header-go" %>
+err := client.NewAddon().Delete("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    "addon_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq", &processout.AddonDeleteParameter{
+        Prorate: true,
+    })
+```
+
+Delete an addon from a subscription. An error is thrown if the addon could 
+not be removed.
+
+It is possible to prorate the addon deletion by setting `prorate` to `true`.
+Learn more about proration [here &nearr;](/subscriptions/upgrades-and-downgrades).

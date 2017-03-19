@@ -12,7 +12,7 @@ Coupons can be seen as templates for [subscription discounts](#discounts).
 <span class="console-font">**iteration_count**</span><br />*integer* | Number of iteration of the subscription the coupon will last. `3` on a monthly subscription will make the coupon last 3 months. `0` makes the coupon last forever
 <span class="console-font">**max_redemptions**</span><br />*integer* | Maximum number of times a coupon can be redeemed (ie applied on a subscription) by your customers before expiring
 <span class="console-font">**expires_at**</span><br />*string* | Date at which the coupon will automatically expire
-<span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the recurring invoice, key-value pair (string - string)
+<span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the coupon, key-value pair (string - string)
 <span class="console-font">**sandbox**</span><br />*boolean*<br />Read-only |
 
 
@@ -27,10 +27,10 @@ curl https://api.processout.com/coupons \
 
 ```javascript
 <%= partial "header-js" %>
-var coupon = client.newCoupon({
+var coupon = client.newCoupon().create({
     id:          "25percentoff",
     percent_off: 25
-}).create().then(
+}).then(
     function(coupon) {
         // 
 
@@ -41,38 +41,42 @@ var coupon = client.newCoupon({
 
 ```python
 <%= partial "header-python" %>
-coupon = client.new_coupon({
+coupon = client.new_coupon().create({
     "id":          "25percentoff",
     "percent_off": 25
-}).create()
+})
 ```
 
 ```ruby
 <%= partial "header-ruby" %>
-coupon = client.coupon.new(
+coupon = client.coupon.new().create(
     id:          "25percentoff",
     percent_off: 25
-).create
+)
 ```
 
 ```php
 <?php
 <%= partial "header-php" %>
-$coupon = $client->newCoupon(array(
+$coupon = $client->newCoupon()->create(array(
     "id"          => "25percentoff",
     "percent_off" => 25
-))->create();
+));
 ```
 
 ```go
 <%= partial "header-go" %>
-coupon, err := client.NewCoupon(&processout.Coupon{
-    ID:         "25percentoff",
-    PercentOff: 25,
-}).Create()
+coupon, err := client.NewCoupon().Create(&processout.CouponCreateParameter{
+    Coupon: &processout.Coupon{
+        ID:         "25percentoff",
+        PercentOff: 25,
+    },
+})
 ```
 
 Create a coupon with the given attributes.
+
+Once a coupon is create, you can use it to [create a discount](#discounts).
 
 ### Fetch a coupon
 
@@ -115,47 +119,6 @@ coupon, err := client.NewCoupon().Find("25percentoff")
 
 Fetch a coupon from its ID. Throws an error if the coupon could
 not be found.
-
-### Apply a coupon
-
-```shell
-curl https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/discounts \
-    <%= partial "header-curl" %> \
-    -d coupon_id=25percentoff
-```
-
-```javascript
-<%= partial "header-js" %>
-subscription.applyCoupon("25percentoff").then(
-    function(discount) {
-        // 
-
-    }, function(err) {
-        // An error occured
-    });
-```
-
-```python
-<%= partial "header-python" %>
-discount = subscription.apply_coupon("25percentoff")
-```
-
-```ruby
-<%= partial "header-ruby" %>
-discount = subscription.apply_coupon("25percentoff")
-```
-
-```php
-<%= partial "header-php" %>
-$discount = $subscription->applyCoupon("25percentoff");
-```
-
-```go
-<%= partial "header-go" %>
-discount, err := sub.ApplyCoupon("25percentoff")
-```
-
-Apply a coupon on a subscription. Throws an error if the coupon could not be applied.
 
 ### Delete a coupon
 
