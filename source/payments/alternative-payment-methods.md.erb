@@ -144,9 +144,9 @@ $gateways = $invoice->getProject()->fetchGatewayConfigurations(array(
 // Let's first create an invoice
 iv, err := client.NewInvoice().Create(&processout.InvoiceCreateParameter{
     Invoice: &processout.Invoice{
-        Name:     "Amazing item",
-        Amount:   "4.99",
-        Currency: "USD",
+        Name:     processout.String("Amazing item"),
+        Amount:   processout.String("4.99"),
+        Currency: processout.String("USD"),
     },
     Options: &processout.Options{
         Expand: []string{"project"},

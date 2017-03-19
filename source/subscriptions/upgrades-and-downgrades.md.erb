@@ -110,7 +110,7 @@ if err != nil {
 
 _, err = sub.Save(&processout.SubscriptionSaveParameters{
     Subscription: &processout.Subscription{
-        PlanID: "gold-plan",
+        PlanID: processout.String("gold-plan"),
     },
     Prorate: true,
 })

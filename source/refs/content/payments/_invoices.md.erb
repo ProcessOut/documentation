@@ -88,11 +88,11 @@ $invoice = $client->newInvoice()->create(array(
 <%= partial "header-go" %>
 iv, err := client.NewInvoice().Create(&processout.InvoiceCreateParameter{
     Invoice: &processout.Invoice{
-        CustomerID:          "cust_LvjCcLOVe6iWn2aeCNhNmK7RbbG6K8XF",
-        Name:                "Amazing item",
-        StatementDescriptor: "amazing item",
-        Amount:              "4.99",
-        Currency:            "USD",
+        CustomerID:          processout.String("cust_LvjCcLOVe6iWn2aeCNhNmK7RbbG6K8XF"),
+        Name:                processout.String("Amazing item"),
+        StatementDescriptor: processout.String("amazing item"),
+        Amount:              processout.String("4.99"),
+        Currency:            processout.String("USD"),
     },
 })
 ```

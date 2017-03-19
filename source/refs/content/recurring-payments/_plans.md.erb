@@ -82,11 +82,11 @@ $plan = $client->newPlan()->create(array(
 <%= partial "header-go" %>
 plan, err := client.NewPlan().Create(&processout.PlanCreate{
     Plan: &processout.Plan{
-        ID:       "silver-plan",
-        Name:     "Amazing item",
-        Amount:   "4.99",
-        Currency: "USD",
-        Interval: "1m",
+        ID:       processout.String("silver-plan"),
+        Name:     processout.String("Amazing item"),
+        Amount:   processout.String("4.99"),
+        Currency: processout.String("USD"),
+        Interval: processout.String("1m"),
     },
 })
 ```
@@ -179,7 +179,7 @@ $client->newPlan(array(
 ```go
 <%= partial "header-go" %>
 err := client.NewPlan(&processout.Plan{
-    ID: "silver-plan",
+    ID: processout.String("silver-plan"),
 }).Delete()
 ```
 

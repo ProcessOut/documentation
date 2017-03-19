@@ -76,9 +76,9 @@ $customer = $client->newCustomer()->create(array(
 <%= partial "header-go" %>
 cust, err := client.NewCustomer().Create(&processout.CustomerCreateParameter{
     Customer: &processout.Customer{
-        Email:     "john@smith.com",
-        FirstName: "John",
-        LastName:  "Smith",
+        Email:     processout.String("john@smith.com"),
+        FirstName: processout.String("John"),
+        LastName:  processout.String("Smith"),
     },
 })
 ```
@@ -168,7 +168,7 @@ $customer->save();
 
 ```go
 <%= partial "header-go" %>
-cust.FirstName = "New name"
+cust.FirstName = processout.String("New name")
 cust.Save()
 ```
 
@@ -216,7 +216,7 @@ $customer = $client->newCustomer(array(
 ```go
 <%= partial "header-go" %>
 cust, _ := client.NewCustomer(&processout.Customer{
-    ID: "cust_LvjCcLOVe6iWn2aeCNhNmK7RbbG6K8XF",
+    ID: processout.String("cust_LvjCcLOVe6iWn2aeCNhNmK7RbbG6K8XF"),
 }).Delete()
 ```
 

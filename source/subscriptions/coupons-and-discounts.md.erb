@@ -100,10 +100,10 @@ $coupon = $client->newCoupon()->create(array(
 <%= partial "header-go" %>
 coupon, err := client.NewCoupon().Create(&processout.CouponCreateParameters{
     Coupon: &processout.Coupon{
-        ID:             "25percentoff",
-        PercentOff:     25,
-        IterationCount: 3,
-        ExpiresAt:      "2022-10-02T15:00:00Z",
+        ID:             processout.String("25percentoff"),
+        PercentOff:     processout.Int64(25),
+        IterationCount: processout.Int64(3),
+        ExpiresAt:      processout.Time(time.Now()),
     },
 })
 if err != nil {
@@ -205,8 +205,8 @@ $discount = $client->newDiscount()->create(array(
 <%= partial "header-go" %>
 sub, _ := client.NewSubscription().Create(&processout.SubscriptionCreateParameter{
     Subscription: &processout.Subscription{
-        CustomerID: "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
-        PlanID:     "silver-plan",
+        CustomerID: processout.String("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P"),
+        PlanID:     processout.String("silver-plan"),
     },
     CouponID: "25percentoff",
 })
@@ -214,8 +214,8 @@ sub, _ := client.NewSubscription().Create(&processout.SubscriptionCreateParamete
 // or
 discount, err := client.NewDiscount().Create(&processout.DiscountCreateParameter{
     Discount: &processout.Discount{
-        SubscriptionID: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
-        CouponID:       "25percentoff",
+        SubscriptionID: processout.String("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"),
+        CouponID:       processout.String("25percentoff"),
     }})
 ```
 </div>
@@ -276,8 +276,8 @@ $client->newDiscount()->delete(array(
 <%= partial "header-go" %>
 err := client.NewDiscount().Delete(&processout.DiscountDeleteParameters{
     Discount: &processout.Discount{
-        ID:             "25percentoff",
-        SubscriptionID: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+        ID:             processout.String("25percentoff"),
+        SubscriptionID: processout.String("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"),
     },
 })
 ```

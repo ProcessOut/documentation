@@ -1,0 +1,181 @@
+---
+title: Addons & metered usage
+---
+
+## Handle price changes & metered usage
+
+If you operate a SaaS business, your pricing most likely varies depending
+on the usage of your service by your customers. Addons allow you to charge
+your customers per collaborator, website, or per API call to only name a few.
+
+<hr>
+
+#### What are addons
+
+[`Addons` &nearr;](/refs/#addons) are additional elements your customers are be billed 
+for at each billing cycles of the [`Subscription` &nearr;](/refs/#subscriptions) 
+the addons are applied to. It is possible for a subscription to have several
+addons.
+
+An addon is composed of several attributes used to compute the amount billed
+at each cycle:
+
+- `amount` is the base amount of the addon, which cannot be changed once the addon is added.
+- `quantity` is the amount multiplier used to compute the amount billed. For an `amount` of `2` and a quantity set to `10`, the billed amount of the addon is `20.` The quantity must be a positive number, or `0`.
+- `type` is the type of the addon. The possible values are `recurring` and `metered`. The only difference is that `metered` addons will have their `quantity` field automatically reset to `0` at each billing cycle.
+
+The apply an addon on a subscription, you can use [`Addons` &nearr;](/refs/#addons).
+It is only possible to apply a [`Plan` &nearr;](/refs#plans) on a subscription as an addon once (although a subscription
+can have multiple addons composed of several different plans).
+
+#### Create a plan for our future addon
+
+Let's first create a plan that'll be used as an addon on our future subscription.
+It is important to notice that the interval of the plan which will be used as an addon
+must be the same as the one of the subscription we'll want to apply it to.
+
+<div class="language-selector-wrapper">
+<%= partial "lg-selector" %>
+```shell
+curl https://api.processout.com/plans \
+    <%= partial "header-curl" %> \
+    -d id="per-seat-addon" \
+    -d name="Per seat addon" \
+    -d amount="10.00" \
+    -d currency=USD \
+    -d interval=1m
+```
+
+```javascript
+<%= partial "header-js" %>
+client.newPlan().create({
+    id:       "per-seat-addon",
+    name:     "Per seat addon",
+    amount:   "10.00",
+    interval: "1m"
+}).then(function(plan) {
+    //
+
+}, function(err) {
+    // An error occured
+
+});
+```
+
+```python
+<%= partial "header-python" %>
+plan = client.new_plan().create({
+    "id":       "per-seat-addon",
+    "name":     "Per seat addon",
+    "amount":   "10.00",
+    "currency": "USD",
+    "interval": "1m"
+})
+```
+
+```ruby
+<%= partial "header-ruby" %>
+plan = client.plan.create(
+    id:       "per-seat-addon",
+    name:     "Per seat addon",
+    amount:   "10.00",
+    currency: "USD",
+    interval: "1m"
+)
+```
+
+```php
+<%= partial "header-php" %>
+$plan = $client->newPlan()->create(array(
+    "id"       => "per-seat-addon",
+    "name"     => "Per seat addon",
+    "amount"   => "10.00",
+    "currency" => "USD",
+    "interval" => "1m"
+));
+```
+
+```go
+<%= partial "header-go" %>
+plan, err := client.NewPlan().Create(&processout.PlanCreateParameters{
+    Plan: &processout.Plan{
+        ID:       processout.String("per-seat-addon"),
+        Name:     processout.String("Per seat addon"),
+        Amount:   processout.String("10.00"),
+        Currency: processout.String("USD"),
+        Interval: processout.String("1m"),
+    },
+})
+```
+</div>
+
+#### Use the plan as an addon
+
+Now that we've created the plan we want to use an addon, we just need to 
+apply it to an already existing subscription.
+
+When adding, updating or removing an addon, it is possible to prorate changes
+in order to correctly bill your customer for what's been used of its plan, and
+for what's to be billed in the future. [Learn more about it here &nearr;](/subscriptions/upgrades-and-downgrades/#understanding-what-prorating-does).
+Prorating is disabled for `metered` addons.
+
+<div class="language-selector-wrapper">
+<%= partial "lg-selector" %>
+```shell
+curl https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/addons \
+    <%= partial "header-curl" %> \
+    -d plan_id="per-seat-addon" \
+    -d quantity=2 \
+    -d prorate=true
+```
+
+```javascript
+<%= partial "header-js" %>
+client.newAddon().create({
+    subscription_id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    plan_id:         "per-seat-addon",
+
+    prorate: true
+});
+```
+
+```python
+addon = client.new_addon().create({
+    "subscription_id": "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    "plan_id":         "per-seat-addon",
+
+    "prorate": true
+})
+```
+
+```ruby
+<%= partial "header-ruby" %>
+addon = client.addon.new().create(
+    subscription_id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    plan_id:         "per-seat-addon",
+
+    prorate: true
+)
+```
+
+```php
+<%= partial "header-php" %>
+$addon = $client->newAddon()->create(array(
+    "subscription_id" => "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    "plan_id"         => "per-seat-addon",
+
+    "prorate" => true
+));
+```
+
+```go
+<%= partial "header-go" %>
+addon, err := client.NewAddon().Create(&processout.AddonApplyParameter{
+    Addon: &processout.Addon{
+        SubscriptionID: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+        PlanID: "per-seat-addon",
+    },
+    Prorate: true,
+})
+```
+</div>

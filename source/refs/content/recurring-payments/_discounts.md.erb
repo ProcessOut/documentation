@@ -93,8 +93,8 @@ $discount = $client->newDiscount()->create(array(
 <%= partial "header-go" %>
 discount, err := client.NewDiscount().Apply(&processout.DiscountCreateParameter{
     Discount: &processout.Discount{
-        SubscriptionID: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
-        Amount:         5,
+        SubscriptionID: processout.String("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"),
+        Amount:         processout.Int64(5),
     }})
 
 // or 
@@ -204,8 +204,8 @@ $client->newDiscount(array(
 ```go
 <%= partial "header-go" %>
 err := client.NewDiscount(&processout.Discount{
-    SubscriptionID: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
-    ID:             "disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq",
+    SubscriptionID: processout.String("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"),
+    ID:             processout.String("disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq"),
 }).Delete()
 ```
 

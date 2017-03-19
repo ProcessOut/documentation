@@ -147,12 +147,12 @@ $addon = $client->newAddon()->create(array(
 <%= partial "header-go" %>
 addon, err := client.NewAddon().Create(&processout.AddonApplyParameter{
     Addon: &processout.Addon{
-        SubscriptionID: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+        SubscriptionID: processout.String("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"),
 
-        Name:     "Addon name",
-        Amount:   "5.00",
-        Quantity: 1,
-        Type:     "metered",
+        Name:     processout.String("Addon name"),
+        Amount:   processout.String("5.00"),
+        Quantity: processout.Int64(1),
+        Type:     processout.String("metered"),
     },
     Prorate: true,
 })
@@ -373,8 +373,8 @@ $client->newAddon(array(
 ```go
 <%= partial "header-go" %>
 err := client.NewAddon(&processout.Addon{
-    SubscriptionID: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
-    ID:             "addon_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq",
+    SubscriptionID: processout.String("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"),
+    ID:             processout.String("addon_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq"),
 }).Delete(&processout.AddonDeleteParameter{
     Prorate: true,
 })

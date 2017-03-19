@@ -89,10 +89,10 @@ $refund = $client->newRefund()->create(array(
 ```go
 <%= partial "header-go" %>
 refund, err := client.NewRefund().Create(&processout.RefundCreateParameter{
-    Refund: {
-        TransactionID: "tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC",
-        Reason:        "customer_request",
-        Amount:        "4.99"
+    Refund: &processout.Refund{
+        TransactionID: processout.String("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC"),
+        Reason:        processout.String("customer_request"),
+        Amount:        processout.String("4.99"),
     },
 })
 ```

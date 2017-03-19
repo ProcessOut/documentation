@@ -125,11 +125,11 @@ $subscription = $client->newSubscription()->create(array(
 <%= partial "header-go" %>
 sub, err := client.NewSubscription().Create(&processout.SubscriptionCreateParameter{
     Subscription: &processout.Subscription{
-        CustomerID: "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
-        Name:       "Amazing item",
-        Amount:     "4.99",
-        Currency:   "USD",
-        Interval:   "1m",
+        CustomerID: processout.String("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P"),
+        Name:       processout.String("Amazing item"),
+        Amount:     processout.String("4.99"),
+        Currency:   processout.String("USD"),
+        Interval:   processout.String("1m"),
     },
 })
 
@@ -244,7 +244,7 @@ $subscription = $client->newSubscription()->save(array(
 <%= partial "header-go" %>
 sub, err := client.NewSubscription().ApplySource(&processout.SubscriptionSaveParameter{
     Subscription: &processout.Subscription{
-        ID: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+        ID: processout.String("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"),
     },
     Source: "card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
 })
@@ -309,8 +309,8 @@ $subscription = $client->newSubscription()->save(array(
 <%= partial "header-go" %>
 sub, err := client.NewSubscription().Save(&processout.SubscriptionSave{
     Subscription: &processout.Subscription{
-        ID:     "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
-        PlanID: "gold-plan",
+        ID:     processout.String("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"),
+        PlanID: processout.String("gold-plan"),
     },
     Prorate: true,   
 })
@@ -376,9 +376,9 @@ $subscription = $client->newSubscription()->cancel(array(
 <%= partial "header-go" %>
 sub, err := client.NewSubscription().Cancel(&processout.SubscriptionCancelParameter{
     Subscription: &processout.Subscription{
-        ID: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
-        CancellationReason: "Cancellation reason",
-        CancelAt:           "2022-10-02T15:00:00Z",
+        ID: processout.String("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"),
+        CancellationReason: processout.String("Cancellation reason"),
+        CancelAt:           processout.Time(time.Now()),
     },
 )
 ```
