@@ -31,11 +31,11 @@ curl https://api.processout.com/invoices \
 
 ```javascript
 <%= partial "header-js" %>
-client.newInvoice({
+client.newInvoice().create({
     name:     "Amazing item",
     amount:   "4.99",
     currency: "USD"
-}).create().then(function(invoice) {
+}).then(function(invoice) {
     //
 
 }, function(err) {
@@ -46,38 +46,40 @@ client.newInvoice({
 
 ```python
 <%= partial "header-python" %>
-invoice = client.new_invoice({
+invoice = client.new_invoice().create({
     "name":     "Amazing item",
     "amount":   "4.99",
     "currency": "USD"
-}).create()
+})
 ```
 
 ```ruby
 <%= partial "header-ruby" %>
-invoice = client.invoice.new(
+invoice = client.invoice.create(
     name:     "Amazing item",
     amount:   "4.99",
     currency: "USD"
-).create()
+)
 ```
 
 ```php
 <%= partial "header-php" %>
-$invoice = $client->newInvoice(array(
+$invoice = $client->newInvoice()->create(array(
     "name"     => "Amazing item",
     "amount"   => "4.99",
     "currency" => "USD"
-))->create();
+));
 ```
 
 ```go
 <%= partial "header-go" %>
-iv, err := client.NewInvoice(&processout.Invoice{
-    Name:     "Amazing item",
-    Amount:   "4.99",
-    Currency: "USD",
-}).Create()
+iv, err := client.NewInvoice().Create(&processout.InvoiceCreateParameters{
+    Invoice: &processout.Invoice{
+        Name:     "Amazing item",
+        Amount:   "4.99",
+        Currency: "USD",
+    },
+})
 ```
 </div>
 

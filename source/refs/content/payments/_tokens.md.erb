@@ -72,7 +72,7 @@ $token = $client->newToken()->create(array(
 
 ```go
 <%= partial "header-go" %>
-iv, err := client.NewToken().Create(&processout.TokenCreateParameter{
+token, err := client.NewToken().Create(&processout.TokenCreateParameter{
     Token: &processout.Token{
         CustomerID: "cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
     },

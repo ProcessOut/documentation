@@ -32,7 +32,7 @@ customers = client.new_customer().all({
 
 ```ruby
 <%= partial "header-ruby" %>
-customers = client.customer.new().all(
+customers = client.customer.all(
     start_after: "cust_FM5ZDn3PjkCmDVXYnqrZFrnlypilDicD",
     limit:       20,
     order:       "asc"

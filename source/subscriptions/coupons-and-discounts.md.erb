@@ -52,59 +52,60 @@ curl https://api.processout.com/coupons \
 
 ```javascript
 <%= partial "header-js" %>
-client.newCoupon({
+client.newCoupon().create({
     id:              "25percentoff",
     percent_off:     25,
     iteration_count: 3,
     expires_at:      "2022-10-02T15:00:00Z"
-}).create().then(
-    function(coupon) {
-        // 
+}).then(function(coupon) {
+    // 
 
-    }, function(err) {
-        // The coupon could not be created. Maybe a coupon with this
-        // ID already exists?
-    });
+}, function(err) {
+    // The coupon could not be created. Maybe a coupon with this
+    // ID already exists?
+});
 ```
 
 ```python
 <%= partial "header-python" %>
-coupon = client.new_coupon({
+coupon = client.new_coupon().create({
     "id":              "25percentoff",
     "percent_off":     25,
     "iteration_count": 3,
     "expires_at":      "2022-10-02T15:00:00Z"
-}).create()
+})
 ```
 
 ```ruby
 <%= partial "header-ruby" %>
-coupon = client.coupon.new(
+coupon = client.coupon.create(
     id:              "25percentoff",
     percent_off:     25,
     iteration_count: 3,
     expires_at:      "2022-10-02T15:00:00Z"
-).create
+)
 ```
 
 ```php
 <%= partial "header-php" %>
-$coupon = $client->newCoupon(array(
+$coupon = $client->newCoupon()->create(array(
     "id":              "25percentoff",
     "percent_off":     25,
     "iteration_count": 3,
     "expires_at":      "2022-10-02T15:00:00Z"
-))->create();
+));
 ```
 
 ```go
 <%= partial "header-go" %>
-coupon, err := client.NewCoupon(&processout.Coupon{
-    ID:             "25percentoff",
-    PercentOff:     25,
-    IterationCount: 3,
-    ExpiresAt:      "2022-10-02T15:00:00Z",
-}).Create(coupon)
+coupon, err := client.NewCoupon().Create(&processout.CouponCreateParameters{
+    Coupon: &processout.Coupon{
+        ID:             "25percentoff",
+        PercentOff:     25,
+        IterationCount: 3,
+        ExpiresAt:      "2022-10-02T15:00:00Z",
+    },
+})
 if err != nil {
     panic(err)
 }
@@ -125,20 +126,31 @@ curl https://api.processout.com/subscriptions \
     -d customer_id=cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P \
     -d plan_id="silver-plan" \
     -d coupon_id="25percentoff"
+
+# or 
+curl https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/discounts \
+    <%= partial "header-curl" %> \
+    -d coupon_id=25percentoff
 ```
 
 ```javascript
 <%= partial "header-js" %>
-client.newSubscription().createFromPlan("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
-    "silver-plan", {
-        "coupon_id": "25percentoff"
-    }).then(function(subscription) {
-        // The discount is now applied to the subscription!
+client.newSubscription().create({
+    customer_id: "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
+    plan_id:     "silver-plan",
+    coupon_id:   "25percentoff"
+}).then(function(subscription) {
+    // The discount is now applied to the subscription!
 
-    }, function(err) {
-        // An error occured
+}, function(err) {
+    // An error occured
 
-    });
+});
+
+client.newDiscount().create({
+    subscription_id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    coupon_id:       "25percentoff"
+});
 
 // or
 subscription.applyCoupon("25percentoff");
@@ -146,52 +158,65 @@ subscription.applyCoupon("25percentoff");
 
 ```python
 <%= partial "header-python" %>
-subscription = client.new_subscription().create_from_plan(
-    "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan", {
-        "coupon_id": "25percentoff"
-    })
+subscription = client.new_subscription().create({
+    "customer_id": "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
+    "plan_id":     "silver-plan",
+    "coupon_id":   "25percentoff"
+})
 
 # or
-subscription.apply_coupon("25percentoff")
+discount = client.new_discount().create({
+    "subscription_id": "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    "coupon_id":       "25percentoff"
+})
 ```
 
 ```ruby
 <%= partial "header-ruby" %>
-subscription = client.subscription.create_from_plan(
-    "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan", {
-        coupon_id: "25percentoff"
-    })
+subscription = client.subscription.create(
+    customer_id: "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
+    plan_id:     "silver-plan",
+    coupon_id:   "25percentoff"
+)
 
 # or
-subscription.apply_coupon("25percentoff")
+discount = client.discount.create(
+    subscription_id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    coupon_id:       "25percentoff"
+)
 ```
 
 ```php
 <%= partial "header-php" %>
-$subscription = $client->newSubscription()->createFromPlan(
-    "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan", array(
-        "coupon_id" => "25percentoff"
-    ));
+$subscription = $client->newSubscription()->create(array(
+    "customer_id" => "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
+    "plan_id"     => "silver-plan",
+    "coupon_id"   => "25percentoff"
+));
 
 // or
-$subscription->applyCoupon("25percentoff");
+$discount = $client->newDiscount()->create(array(
+    "subscription_id" => "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    "coupon_id"       => "25percentoff"
+));
 ```
 
 ```go
 <%= partial "header-go" %>
-sub, err := client.NewSubscription().CreateFromPlan(
-    "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan")
-if err != nil {
-    panic(err)
-}
+sub, _ := client.NewSubscription().Create(&processout.SubscriptionCreateParameter{
+    Subscription: &processout.Subscription{
+        CustomerID: "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
+        PlanID:     "silver-plan",
+    },
+    CouponID: "25percentoff",
+})
 
-// The subscription is now successfully created
-// for the customer.
-// Let's apply the coupon
-discount, err = sub.ApplyCoupon("25percentoff")
-if err != nil {
-    panic(err)
-}
+// or
+discount, err := client.NewDiscount().Create(&processout.DiscountCreateParameter{
+    Discount: &processout.Discount{
+        SubscriptionID: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+        CouponID:       "25percentoff",
+    }})
 ```
 </div>
 
@@ -209,48 +234,51 @@ curl -X DELETE https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0
 
 ```javascript
 <%= partial "header-js" %>
-client.newSubscription().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3").then(
-    function(subscription) 
-        subscription.removeDiscount("25percentoff").then(function(subscription) {
-            // The coupon discount was successfully removed
+client.newDiscount({
+    id:              "25percentoff",
+    subscription_id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
+}).delete().then(function(subscription) {
+    //
 
-        }, function(err) {
-            // The coupon discount could not be found
+}, function(err) {
+    // The subscription could not be found
 
-        });
-    }, function(err) {
-        // The subscription could not be found
-
-    });
+});
 ```
 
 ```python
 <%= partial "header-python" %>
-subscription = client.new_subscription().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
-subscription.remove_discount("25percentoff")
+client.new_discount().delete({
+    id:              "25percentoff",
+    subscription_id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
+})
 ```
 
 ```ruby
 <%= partial "header-ruby" %>
-subscription = client.subscription.find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
-subscription.remove_discount("25percentoff")
+client.discount.delete(
+    id:              "25percentoff",
+    subscription_id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
+)
 ```
 
 ```php
 <%= partial "header-php" %>
 $subscription = $client->newSubscription()->find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3");
 $subscription->removeDiscount("25percentoff");
+$client->newDiscount()->delete(array(
+    "id"              => "25percentoff",
+    "subscription_id" => "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"
+))
 ```
 
 ```go
 <%= partial "header-go" %>
-sub, err := client.NewSubscription().Find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
-if err != nil {
-    panic(err)
-}
-_, err = sub.RemoveDiscount("25percentoff")
-if err != nil {
-    panic(err)
-}
+err := client.NewDiscount().Delete(&processout.DiscountDeleteParameters{
+    Discount: &processout.Discount{
+        ID:             "25percentoff",
+        SubscriptionID: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    },
+})
 ```
 </div>

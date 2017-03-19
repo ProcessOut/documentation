@@ -53,31 +53,38 @@ curl https://api.processout.com/subscriptions \
 ```javascript
 <%= partial "header-js" %>
 // Let's first create an subscription
-client.newSubscription().createFromPlan("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
-    "silver-plan", {expand: ["project"]}).then(function(subscription) {
-        // And now fetch the project available gateways for subscriptions
-        subscription.getProject().fetchGatewayConfigurations({
-            expand: ["gateway"],
-            filter: "tags: redirection flows: one-off"
-        }).then(function(gateways) {
-            //
+client.newSubscription().create({
+    customer_id: "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
+    plan_id:     "silver-plan",
 
-        }, function(err) {
-            // Couldn't fetch the project's gateways
-        });
+    expand: ["project"]
+}).then(function(subscription) {
+    // And now fetch the project available gateways for subscriptions
+    subscription.getProject().fetchGatewayConfigurations({
+        expand: ["gateway"],
+        filter: "tags: redirection flows: one-off"
+    }).then(function(gateways) {
+        //
 
     }, function(err) {
-        // An error occured
-
+        // Couldn't fetch the project's gateways
     });
+
+}, function(err) {
+    // An error occured
+
+});
 ```
 
 ```python
 <%= partial "header-python" %>
 # Let's first create an subscription
-subscription = client.new_subscription().create_from_plan(
-    "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan",
-    {expand:["project"]})
+subscription = client.new_subscription().create({
+    "customer_id": "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
+    "plan_id":     "silver-plan",
+
+    expand:["project"]
+})
 
 # And now fetch the project's available gateways
 gateways = subscription.project.fetchGatewayConfigurations({
@@ -89,9 +96,12 @@ gateways = subscription.project.fetchGatewayConfigurations({
 ```ruby
 <%= partial "header-ruby" %>
 # Let's first create an subscription
-subscription = client.subscription.create_from_plan(
-    "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan",
-    {expand:["project"]})
+subscription = client.subscription.create(
+    customer_id: "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
+    plan_id:     "silver-plan",
+
+    expand: ["project"]
+)
 
 # And now fetch the project's available gateways
 gateways = subscription.project.fetch_gateway_configurations({
@@ -103,9 +113,12 @@ gateways = subscription.project.fetch_gateway_configurations({
 ```php
 <%= partial "header-php" %>
 // Let's first create an subscription
-$subscription = $client->newSubscription()->createFromPlan(
-    "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan",
-    array("expand" => array("project")));
+$subscription = $client->newSubscription()->create(array(
+    "customer_id" => "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
+    "plan_id"     => "silver-plan",
+
+    "expand" => array("project")
+));
 
 // And now fetch the project's available gateways
 $gateways = $subscription->getProject()->fetchGatewayConfigurations(array(
@@ -117,11 +130,15 @@ $gateways = $subscription->getProject()->fetchGatewayConfigurations(array(
 ```go
 <%= partial "header-go" %>
 // Let's first create an subscription
-sub, err := client.NewSubscription().CreateFromPlan(
-    "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P", "silver-plan",
-    processout.Options{
+sub, err := client.NewSubscription().Create(&processout.SubscriptionCreateParameters{
+    Subscription: &processout.Subscription{
+        CustomerID: processout.String("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P"),
+        PlanID:     processout.String("silver-plan"),
+    },
+    Options: &processout.Options{
         Expand: []string{"project"},
-    })
+    }
+}
 if err != nil {
     panic(err)
 }
@@ -240,10 +257,12 @@ curl -X PUT https://api.processout.com/subscriptions/sub_SSpcwpKNSa2WT2pixBRNyOn
 <%= partial "header-js" %>
 client.newSubscription().find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR").then(
     function(subscription) {
-        subscription.applySource("gway_req_V2UncmUgaGlyaW5nIQ==").then(
+        subscription.save({
+            source: "gway_req_V2UncmUgaGlyaW5nIQ=="
+        }).then(
             function(subscription) {
-                // The customer was successfully subscribed to
-                // the subscription
+                // The subscription is now active and will be automatically
+                // charged
 
             }, function(err) {
                 // An error occured
@@ -257,31 +276,39 @@ client.newSubscription().find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR").then(
 ```python
 <%= partial "header-python" %>
 subscription = client.new_subscription().find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR")
-subscription.apply_source("gway_req_V2UncmUgaGlyaW5nIQ==")
+subscription.save({
+    "source": "gway_req_V2UncmUgaGlyaW5nIQ=="
+})
 
-# The customer is now successfully subscribed to the subscription
+# The subscription is now active and will be automatically charged
 ```
 
 ```ruby
 <%= partial "header-ruby" %>
 subscription = client.subscription.find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR")
-subscription.apply_source("gway_req_V2UncmUgaGlyaW5nIQ==")
+subscription.save(
+    source: "gway_req_V2UncmUgaGlyaW5nIQ=="
+)
 
-# The customer is now successfully subscribed to the subscription
+# The subscription is now active and will be automatically charged
 ```
 
 ```php
 <%= partial "header-php" %>
 $subscription = $client->newSubscription()->find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR");
-$subscription->applySource("gway_req_V2UncmUgaGlyaW5nIQ==");
+$subscription->save(array(
+    "source" => "gway_req_V2UncmUgaGlyaW5nIQ=="
+))
 
-// The customer is now successfully subscribed to the subscription
+// The subscription is now active and will be automatically charged
 ```
 
 ```go
 <%= partial "header-go" %>
 sub, _ := client.NewSubscription().Find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR")
-sub, err = sub.ApplySource("gway_req_V2UncmUgaGlyaW5nIQ==")
+sub, err := sub.Save(&processout.SubscriptionSaveParameters{
+    Source: "gway_req_V2UncmUgaGlyaW5nIQ==",
+})
 if err != nil {
     panic(err)
 }

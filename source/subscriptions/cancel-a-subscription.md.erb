@@ -44,7 +44,9 @@ curl -X DELETE https://api.processout.com/subscriptions/sub_SSpcwpKNSa2WT2pixBRN
 <%= partial "header-js" %>
 client.newSubscription().find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR").then(
     function(subscription) {
-        subscription.cancel("Cancellation reason").then(function(subscription) {
+        subscription.cancel({
+            cancellation_reason: "Cancellation reason"
+        }).then(function(subscription) {
             // The subscription was successfully marked for cancellation
 
         }, function(err) {
@@ -59,7 +61,9 @@ client.newSubscription().find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR").then(
 ```python
 <%= partial "header-python" %>
 subscription = client.new_subscription().find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR")
-subscription.cancel("Cancellation reason")
+subscription.cancel({
+    "cancellation_reason": "Cancellation reason"
+})
 
 # The subscription was successfully marked for cancellation
 ```
@@ -67,7 +71,9 @@ subscription.cancel("Cancellation reason")
 ```ruby
 <%= partial "header-ruby" %>
 subscription = client.subscription.find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR")
-subscription.cancel("Cancellation reason")
+subscription.cancel(
+    cancellation_reason: "Cancellation reason"
+)
 
 # The subscription was successfully marked for cancellation
 ```
@@ -75,7 +81,9 @@ subscription.cancel("Cancellation reason")
 ```php
 <%= partial "header-php" %>
 $subscription = $client->newSubscription()->find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR");
-$subscription->cancel("Cancellation reason");
+$subscription->cancel(array(
+    "cancellation_reason" => "Cancellation reason"
+));
 
 // The subscription was successfully marked for cancellation
 ```
@@ -83,7 +91,11 @@ $subscription->cancel("Cancellation reason");
 ```go
 <%= partial "header-go" %>
 sub, _ := client.NewSubscription().Find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR")
-sub, err = sub.Cancel("Cancellation reason")
+sub, err = sub.Cancel(&processout.SubscriptionCancelParameters{
+    Subscription: &processout.Subscription{
+        CancellationReason: processout.String("Cancellation reason"),
+    },
+})
 if err != nil {
     panic(err)
 }
@@ -108,21 +120,23 @@ will automatically be canceled at that date.
 ```shell
 curl -X DELETE https://api.processout.com/subscriptions/sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR \
     <%= partial "header-curl" %> \
-    -d cancel_at="2022-10-02T15:00:00Z" \
-    -d reason="Cancellation reason"
+    -d cancellation_reason="Cancellation reason" \
+    -d cancel_at="2022-10-02T15:00:00Z"
 ```
 
 ```javascript
 <%= partial "header-js" %>
 client.newSubscription().find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR").then(
     function(subscription) {
-        subscription.cancelAtDate("2022-10-02T15:00:00Z", 
-            "Cancellation reason").then(function(subscription) {
-                // The subscription was successfully marked for cancellation
+        subscription.cancel({
+            cancellation_reason: "Cancellation reason",
+            cancel_at:           "2022-10-02T15:00:00Z"
+        }).then(function(subscription) {
+            // The subscription was successfully marked for cancellation
 
-            }, function(err) {
-                // An error occured
-            });
+        }, function(err) {
+            // An error occured
+        });
 
     }, function(err) {
         // Could not find the subscription
@@ -132,7 +146,10 @@ client.newSubscription().find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR").then(
 ```python
 <%= partial "header-python" %>
 subscription = client.new_subscription().find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR")
-subscription.cancel_at_date("2022-10-02T15:00:00Z", "Cancellation reason")
+subscription.cancel({
+    "cancellation_reason": "Cancellation reason",
+    "cancel_at":           "2022-10-02T15:00:00Z"
+})
 
 # The subscription was successfully marked for cancellation
 ```
@@ -140,7 +157,10 @@ subscription.cancel_at_date("2022-10-02T15:00:00Z", "Cancellation reason")
 ```ruby
 <%= partial "header-ruby" %>
 subscription = client.subscription.find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR")
-subscription.cancel_at_date("2022-10-02T15:00:00Z", "Cancellation reason")
+subscription.cancel(
+    cancellation_reason: "Cancellation reason",
+    cancel_at:           "2022-10-02T15:00:00Z"
+)
 
 # The subscription was successfully marked for cancellation
 ```
@@ -148,7 +168,10 @@ subscription.cancel_at_date("2022-10-02T15:00:00Z", "Cancellation reason")
 ```php
 <%= partial "header-php" %>
 $subscription = $client->newSubscription()->find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR");
-$subscription->cancelAtDate("2022-10-02T15:00:00Z", "Cancellation reason");
+$subscription->cancel(array(
+    "cancellation_reason" => "Cancellation reason",
+    "cancel_at"           => "2022-10-02T15:00:00Z"
+));
 
 // The subscription was successfully marked for cancellation
 ```
@@ -156,7 +179,12 @@ $subscription->cancelAtDate("2022-10-02T15:00:00Z", "Cancellation reason");
 ```go
 <%= partial "header-go" %>
 sub, _ := client.NewSubscription().Find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR")
-sub, err = sub.CancelAtDate("2022-10-02T15:00:00Z", "Cancellation reason")
+sub, err = sub.Cancel(&processout.SubscriptionCancelParameters{
+    Subscription: &processout.Subscription{
+        CancellationReason: processout.String("Cancellation reason"),
+        CancelAt:           processout.Time(time.Now()),
+    },
+})
 if err != nil {
     panic(err)
 }

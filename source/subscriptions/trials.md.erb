@@ -79,7 +79,7 @@ subscription.save
 ```php
 <%= partial "header-php" %>
 $subscription = $client->newSubscription()->find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR");
-$subscription->trialEndAt("2022-10-02T15:00:00Z");
+$subscription->setTrialEndAt("2022-10-02T15:00:00Z");
 $subscription->save();
 
 // The trial was correctly set on the subscription
@@ -88,7 +88,7 @@ $subscription->save();
 ```go
 <%= partial "header-go" %>
 sub, _ := client.NewSubscription().Find("sub_SSpcwpKNSa2WT2pixBRNyOnCrftmJeqR")
-sub.TrialEndAt = "2022-10-02T15:00:00Z"
+sub.TrialEndAt = processout.Time(time.Now())
 sub, err = sub.Save()
 if err != nil {
     panic(err)

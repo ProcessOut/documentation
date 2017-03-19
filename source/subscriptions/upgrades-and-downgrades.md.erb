@@ -56,8 +56,10 @@ curl -PUT DELETE https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGI
 <%= partial "header-js" %>
 client.newSubscription().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3").then(
     function(subscription)
-        // The second parameter means we want to prorate
-        subscription.updatePlan("gold-plan", true).then(function(subscription) {
+        subscription.save({
+            plan_id: "gold-plan",
+            prorate: true
+        }).then(function(subscription) {
             // The subscription was successfully upgraded to the gold
             // plan and prorated
 
@@ -75,19 +77,28 @@ client.newSubscription().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3").then(
 ```python
 <%= partial "header-python" %>
 subscription = client.new_subscription().find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
-subscription.update_plan("gold-plan", true) # true means we want to prorate
+subscription.save({
+    "plan_id": "gold-plan",
+    "prorate": true
+})
 ```
 
 ```ruby
 <%= partial "header-ruby" %>
 subscription = client.subscription.find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3")
-subscription.update_plan("gold-plan", true) # true means we want to prorate
+subscription.save(
+    plan_id: "gold-plan",
+    prorate: true
+)
 ```
 
 ```php
 <%= partial "header-php" %>
 $subscription = $this->newSubscription()->find("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3");
-$subscription->updatePlan("gold-plan", true); // true means we want to prorate
+$subscription->save(array(
+    "plan_id": "gold-plan",
+    "prorate": true
+));
 ```
 
 ```go
@@ -97,8 +108,12 @@ if err != nil {
     panic(err)
 }
 
-// The third parameter means we want to prorate
-_, err = sub.UpdatePlan("gold-plan", true)
+_, err = sub.Save(&processout.SubscriptionSaveParameters{
+    Subscription: &processout.Subscription{
+        PlanID: "gold-plan",
+    },
+    Prorate: true,
+})
 if err != nil {
     panic(err)
 }

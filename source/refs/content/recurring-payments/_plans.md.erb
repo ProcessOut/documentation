@@ -57,7 +57,7 @@ plan = client.new_plan().create({
 
 ```ruby
 <%= partial "header-ruby" %>
-plan = client.plan.new().create(
+plan = client.plan.create(
     id:       "silver-plan",
     name:     "Amazing item",
     amount:   "4.99",
@@ -164,7 +164,7 @@ client.new_plan({
 
 ```ruby
 <%= partial "header-ruby" %>
-client.plan{
+client.plan(
     id: "silver-plan"
 ).delete
 ```

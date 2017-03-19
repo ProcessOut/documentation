@@ -97,7 +97,7 @@ addon = client.new_addon().create({
 
 ```ruby
 <%= partial "header-ruby" %>
-addon = client.addon.new().create(
+addon = client.addon.create(
     subscription_id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
 
     name:     "Addon name",
@@ -325,49 +325,59 @@ curl -X DELETE https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0
 
 ```javascript
 <%= partial "header-js" %>
-client.newAddon().delete("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
-    "addon_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq", {
+client.newAddon({
+    subscription_id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    id:              "addon_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq"
+}).delete({
         prorate: true
-    }).then(
-        function(success) {
-                // 
+}).then(
+    function(success) {
+            // 
 
-        }, function(err) {
-            // Could not delete it
+    }, function(err) {
+        // Could not delete it
 
-        });
+    });
 ```
 
 ```python
 <%= partial "header-python" %>
-client.new_addon().delete("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
-    "addon_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq", {
-        "prorate": true
-    })
+client.new_addon({
+    "subscription_id": "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    "id":              "addon_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq"
+}).delete({
+    "prorate": true
+})
 ```
 
 ```ruby
 <%= partial "header-ruby" %>
-client.addon.delete("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
-    "addon_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq", {
-        prorate: true
-    })
+client.addon(
+    subscription_id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    id:              "addon_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq"
+).delete(
+    prorate: true
+)
 ```
 
 ```php
 <%= partial "header-php" %>
-$client->newAddon()->delete("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
-    "addon_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq", array(
-        "prorate" => true
-    ));
+$client->newAddon(array(
+    subscription_id => "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    id              => "addon_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq"
+))->delete(array(
+    "prorate" => true
+));
 ```
 
 ```go
 <%= partial "header-go" %>
-err := client.NewAddon().Delete("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
-    "addon_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq", &processout.AddonDeleteParameter{
-        Prorate: true,
-    })
+err := client.NewAddon(&processout.Addon{
+    SubscriptionID: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    ID:             "addon_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq",
+}).Delete(&processout.AddonDeleteParameter{
+    Prorate: true,
+})
 ```
 
 Delete an addon from a subscription. An error is thrown if the addon could 

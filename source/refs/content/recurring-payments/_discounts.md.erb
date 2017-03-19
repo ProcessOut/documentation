@@ -63,7 +63,7 @@ discount = client.new_discount().create({
 
 ```ruby
 <%= partial "header-ruby" %>
-discount = client.discount.new().apply(
+discount = client.discount.apply(
     subscription_id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
     amount:          "5"
 )
@@ -165,39 +165,48 @@ curl -X DELETE https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0
 
 ```javascript
 <%= partial "header-js" %>
-client.newDiscount().delete("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
-    "disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq").then(
-        function(success) {
-            // 
+client.newDiscount({
+    subscription_id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    id:              "disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq"
+}).delete().then(function(success) {
+    // 
 
-        }, function(err) {
-            // Could not delete it
+}, function(err) {
+    // Could not delete it
 
-        });
+});
 ```
 
 ```python
 <%= partial "header-python" %>
-client.new_discount().delete("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
-    "disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq")
+client.new_discount({
+    "subscription_id": "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    "id":              "disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq"
+}).delete()
 ```
 
 ```ruby
 <%= partial "header-ruby" %>
-client.discount.delete("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
-    "disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq")
+client.discount(
+    subscription_id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    id:              "disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq"
+).delete
 ```
 
 ```php
 <%= partial "header-php" %>
-$client->newDiscount()->delete("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
-    "disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq");
+$client->newDiscount(array(
+    "subscription_id" => "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    "id"              => "disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq"
+))->delete();
 ```
 
 ```go
 <%= partial "header-go" %>
-err := client.NewDiscount().Delete("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
-    "disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq")
+err := client.NewDiscount(&processout.Discount{
+    SubscriptionID: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
+    ID:             "disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq",
+}).Delete()
 ```
 
 Removes a discount from a subscription. An error is thrown if the discount 

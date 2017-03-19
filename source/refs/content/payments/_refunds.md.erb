@@ -52,7 +52,7 @@ refund = client.new_refund().create({
 
 ```ruby
 <%= partial "header-ruby" %>
-refund = client.refund.new().create(
+refund = client.refund.create(
     transaction_id: "tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC",
     reason:         "customer_request",
     amount:         "4.99"
