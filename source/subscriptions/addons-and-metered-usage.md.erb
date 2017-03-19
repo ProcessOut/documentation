@@ -134,6 +134,7 @@ curl https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzz
 client.newAddon().create({
     subscription_id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
     plan_id:         "per-seat-addon",
+    quantity:        2,
 
     prorate: true
 });
@@ -143,6 +144,7 @@ client.newAddon().create({
 addon = client.new_addon().create({
     "subscription_id": "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
     "plan_id":         "per-seat-addon",
+    "quantity":        2,
 
     "prorate": true
 })
@@ -153,6 +155,7 @@ addon = client.new_addon().create({
 addon = client.addon.new().create(
     subscription_id: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
     plan_id:         "per-seat-addon",
+    quantity:        2,
 
     prorate: true
 )
@@ -163,6 +166,7 @@ addon = client.addon.new().create(
 $addon = $client->newAddon()->create(array(
     "subscription_id" => "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
     "plan_id"         => "per-seat-addon",
+    "quantity"        => 2,
 
     "prorate" => true
 ));
@@ -173,7 +177,8 @@ $addon = $client->newAddon()->create(array(
 addon, err := client.NewAddon().Create(&processout.AddonApplyParameter{
     Addon: &processout.Addon{
         SubscriptionID: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
-        PlanID: "per-seat-addon",
+        PlanID:         "per-seat-addon",
+        Quantity:       2,
     },
     Prorate: true,
 })
