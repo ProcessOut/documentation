@@ -24,7 +24,7 @@ at each cycle:
 - `quantity` is the amount multiplier used to compute the amount billed. For an `amount` of `2` and a quantity set to `10`, the billed amount of the addon is `20.` The quantity must be a positive number, or `0`.
 - `type` is the type of the addon. The possible values are `recurring` and `metered`. The only difference is that `metered` addons will have their `quantity` field automatically reset to `0` at each billing cycle.
 
-The apply an addon on a subscription, you can use [`Addons` &nearr;](/refs/#addons).
+To apply an addon on a subscription, you can use [`Addons` &nearr;](/refs/#addons).
 It is only possible to apply a [`Plan` &nearr;](/refs#plans) on a subscription as an addon once (although a subscription
 can have multiple addons composed of several different plans).
 
