@@ -3,20 +3,28 @@
 > Below is an example of the content of the `data` field of an event.
 
 ```json
-{  
-    "name":"invoice.completed",
-    "sandbox":false,
-    "invoice":{  
-        "id":"proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4",
-        "project":{  
-            "id":"proj_wk9E5C94dOuIcDCe0stqjTJgHmczHaKp",
-            "name":"App Group LIMITED",
-            "email":"sales@appgrouplimited.com",
-            "default_currency":"USD",
-            "created_at":"2016-05-06T20:45:45Z"
+{
+    "name": "transaction.captured",
+    "sandbox": false,
+    "transaction": {
+        "id": "tr_WZIEktoQtzflmfv4aJA645Qwj3JzaVGa",
+        "invoice_id": "iv_CKL1LOXGZ71wYAqGCyfDFhDTR3MGPkLY",
+        "invoice": {  
+            "id":"proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4",
+            "name":"T-Shirt Size M",
+            "price":"22.99",
+            "total":"22.99",
+            "currency":"USD",
+            "request_email":true,
+            "request_shipping":false,
+            "return_url":"https://sales.appgrouplimited.com",
+            "cancel_url":null,
+            "sandbox":false,
+            "url":"https://checkout.processout.com/iv_...",
+            "created_at":"2016-11-05T13:05:27.136003Z"
         },
-        "subscription":null,
-        "customer":{  
+        "customer_id": "cust_74qLxAbCpEYOxiBBwXTPKTP4QgTstude",
+        "customer":{
             "id":"cust_74qLxAbCpEYOxiBBwXTPKTP4QgTstude",
             "balance":"0",
             "currency":"USD",
@@ -37,48 +45,58 @@
             "mrr_local":0,
             "total_revenues_local":22.99
         },
-        "transaction":{  
-            "id":"tr_G5HiwMqKmrO8RDGlR8x6zfeDAssZnl8Q",
-            "name":"T-Shirt Size M",
-            "currency":"USD",
-            "buyer":{  
-                "name":"",
-                "email":"",
-                "address":"",
-                "phone":""
-            },
-            "metadata":{},
-            "processout_fee":"0",
-            "sandbox":false,
-            "created_at":"2016-11-05T13:05:27.236141Z",
-            "amount":"22.99",
-            "amount_local":"22.99",
-            "authorized_amount":"22.99",
-            "authorized_amount_local":"22.99",
-            "captured_amount":"22.99",
-            "captured_amount_local":"22.99",
-            "available_amount":"22.99",
-            "available_amount_local":"22.99",
-            "refunded_amount":"0",
-            "refunded_amount_local":"0",
-            "status":"completed",
-            "gateway_fee":"2.4",
-            "gateway_fee_local":"2.4",
-            "gateway_name":"paypalexpresscheckout",
-            "authorized":true,
-            "captured":true
+        "card_id": "card_knolIrMhVyZXLyYwZ56o6jxgYslH0Sqy",
+        "card": {
+            "address1": null,
+            "address2": null,
+            "avs_check": "unknown",
+            "cvc_check": "passed",
+            "bank_name": "",
+            "brand": "",
+            "city": null,
+            "country": "US",
+            "created_at": "2017-03-17T17:05:08.675622Z",
+            "exp_month": 10,
+            "exp_year": 2018,
+            "expires_soon": false,
+            "id": "card_knolIrMhVyZXLyYwZ56o6jxgYslH0Sqy",
+            "iin": "424242",
+            "last_4_digits": "4242",
+            "metadata": {},
+            "name": null,
+            "project_id": "9b66d6da-45e7-489f-bf91-0a012fe60490",
+            "sandbox": false,
+            "scheme": "visa",
+            "state": null,
+            "type": "credit",
+            "zip": null
         },
-        "name":"T-Shirt Size M",
-        "price":"22.99",
-        "total":"22.99",
-        "currency":"USD",
-        "request_email":true,
-        "request_shipping":false,
-        "return_url":"https://sales.appgrouplimited.com",
-        "cancel_url":null,
-        "sandbox":false,
-        "url":"https://checkout.processout.com/iv_...",
-        "created_at":"2016-11-05T13:05:27.136003Z"
+        "refunds": [],
+        "status": "completed",
+        "created_at": "2017-03-17T17:04:55.813311Z",
+        "amount": "22.99",
+        "authorized": true,
+        "authorized_amount": "22.99",
+        "available_amount": "22.99",
+        "captured": true,
+        "captured_amount": "22.99",
+        "refunded_amount": "0",
+        "currency": "EUR",
+        "details": {
+            "country": null
+        },
+        "error_code": null,
+        "estimated_fee": "0.57",
+        "gateway_fee": "0.51",
+        "gateway_fee_details": {
+            "exchange_fee": "0",
+            "processing_fee": "0.51",
+            "refund_fee": "0"
+        },
+        "gateway_name": "stripe",
+        "metadata": {},
+        "name": "T-Shirt Size M",
+        "sandbox": false,
     }
 }
 ```
@@ -88,7 +106,7 @@ be programmatically fetched. This can be used to notify your application
 when a transaction gets completed, or when a subscription iterates to its next
 period, but can also have many other possible applications.
 
-You can find all the events we currently fire [here](#invoice-events).
+You can find all the events we currently fire [here](#transaction-events).
 
 It is also important to note that events are extremely powerful when they're
 coupled with [webhooks](#webhooks). As soon as an event is created, we'll send
@@ -153,22 +171,30 @@ ev, err := client.NewEvent().Find("ev_T3wg9169RyGLnf1BIgTjLhrolEZU1DSb")
 Fetch an event by its ID. An error is thrown when the event could not be found.
 
 
-### Invoice events
+### Transaction events
 
-The invoice events are created when an update regarding an [invoice](#invoices)
-occurs.
+The transaction events are created when an update regarding a [transaction](#transactions)
+occurs. Because transactions are strongly linked to [invoices](#invoices), you can
+listen to a transaction event to be notified of an invoice event. The transaction
+event will always contain an `invoice_id` field containing the `id` of the invoice
+it was linked to.
 
 ##### Events
 |||
 --:|:--
-<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">invoice.waiting</div> | No payment has been placed yet
-<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">invoice.pending</div> | The payment is pending confirmation by the payment gateway
-<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">invoice.completed</div> | The payment was sucessfully completed
-<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">invoice.failed</div> | The payment has failed
-<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">invoice.disputed</div> | The payment was previously completed but the customer filled a dispute or a chargeback
-<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">invoice.solved</div> | The previous dispute has been resolved in your favor
-<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">invoice.reversed</div> | The previous dispute has been resolved in your customer's favor
-<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">invoice.refunded</div> | You issued a refund for the payment
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">transaction.requested</div> | A payment request was made. No payment has been placed yet
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">transaction.authorized</div> | The payment has been authorized. It is not yet available in your balance and must first be captured
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">transaction.captured</div> | The payment has been captured and funds have been confirmed
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">transaction.failed</div> | The payment has failed
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">transaction.refunded</div> | You issued a refund on the transaction. The amount of the refund can be found in the field `refunded_amount` and in the `refunds` objects list
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">transaction.voided</div> | The transaction has been voided and can't be captured anymore
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">transaction.chargeback.created</div> | A chargeback has been filled by your customer
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">transaction.chargeback.won</div> | The previously filled chargeback was resolved in your favor
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">transaction.chargeback.lost</div> | The previously filled chargeback was resolved in your customer's favor
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">transaction.dispute.created</div> | A dispute has been filled by your customer
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">transaction.dispute.won</div> | The previously filled dispute was resolved in your favor
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">transaction.dispute.lost</div> | The previously filled dispute was resolved in your customer's favor
+<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">transaction.adjusted</div> | The transaction was adjusted by your payment provider (such as refunds on payment fees with credits)
 
 ### Subscription events
 
