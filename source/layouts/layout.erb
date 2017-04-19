@@ -236,7 +236,7 @@
                     return false;
                 });
 
-                $(".main-content .content a").not(".language-selector a").click(function() {
+                $(".main-content .content a").not(".language-selector a").not("a.no-redirect").click(function() {
                     window.open($(this).attr("href"));
                     return false;
                 });

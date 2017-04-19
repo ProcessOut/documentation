@@ -1,0 +1,231 @@
+---
+title: Hosted payment fields — ProcessOut.js
+---
+
+## Your own payment forms <span style="opacity: 0.7; font-size: 0.5em;">— ProcessOut's hosted fields</span>
+
+While the ProcessOut payment modal is a great way to start, it isn't that
+customizable. `ProcessOut.js` lets you entirely control the payment flow
+on your own pages and removes any ProcessOut branding- effectively making
+ProcessOut invisible to your end-user. `ProcessOut.js` is available and free
+for every ProcessOut user.
+
+<hr>
+
+### Compliant with PCI-DSS SAQ A
+
+By using your own form, you're elligible to [PCI-DSS A Self-Assessment Questionary &nearr;](https://www.pcisecuritystandards.org/documents/PCI-DSS-v3_2-SAQ-A_EP-rev1_1.pdf).
+
+PCI-DSS SAQ-A is the easiest PCI-DSS compliancy assessment, and requires the least amount
+of work on your side to be compliant with the industry's standards regarding online card payments.
+
+ProcessOut uses iframes to serve payment inputs for your customers, leaving the security
+to be handled by ProcessOut. While it is possible to customize those inputs, there's still 
+some limitations, such as using custom fonts or complicated input styling (hosted inputs
+have support for basic styling)[#add-some-style]. If you'd like more control over your form
+inputs, [you can use your own payment form &nearr;](/payments/processoutjs-self-hosted-form) using ProcessOut.js as well.
+
+#### Setting up
+
+Let's set up a payment form.
+**Please note that the credit card fields aren't actual input boxes,** but are only
+`div`s. To ensure PCI-compliancy, ProcessOut hosts the credit card fields on its
+servers.
+
+```html
+<form action="/your-capture-endpoint" method="POST" id="payment-form">
+  <div data-processout-input="cc-number"
+        data-processout-placeholder="4242 4242 4242 4242"></div>
+  <div data-processout-input="cc-exp-month"
+        data-processout-placeholder="Expiration month"></div>
+  <div data-processout-input="cc-exp-year"
+        data-processout-placeholder="Expiration year"></div>
+  
+  <!-- It is also possible to use a unified field for the expiration date: -->
+  <div data-processout-input="cc-exp"
+        data-processout-placeholder="Expiration date (mm / yy)"></div>
+
+
+  <div data-processout-input="cc-cvc"
+        data-processout-placeholder="CVC"></div>
+
+  <input type="submit" class="submit" value="Submit Payment">
+</form>
+```
+
+For the payment form to be interactable, you will need to load `ProcessOut.js`. 
+It is important to **always** load it from our CDN like shown below. Please note that
+ProcessOut.js has no dependency, meaning it can work without jQuery.
+
+```html
+<script src="https://js.processout.com/processout.js"></script>
+```
+
+Now that `ProcessOut.js` is loaded, we can start using it. Let's first
+instanciate a new `ProcessOut` instance in a different script tag as soon
+as the DOM is fully loaded, and setup our form:
+
+```html
+<script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function() {
+    var client = new ProcessOut.ProcessOut("proj_vPDoaE0dHoPtsek8SqbwTpgeTN1toazN");
+    var formElement = document.getElementById("payment-form");
+    client.setupForm(formElement, processoutReadyHandler, function(err) {
+      alert("Woops, couldn't setup the form: "+err);
+    });
+  });
+</script>
+```
+
+**Note**: Remember to replace the project ID in the example with your own. When testing,
+prepend your project ID with `test-` like so: `test-proj_vPDoaE0dHoPtsek8SqbwTpgeTN1toazN`.
+
+We also still have to add the handler, which we'll do just now:
+
+#### Bind the form and tokenize the card
+
+As soon as the form is fully loaded, `setupForm` will call `processoutReadyHandler` 
+with the created `CardForm` object. We'll use this object to handle the
+tokenization transparently.
+
+Let's bind the form submission and tokenize the card:
+
+```javascript
+function processoutReadyHandler(form) {
+  // The form is now fully loaded!
+  formElement.addEventListener("submit", function(e) {
+    // Cancel any default action
+    e.preventDefault();
+
+    // Let's tokenize the card
+    client.tokenize(form, {}, function(token) {
+      var field   = document.createElement("input");
+      field.type  = "hidden";
+      field.name  = "token";
+      field.value = token;
+
+      // We add the token input so that it's sent back to  the server.
+      // The only thing left to do is to submit the form
+      formElement.submit();
+    }, function(err) {
+
+      // Card validation errors or network issues are returned
+      // as well. Find the full list of errors below
+      alert(err.message);
+    });
+
+    return false;
+  });
+}
+``` 
+
+<div style="height: 2.5em;"></div>
+
+### Validation and error handling
+
+When tokenizing a card or catching errors, ProcessOut returns custom exceptions which
+can be used to better understand what happened and show friendly messages to
+your users.
+
+```javascript
+client.tokenize(form, {}, function(token) {}, function(err) {
+  switch (err.code) {
+  case "card.declined":
+    break; // The card was declined, a new one should be submitted
+  case "card.expired":
+    break; // The card is expired, a new one should be submitted
+  case "card.invalid":
+    break; // The card is invalid
+  case "card.invalid-number":
+    break; // The card number is invalid
+  case "card.invalid-date", "card.invalid-month", "card.invalid-year":
+    break; // The card expiration date is invalid
+  case "card.invalid-cvc":
+    break; // The card CVC is invalid
+  default:
+    // Another less common error was thrown
+  }
+
+  // It is also possible to display a friendly message to the user:
+  alert(err.message);
+});
+```
+
+#### Add some style
+
+Now that card inputs are set up and working on your payment page, you might
+want to update their style a little bit. To provide maximum security, hosted 
+card fields are not very customisable. They are made to come
+unstylised by default, with a transparent background and no background, margin
+or padding. This is meant to let you customize their parent elements to your
+likings. For instance, if you wish your input to have borders and paddings
+like default inputs do, simply add those attributes to the parent elements
+of the input fields.
+
+However, ProcessOut.js still lets you customize the fonts and similar CSS
+attributes of the fields. This can be done by providing a `processout-style`
+attribute. `processout-style-hover` and `processout-style-focus` are also
+attributes that are available and triggered when the input is hovered on
+or focused in.
+
+The below example uses the styling attributes to set the `color` attribute of
+the field. This example also highlights how to add border to your fields by
+styling the parent element.
+
+```html
+<div style="border: 1px solid black; height: 1.5em;" 
+			data-processout-input="cc-number" 
+			data-processout-placeholder="4242 4242 4242 4242"
+			data-processout-style="color: red;"
+			data-processout-style-hover="color: blue;"
+			data-processout-style-focus="color: green;"></div>
+```
+
+The full list of all the CSS attributes that can be used to style the card
+inputs is the following:
+
+> color, font, font-family, font-size, font-size-adjust, font-stretch, font-style
+> font-variant, font-weight, line-height, text-shadow, transition
+
+#### Handle input events
+
+Additionnaly to adding your custom styles to the card inputs, you may also
+bind your own events when one occurs on a field.
+
+```html
+<script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function() {
+    var client = new ProcessOut.ProcessOut("proj_vPDoaE0dHoPtsek8SqbwTpgeTN1toazN");
+    var formElement = document.getElementById("payment-form");
+    client.setupForm(formElement, processoutReadyHandler, function(err) {
+      alert("Woops, couldn't setup the form: "+err);
+    }, function(event, data) {
+      // And additional parameter can be set to handle events
+      switch (event) {
+      case "oninput":
+      case "onmouseenter":
+      case "onmouseleave":
+      case "onfocus":
+      case "onblur":
+
+        switch (data.type) {
+        case "number":
+          console.log(data.schemes);
+          console.log(data.potentialy_valid);
+          console.log(data.valid);
+        case "expiry":
+          console.log(data.expiry.getMonth());
+          console.log(data.expiry.getYear());
+        }
+        console.log(data);
+      }
+    });
+  });
+</script>
+```
+
+#### What's next?
+
+We've sent the card token back to our server. Let's use it to 
+[capture a payment &nearr;](/payments/capture-a-payment) or to 
+[create a subscription &nearr;](/subscriptions/get-started).
