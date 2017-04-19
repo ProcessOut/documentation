@@ -20,9 +20,9 @@ A common payment flow is composed of the following steps:
 * ProcessOut.js creates a secure token from the card and returns it to the merchant's script
 * The merchant sends the token back to its backend and captures the payment
 
-Behind the scenes, ProcessOut will encrypt the credit card information, send it to the ProcessOut PCI-compliant vault to tokenize it, and return the created token to the merchant. This effectively makes the merchant escape from the PCI-DSS nightmare by being compliant with the PCI Self-Assessment Questionary.
+Behind the scenes, ProcessOut will encrypt the credit card information, send it to the ProcessOut PCI-compliant vault to tokenize it, and return the created token to the merchant. This effectively makes the merchant escape from the PCI DSS nightmare by being compliant with the PCI Self-Assessment Questionary.
 
-ProcessOut offers two solutions to merchants to be compliant with either the PCI SAQ A-EP for PCI SAQ A. The former offers the merchant more control over its payment form as it is fully managed by the merchant, but increases the PCI-DSS scope for the merchant (and complicates the Self-Assessment Questionary).
+ProcessOut offers two solutions to merchants to be compliant with either the PCI SAQ A-EP for PCI SAQ A. The former offers the merchant more control over its payment form as it is fully managed by the merchant, but increases the PCI DSS scope for the merchant (and complicates the Self-Assessment Questionary).
 
 <div class="row margin-top" style="margin-bottom: 4em;">
     <div class="medium-6 columns">
