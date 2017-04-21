@@ -133,15 +133,16 @@
                 background: none; border: none;
                 font-weight: 600;
             }
-            .main-content .language-selector {
+            .main-content .language-selector, .main-content .language-selector-preview {
                 margin-bottom: 0.25em;
             }
-            .main-content .language-selector a {
+            .main-content .language-selector a, .main-content .language-selector-preview a {
                 padding-right: 1em;
                 color: #1abc9c;
                 opacity: 0.6;
             }
-            .main-content .language-selector a.selected, .main-content .language-selector a:hover {
+            .main-content .language-selector a.selected, .main-content .language-selector a:hover,
+            .main-content .language-selector-preview a.selected, .main-content .language-selector-preview a:hover {
                 font-weight: 600;
             }
             .main-content .footer {
@@ -213,6 +214,9 @@
                 if (!getCookie("selected-language")) {
                     setCookie("selected-language", "python", 7);
                 }
+                if (!getCookie("selected-language-preview")) {
+                    setCookie("selected-language-preview", "preview", 7);
+                }
 
                 function refreshSelectors() {
                     $(".language-selector").each(function() {
@@ -223,6 +227,15 @@
                             ".highlight").parent().addClass("hide");
                         $(this).parent(".language-selector-wrapper").find(
                             ".highlight."+getCookie("selected-language")).parent().removeClass("hide");
+                    });
+                    $(".language-selector-preview").each(function() {
+                        $(this).find("a").removeClass("selected");
+                        $(this).find("a[data-language="+getCookie("selected-language-preview")+"]").addClass("selected");
+
+                        $(this).parent(".language-selector-wrapper").find(
+                            ".highlight").parent().addClass("hide");
+                        $(this).parent(".language-selector-wrapper").find(
+                            ".highlight."+getCookie("selected-language-preview")).parent().removeClass("hide");
                     });
                 };
                 refreshSelectors();
@@ -235,8 +248,16 @@
 
                     return false;
                 });
+                $(".language-selector-preview a").click(function() {
+                    setCookie("selected-language-preview", $(this).attr("data-language"), 7);
+                    var curOffset = $(this).offset().top - $(document).scrollTop();
+                    refreshSelectors();
+                    $(document).scrollTop($(this).offset().top-curOffset);
 
-                $(".main-content .content a").not(".language-selector a").not("a.no-redirect").click(function() {
+                    return false;
+                });
+
+                $(".main-content .content a").not(".language-selector a").not(".language-selector-preview a").not("a.no-redirect").click(function() {
                     window.open($(this).attr("href"));
                     return false;
                 });

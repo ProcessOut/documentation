@@ -120,7 +120,7 @@ be quite limited in some use-cases. It is possible to control the flow of the
 modal and manually trigger its loading/appearance using some Javascript.
 
 ```javascript
-var processOut = new ProcessOut.ProcessOut("proj_OvJdvN73Ds1pecfQez2J13pK1YlRqFh4");
+var processOut = new ProcessOut.ProcessOut("<%= partial "projectID" %>");
 
 processOut.newModal('https://checkout.processout.com/resource-id',
 function(modal) {
