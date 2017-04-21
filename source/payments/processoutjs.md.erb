@@ -29,12 +29,226 @@ of work on your side to be compliant with the industry's standards regarding onl
 ProcessOut uses iframes to serve payment inputs for your customers, leaving the security
 to be handled by ProcessOut.
 
+<div class="language-selector-wrapper" style="margin-top: 4rem;">
+<div class="language-selector-preview">
+<a href="#" data-language="preview" class="selected">Preview</a> 
+<a href="#" data-language="html">HTML</a> 
+<a href="#" data-language="css">CSS</a> 
+<a href="#" data-language="javascript">JS</a>
+</div>
+<div>
+<div class="highlight preview">
+<script src="/javascripts/iframeSizer.min.js"></script>
+<iframe src="/payments/processoutjs-example" frameborder="0" width="100%" class="rounded shadowed" id="processoutjs-example" style="min-height: 270px; margin-top: 0.9rem;"></iframe>
+<script>iFrameResize({heightCalculationMethod: "max"}, '#processoutjs-example')</script>
+</div>
+</div>
+
+```html
+<div class="container">
+  <form action="" method="POST" id="card-form">
+    <div class="block-group">
+			<input type="text" placeholder="John Smith" class="b75 block" id="cardholdername">
+      <input type="text" placeholder="10018" class="b25 block" id="cardholderzip">
+		</div>
+
+    <div class="block-group">
+      <div class="block" data-processout-input="cc-number" 
+      data-processout-placeholder="4242 4242 4242 4242"></div>
+      <div class="block" data-processout-input="cc-exp" 
+        data-processout-placeholder="MM / YY"></div>
+      <div class="block" data-processout-input="cc-cvc" 
+        data-processout-placeholder="CVC"></div>
+    </div>
+
+    <div>
+      <input type="submit">
+    </div>
+    <div id="errors"></div>
+    <div id="success"></div>
+  </form>
+</div>
+```
+
+```css
+/*! PocketGrid 1.1.0
+* Copyright 2013 Arnaud Leray
+* MIT License
+*/
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+/* Clearfix */
+.block-group {
+  *zoom: 1;
+}
+.block-group:before, .block-group:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.block-group:after {
+  clear: both;
+}
+
+.block-group {
+  /* ul/li compatibility */
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Nested grid */
+.block-group > .block-group {
+  clear: none;
+  float: left;
+  margin: 0 !important;
+}
+
+/* Default block */
+.block {
+  float: left;
+  width: 100%;
+}
+.b75 {
+  width: 74%;
+}
+.b25 {
+  width: 25%;
+  margin-left: 1%;
+}
+
+html, body {
+  background: #ECEFF1;
+  font-size: 16px;
+}
+
+.container {
+  width: 100%;
+  max-width: 400px;
+  background: white;
+  margin: 3em auto;
+  padding: 1em;
+  border-radius: 4px;
+  box-shadow: 0 5px 7px rgba(50, 50, 93, 0.04), 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+[data-processout-input], input {
+  border: 1px solid #ECEFF1;
+  border-radius: 4px;
+  box-shadow: 0 5px 7px rgba(50, 50, 93, 0.04), 0 1px 3px rgba(0, 0, 0, 0.03);
+  padding: 0.5em;
+  width: 100%;
+  margin-bottom: 1em;
+  font-size: 14px;
+  min-height: 2em;
+}
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+  color:    #ECEFF1;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color:    #ECEFF1;
+  opacity:  1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color:    #ECEFF1;
+  opacity:  1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color:    #ECEFF1;
+}
+[data-processout-input]:nth-child(1) {
+  width: 48%;
+  display: inline-block;
+}
+[data-processout-input]:nth-child(2) {
+  width: 25%;
+  display: inline-block;
+  margin-left: 1%;
+}
+[data-processout-input]:nth-child(3) {
+  width: 25%;
+  display: inline-block;
+  margin-left: 1%;
+}
+
+input[type="submit"] {
+  margin: 0;
+  box-shadow: 0 5px 7px rgba(50, 50, 93, 0.04), 0 1px 3px rgba(0, 0, 0, 0.03);
+  background: #3F51B5;
+  color: white;
+  border-radius: 4px;
+  border: 1px solid #303F9F;
+}
+
+#errors, #success {
+  margin-top: 1em;
+  text-align: center;
+  font-size: 0.9em;
+  color: #D84315;
+}
+#success {
+  color: #4CAF50;
+}
+```
+
+```js
+document.addEventListener("DOMContentLoaded", function() {
+  var processout = new ProcessOut.ProcessOut("proj_gAO1Uu0ysZJvDuUpOGPkUBeE3pGalk3x");
+  var formElement = document.getElementById("card-form")
+  processout.setupForm(formElement, {
+    style: {
+      fontSize: "14px",
+      "::placeholder": {
+        color: "#ECEFF1",
+      },
+    }
+  }, function(form) {
+    form.getNumberField().on("focus", function(e) {
+      document.getElementById("errors").innerHTML = "";
+    });
+    form.getExpiryField().on("focus", function(e) {
+      document.getElementById("errors").innerHTML = "";
+    });
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      // Let's tokenize the card
+      processout.tokenize(form, {
+        name: document.getElementById("cardholdername"),
+        zip:  document.getElementById("cardholderzip")
+      }, function(token) {
+        document.getElementById("success").innerHTML = "Success! Your created card token is "+token;
+      }, function(err) {
+        document.getElementById("errors").innerHTML = err.message;
+      });
+
+      return false;
+    });
+  }, function(err) {
+    console.log(err);
+  });
+});
+```
+</div>
+
+The above example illustrates how one can customize ProcessOut.js in order to
+match its own website style. In this example, the inputs for the cardholder name
+and ZIP code are actual inputs, whereas the ones for the cards are iFrames:
+**ProcessOut.js makes it easy to make common and card inputs styles perfectly match, 
+while keeping sensitive data secure.**
+
 #### Setting up
 
 Let's set up a payment form.
 **Please note that the credit card fields aren't actual input boxes,** but are only
 DOM containers. To ensure PCI-compliancy, ProcessOut hosts the credit card fields on its
-servers.
+own servers.
 
 ```html
 <form action="/your-capture-endpoint" method="POST" id="payment-form">
@@ -72,7 +286,8 @@ as the DOM is fully loaded, and setup our form:
 ```html
 <script type="text/javascript">
   document.addEventListener("DOMContentLoaded", function() {
-    var client = new ProcessOut.ProcessOut("proj_vPDoaE0dHoPtsek8SqbwTpgeTN1toazN");
+    var client = new ProcessOut.ProcessOut(
+      "<%= partial "projectID" %>");
     var formElement = document.getElementById("payment-form");
     client.setupForm(formElement, processoutReadyHandler, function(err) {
       alert("Woops, couldn't setup the form: "+err);
@@ -82,7 +297,7 @@ as the DOM is fully loaded, and setup our form:
 ```
 
 **Note**: Remember to replace the project ID in the example with your own. When testing,
-prepend your project ID with `test-` like so: `test-proj_vPDoaE0dHoPtsek8SqbwTpgeTN1toazN`.
+prepend your project ID with `test-` like so: `test-<%= partial "projectID" %>`.
 
 We also still have to add the handler, which we'll do just now:
 
@@ -102,7 +317,11 @@ function processoutReadyHandler(form) {
     e.preventDefault();
 
     // Let's tokenize the card
-    client.tokenize(form, {}, function(token) {
+    client.tokenize(form, {
+      // It's possible to send cardholder information (optional)
+      name: document.getElementById("cardholdername"),
+      zip:  document.getElementById("cardholderzip")
+    }, function(token) {
       var field   = document.createElement("input");
       field.type  = "hidden";
       field.name  = "token";
@@ -123,9 +342,7 @@ function processoutReadyHandler(form) {
 }
 ``` 
 
-<div style="height: 2.5em;"></div>
-
-### Validation and error handling
+#### Validation and error handling
 
 When tokenizing a card or catching errors, ProcessOut returns custom exceptions which
 can be used to better understand what happened and show friendly messages to
@@ -159,73 +376,62 @@ client.tokenize(form, {}, function(token) {}, function(err) {
 
 Now that card inputs are set up and working on your payment page, you might
 want to update their style a little bit. To provide maximum security, hosted 
-card fields are not very customisable. They are made to come
-unstylised by default, with a transparent background and no background, margin
+card fields styles are kept to the minimum. They are made to come
+unstylised by default, with a transparent background and no margin
 or padding. This is meant to let you customize their parent elements to your
 likings. For instance, if you wish your input to have borders and paddings
 like default inputs do, simply add those attributes to the parent elements
 of the input fields.
 
 However, ProcessOut.js still lets you customize the fonts and similar CSS
-attributes of the fields. This can be done by providing a `processout-style`
-attribute. `processout-style-hover` and `processout-style-focus` are also
-attributes that are available and triggered when the input is hovered on
-or focused in.
+attributes of the fields. This can be done by passing options along when
+calling `setupForm`.
 
-The below example uses the styling attributes to set the `color` attribute of
-the field. This example also highlights how to add border to your fields by
-styling the parent element.
+```js
+var style = {
+  fontSize: "14px",
+  "::placeholder": {
+    color: "#ECEFF1"
+  }
+};
 
-```html
-<div style="border: 1px solid black; height: 1.5em;" 
-			data-processout-input="cc-number" 
-			data-processout-placeholder="4242 4242 4242 4242"
-			data-processout-style="color: red;"
-			data-processout-style-hover="color: blue;"
-			data-processout-style-focus="color: green;"></div>
+client.setupForm(formElement, {
+  style: style
+}, processoutReadyHandler, function(err) {
+  //
+});
 ```
 
 The full list of all the CSS attributes that can be used to style the card
 inputs is the following:
 
-> color, font, font-family, font-size, font-size-adjust, font-stretch, font-style
-> font-variant, font-weight, line-height, text-shadow, transition
+> color, fontFamily, fontSize, fontSizeAdjust, fontStretch, fontSmoothing,
+> fontStyle, fontVariant, fontWeight, fontHeight, lineHeight, textShadow,
+> textTransform, textDecoration, transition
+
+Additionnally, you may provide pseudo classes/elements as sub-items in the style,
+as shown in the above example. The available pseudo elements are:
+> :hover, :focus, ::placeholder, ::selection
 
 #### Handle input events
 
-Additionnaly to adding your custom styles to the card inputs, you may also
-bind your own events when one occurs on a field.
+It is possible to hook functions to specific events happening on card inputs,
+such as when the use clicks or focuses on an input.
 
-```html
-<script type="text/javascript">
-  document.addEventListener("DOMContentLoaded", function() {
-    var client = new ProcessOut.ProcessOut("proj_vPDoaE0dHoPtsek8SqbwTpgeTN1toazN");
-    var formElement = document.getElementById("payment-form");
-    client.setupForm(formElement, processoutReadyHandler, function(err) {
-      alert("Woops, couldn't setup the form: "+err);
-    }, function(event, data) {
-      // And additional parameter can be set to handle events
-      switch (event) {
-      case "oninput":
-      case "onmouseenter":
-      case "onmouseleave":
-      case "onfocus":
-      case "onblur":
-
-        switch (data.type) {
-        case "number":
-          console.log(data.schemes);
-          console.log(data.potentialy_valid);
-          console.log(data.valid);
-        case "expiry":
-          console.log(data.expiry.getMonth());
-          console.log(data.expiry.getYear());
-        }
-        console.log(data);
-      }
-    });
+```js
+client.setupForm(formElement, function(form) {
+  form.getNumberField().on("click", function(e) {
+    console.log(e);
   });
-</script>
+  form.getExpiryField().on("click", function(e) {
+    console.log(e);
+  });
+  form.getCVCField().on("click", function(e) {
+    console.log(e);
+  });
+}, function(err) {
+  //
+});
 ```
 
 #### What's next?
