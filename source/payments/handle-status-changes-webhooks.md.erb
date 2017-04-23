@@ -51,7 +51,7 @@ You may find the list of all the available transaction's statuses below:
 <div style="white-space: nowrap; color: #795da3;" class="console-font">partially-refunded</div> | The transaction was partially refunded
 <div style="white-space: nowrap; color: #795da3;" class="console-font">refunded</div> | The transaction was refunded
 
-#### Create a webhook endpoint
+#### Handling webhooks & status changes
 
 First, we'll have to create an endpoint on our online service that accepts
 requests from the Internet. This is the address to which ProcessOut will
@@ -78,13 +78,15 @@ client.newEvent().find(req["event_id"]).then(function(event) {
     var data = event.getData();
 
     switch (data["name"]) {
-    case "invoice.completed":
+    case "transaction.captured":
         // Successful payment
         break;
-    case "invoice.pending":
-        // Payment still needs some time to be processed
+    case "transaction.authorized":
+        // Payment was authorized but not yet captured
         break;
     // ...
+    // Access data from within the event data:
+    // data["transaction"].getId();
     default:
         console.log("Unknown webhook action");
         return;
@@ -104,15 +106,17 @@ client.newEvent().find(req["event_id"]).then(function(event) {
 event = client.new_event().find(req["event_id"])
 data  = event.data
 
-if data["name"] == "invoice.completed":
+if event.name == "transaction.captured":
     # Successful payment
     pass
 
-elif data["name"] == "invoice.pending":
-    # Payment still needs some time to be processed
+elif event.name == "transaction.authorized":
+    # Payment was authorized but not yet captured
     pass
 
 # ...
+# Access data from within the event data:
+# data.transaction.id
 
 else:
     # Shouldn't be here..
@@ -126,13 +130,15 @@ else:
 event = client.event.find(req.event_id)
 data  = event.data
 
-if data["name"] == "invoice.completed"
+if event.name == "transaction.captured"
     # Successful payment
 
-elsif data["name"] == "invoice.pending"
-    # Payment still needs some time to be processed
+elsif event.name == "transaction.authorized"
+    # Payment was authorized but not yet captured
 
 # ...
+# Access data from within the event data:
+# data.transaction.id
 
 else
     # Shouldn't be here..
@@ -148,15 +154,17 @@ $req    = json_decode($reqRaw, true);
 $event = $client->newEvent()->find($req["event_id"]);
 $data  = $event->getData();
 
-switch($data["name"])
+switch($event->getName())
 {
-case "invoice.completed":
+case "transaction.captured":
     // Successful payment
     break;
-case "invoice.pending":
-    // Payment still needs some time to be processed
+case "transaction.authorized":
+    // Payment was authorized but not yet captured
     break;
 // ...
+// Access data from within the event:
+// $data["transaction"]->getId();
 default:
     echo "Unknown webhook action"; exit();
 }
@@ -166,9 +174,7 @@ default:
 <%= partial "header-go" %>
 // EventData is the definition of a ProcessOut Event data
 type EventData struct {
-    Name        string              `json:"name"`
-    Sandbox     bool                `json:"sandbox"`
-    Invoice     *processout.Invoice `json:"invoice"`
+    Transaction *processout.Transaction `json:"invoice"`
 }
 
 // ProcessOutWebhook is the definition of a ProcessOut webhook
@@ -199,15 +205,16 @@ func handleProcessOutWebhooks(w http.ResponseWriter,
     }
 
 	switch event.Name {
-	case "invoice.completed":
+	case "transaction.captured":
 		// Successful payment
 
-	case "invoice.pending":
-		// Payment still needs some time to be processed
+	case "transaction.authorized":
+		// Payment was authorized but not yet captured
 
 	// ...
     // Access data from within the Data field
     // e, _ := event.Data.(EventData)
+    // fmt.Println(e.Transaction)
 
 	default:
 		// Return an HTTP OK response so that unsuported
@@ -219,9 +226,9 @@ func handleProcessOutWebhooks(w http.ResponseWriter,
 ```
 </div>
 
-The full list of events can be found in our [`API reference` &nearr;](/refs/#invoice-events).
+The full list of events can be found in our [`API reference` &nearr;](/refs/#transaction-events).
 
-#### Set up webhook endpoints
+#### Wrapping up by setting the URL in your Dashboard
 
 In order to receive webhooks, you will need to go to your 
 [Dashboard &nearr;](https://dashboard.processout.com) &rsaquo; Events &rsaquo; and add a
