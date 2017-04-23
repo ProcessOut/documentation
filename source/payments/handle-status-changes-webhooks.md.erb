@@ -198,8 +198,7 @@ func handleProcessOutWebhooks(w http.ResponseWriter,
 		return
     }
 
-    e, _ := event.(EventData)
-	switch e.Name {
+	switch event.Name {
 	case "invoice.completed":
 		// Successful payment
 
@@ -207,6 +206,8 @@ func handleProcessOutWebhooks(w http.ResponseWriter,
 		// Payment still needs some time to be processed
 
 	// ...
+    // Access data from within the Data field
+    // e, _ := event.Data.(EventData)
 
 	default:
 		// Return an HTTP OK response so that unsuported
