@@ -66,7 +66,7 @@ $coupon = $client->newCoupon()->create(array(
 
 ```go
 <%= partial "header-go" %>
-coupon, err := client.NewCoupon().Create(&processout.CouponCreateParameter{
+coupon, err := client.NewCoupon().Create(processout.CouponCreateParameters{
     Coupon: &processout.Coupon{
         ID:         processout.String("25percentoff"),
         PercentOff: processout.Int64(25),
@@ -163,7 +163,7 @@ $client->newCoupon(array(
 
 ```go
 <%= partial "header-go" %>
-err = client.NewCoupon(&processout.Client{
+err = client.NewCoupon(&processout.Coupon{
     ID: processout.String("25percentoff"),
 }).Delete()
 ```

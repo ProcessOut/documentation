@@ -74,7 +74,7 @@ $customer = $client->newCustomer()->create(array(
 
 ```go
 <%= partial "header-go" %>
-cust, err := client.NewCustomer().Create(&processout.CustomerCreateParameter{
+cust, err := client.NewCustomer().Create(processout.CustomerCreateParameters{
     Customer: &processout.Customer{
         Email:     processout.String("john@smith.com"),
         FirstName: processout.String("John"),

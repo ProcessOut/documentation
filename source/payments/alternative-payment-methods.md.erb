@@ -142,7 +142,7 @@ $gateways = $invoice->getProject()->fetchGatewayConfigurations(array(
 ```go
 <%= partial "header-go" %>
 // Let's first create an invoice
-iv, err := client.NewInvoice().Create(&processout.InvoiceCreateParameter{
+iv, err := client.NewInvoice().Create(processout.InvoiceCreateParameters{
     Invoice: &processout.Invoice{
         Name:     processout.String("Amazing item"),
         Amount:   processout.String("4.99"),
@@ -157,7 +157,7 @@ if err != nil {
 }
 
 // And now fetch the project available gateways for one-off payments
-gateways, erri := iv.Project.FetchGatewayConfigurations(&processout.ProjectFetchGatewayConfigurationsParameters{
+gateways, erri := iv.Project.FetchGatewayConfigurations(processout.ProjectFetchGatewayConfigurationsParameters{
     Options: &processout.Options{
         Expand: []string{"gateway"},
         Filter: "tags: redirection flows: one-off",

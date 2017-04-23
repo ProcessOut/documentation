@@ -145,7 +145,7 @@ $addon = $client->newAddon()->create(array(
 
 ```go
 <%= partial "header-go" %>
-addon, err := client.NewAddon().Create(&processout.AddonApplyParameter{
+addon, err := client.NewAddon().Create(processout.AddonApplyParameters{
     Addon: &processout.Addon{
         SubscriptionID: processout.String("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"),
 
@@ -158,7 +158,7 @@ addon, err := client.NewAddon().Create(&processout.AddonApplyParameter{
 })
 
 # or
-addon, err := client.NewAddon().Create(&processout.AddonApplyParameter{
+addon, err := client.NewAddon().Create(&processout.AddonApplyParameters{
     Addon: &processout.Addon{
         SubscriptionID: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
 
@@ -297,12 +297,12 @@ $addon->save(array(
 ```go
 <%= partial "header-go" %>
 addon.Quantity = 10
-_, err := addon.Save(&processout.AddonSaveParameter{
+_, err := addon.Save(processout.AddonSaveParameters{
     Prorate: true,
 })
 
 // or
-_, err := addon.Save(&processout.AddonSaveParameter{
+_, err := addon.Save(processout.AddonSaveParameters{
     IncrementQuantityBy: 1,
     Prorate:             true,
 })
@@ -375,7 +375,7 @@ $client->newAddon(array(
 err := client.NewAddon(&processout.Addon{
     SubscriptionID: processout.String("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"),
     ID:             processout.String("addon_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq"),
-}).Delete(&processout.AddonDeleteParameter{
+}).Delete(processout.AddonDeleteParameters{
     Prorate: true,
 })
 ```

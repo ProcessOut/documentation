@@ -81,7 +81,7 @@ $customer = $client->newCustomer()->create(array(
 
 ```go
 <%= partial "header-go" %>
-cust, err := client.NewCustomer().Create(&processout.CustomerCreateParameters{
+cust, err := client.NewCustomer().Create(processout.CustomerCreateParameters{
     Customer: &processout.Customer{
         FirstName: processout.String("John"),
         LastName:  processout.String("Smith"),
@@ -149,7 +149,7 @@ $token = $client->newToken()->create(array(
 
 ```go
 <%= partial "header-go" %>
-token, err := client.NewToken().Create(&processout.TokenCreateParameter{
+token, err := client.NewToken().Create(&processout.TokenCreateParameters{
     Token: &processout.Token{
         CustomerID: processout.String("cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj"),
     },

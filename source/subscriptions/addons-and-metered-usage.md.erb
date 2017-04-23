@@ -174,7 +174,7 @@ $addon = $client->newAddon()->create(array(
 
 ```go
 <%= partial "header-go" %>
-addon, err := client.NewAddon().Create(&processout.AddonApplyParameter{
+addon, err := client.NewAddon().Create(&processout.AddonApplyParameters{
     Addon: &processout.Addon{
         SubscriptionID: "sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3",
         PlanID:         "per-seat-addon",

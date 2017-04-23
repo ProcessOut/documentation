@@ -42,9 +42,11 @@ $customer = $client->newCustomer()->find("cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb"
 ```go
 <%= partial "header-go" %>
 cust, err := client.NewCustomer().Find("cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb", 
-    processout.Options{
-        Expand: []string{"subscriptions"},
-    })
+    processout.CustomerFindParameters{
+        Options: &processout.Options{
+            Expand: []string{"subscriptions"},
+        }),
+    }
 ```
 
 Often, resources fetched through the API will not expand their sub resources by default (such

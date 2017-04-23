@@ -80,7 +80,7 @@ $plan = $client->newPlan()->create(array(
 
 ```go
 <%= partial "header-go" %>
-plan, err := client.NewPlan().Create(&processout.PlanCreate{
+plan, err := client.NewPlan().Create(processout.PlanCreateParameters{
     Plan: &processout.Plan{
         ID:       processout.String("silver-plan"),
         Name:     processout.String("Amazing item"),

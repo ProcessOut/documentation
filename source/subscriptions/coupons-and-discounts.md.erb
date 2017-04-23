@@ -203,7 +203,7 @@ $discount = $client->newDiscount()->create(array(
 
 ```go
 <%= partial "header-go" %>
-sub, _ := client.NewSubscription().Create(&processout.SubscriptionCreateParameter{
+sub, _ := client.NewSubscription().Create(&processout.SubscriptionCreateParameters{
     Subscription: &processout.Subscription{
         CustomerID: processout.String("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P"),
         PlanID:     processout.String("silver-plan"),
@@ -212,7 +212,7 @@ sub, _ := client.NewSubscription().Create(&processout.SubscriptionCreateParamete
 })
 
 // or
-discount, err := client.NewDiscount().Create(&processout.DiscountCreateParameter{
+discount, err := client.NewDiscount().Create(&processout.DiscountCreateParameters{
     Discount: &processout.Discount{
         SubscriptionID: processout.String("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"),
         CouponID:       processout.String("25percentoff"),

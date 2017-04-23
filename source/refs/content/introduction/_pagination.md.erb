@@ -50,7 +50,7 @@ $customers = $client->newCustomer()->all(array(
 
 ```go
 <%= partial "header-go" %>
-customers, err := client.NewCustomer().All(&processout.CustomerAllParameters{
+customers, err := client.NewCustomer().All(processout.CustomerAllParameters{
     Options: &processout.Options{
         StartAfter: "cust_FM5ZDn3PjkCmDVXYnqrZFrnlypilDicD",
         Limit:      20,

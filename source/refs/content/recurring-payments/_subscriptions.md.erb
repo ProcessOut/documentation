@@ -123,7 +123,7 @@ $subscription = $client->newSubscription()->create(array(
 
 ```go
 <%= partial "header-go" %>
-sub, err := client.NewSubscription().Create(&processout.SubscriptionCreateParameter{
+sub, err := client.NewSubscription().Create(processout.SubscriptionCreateParameters{
     Subscription: &processout.Subscription{
         CustomerID: processout.String("cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P"),
         Name:       processout.String("Amazing item"),
@@ -134,7 +134,7 @@ sub, err := client.NewSubscription().Create(&processout.SubscriptionCreateParame
 })
 
 // or
-sub, err := client.NewSubscription().Create(&processout.SubscriptionCreateParameter{
+sub, err := client.NewSubscription().Create(&processout.SubscriptionCreateParameters{
     Subscription: &processout.Subscription{
         CustomerID: "cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P",
         PlanID:     "silver-plan",
@@ -242,7 +242,7 @@ $subscription = $client->newSubscription()->save(array(
 
 ```go
 <%= partial "header-go" %>
-sub, err := client.NewSubscription().ApplySource(&processout.SubscriptionSaveParameter{
+sub, err := client.NewSubscription().ApplySource(processout.SubscriptionSaveParameters{
     Subscription: &processout.Subscription{
         ID: processout.String("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"),
     },
@@ -307,7 +307,7 @@ $subscription = $client->newSubscription()->save(array(
 
 ```go
 <%= partial "header-go" %>
-sub, err := client.NewSubscription().Save(&processout.SubscriptionSave{
+sub, err := client.NewSubscription().Save(processout.SubscriptionSaveParameters{
     Subscription: &processout.Subscription{
         ID:     processout.String("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"),
         PlanID: processout.String("gold-plan"),
@@ -374,7 +374,7 @@ $subscription = $client->newSubscription()->cancel(array(
 
 ```go
 <%= partial "header-go" %>
-sub, err := client.NewSubscription().Cancel(&processout.SubscriptionCancelParameter{
+sub, err := client.NewSubscription().Cancel(processout.SubscriptionCancelParameters{
     Subscription: &processout.Subscription{
         ID: processout.String("sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3"),
         CancellationReason: processout.String("Cancellation reason"),
