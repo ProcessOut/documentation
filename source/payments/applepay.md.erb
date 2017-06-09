@@ -1,0 +1,153 @@
+---
+title: Accept payments with Apple Pay
+---
+
+## Accepting payments with Apple Pay
+
+Additionnaly to accepting payments by card, Apple Pay lets you provide your
+customers with a one-click checkout process using cards stored in their personal
+wallet, from within their browser.
+
+<hr>
+
+#### 1. Setting Apple Pay on ProcessOut
+
+Before integrating Apple Pay and tokenizing the cards of your customers,
+you need to configure Apple Pay in your [ProcessOut Dashboard &nearr;](https://dashboard.processout.com).
+To finalize set up, you will need a proper Apple Developer account, needed
+to generate the Apple certificates and validate the domains on which you wish
+to accept payments with Apple Pay. 
+
+Don't worry though- the steps are all explained in details and shouldn't take more than a few minutes!
+
+#### 2. Add the Apple Pay button to your website
+
+The below code will show a white version of the Apple Pay logo, automatically
+using the Apple Pay images built in the Safari browser (mobile and desktop).
+You can also see that by default, we want the button to be hidden so it
+only shows up on Apple Pay compatible devices/browsers.
+
+```html
+<style>
+  #apple-pay-button {
+    display: none;
+    background-color: black;
+    background-image: -webkit-named-image(apple-pay-logo-white);
+    background-size: 100% 100%;
+    background-origin: content-box;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 44px;
+    padding: 10px 0;
+    border-radius: 10px;
+  }
+  #apple-pay-button.visible {
+    display: block;
+  }
+</style>
+<button id="apple-pay-button"></button>
+```
+
+Next up, load ProcessOut.js on your page to interact with Apple Pay and generate
+your customer card token.
+
+```html
+<script src="https://js.processout.com/processout.js"></script>
+```
+
+You can now check if the browser/device of the user supports Apple Pay and
+show the Apple Pay button.
+
+```js
+var client = new ProcessOut.ProcessOut("proj_XypcVbbihw7uzAVj18egy1nZeppStAhu");
+client.applePay.checkAvailability(function(err) {
+  // We want to show the button only if there's no error
+  if (err) console.log(err);
+  else     document.getElementById("apple-pay-button").className += "visible";
+});
+```
+
+#### 3. Tokenize the user's card with Apple Pay
+
+Because the action of displaying the Apple Pay payment sheet must be done
+in conjonction with a user event (such as a click), we'll bind the 
+`click` event on the Apple Pay button to start the Apple Pay session.
+
+```js
+document.getElementById("apple-pay-button").
+  addEventListener("click", tokenizeApplePay);
+```
+
+When tokenizing an Apple Pay card, you will need to create an Apple Pay 
+[`PaymentRequest` object &nearr;](https://developer.apple.com/reference/applepayjs/paymentrequest).
+The only fields required to start the Apple Pay session are `total`, `currencyCode`
+and `countryCode` (corresponding to the country of your business).
+ProcessOut.js will set sensible defaults for the other fields.
+
+Although Apple Pay requires a price to be set and shown to the user, it does not block
+you from charging a different amount when capturing a transaction. The Apple Pay
+token will also be able to be used on subscriptions, or tokenized to be charged
+when you want. We still strongly advice you to show an amount close — if not equal —
+to the amount you'll charge the user.
+
+```js
+function tokenizeApplePay() {
+  var session = client.applePay.newSession({
+    total: {
+      label: 'Amazing invoice',
+      amount: '19.99'
+    },
+    currencyCode: "USD",
+    countryCode: "US"
+  });
+}
+```
+
+Now that we've been built the Apple Pay payment request, we simply need to use
+it to build the Apple Pay payment sheet and tokenize the user's card.
+
+```js
+function tokenizeApplePay() {
+  var session = ...; // See above
+
+  client.tokenize(session, {
+    // Some custom data, such as your internal customer_id
+  }, function(card) {
+    // Calling session.completePayment with STATUS_SUCCESS closes the
+    // Apple Pay payment sheet with a success message
+    session.completePayment(ApplePaySession.STATUS_SUCCESS);
+    console.log(card.id);
+
+  }, function(err) {
+    // STATUS_FAILURE shows an error on the Apple Pay payment sheet
+    session.completePayment(ApplePaySession.STATUS_FAILURE);
+    console.log(err);
+
+  });
+}
+```
+
+The `card.id` can then be sent to your backend, and can be used to [charge your
+customers &nearr;](/payments/capture-a-payment) or [create subscriptions &nearr;](/subscriptions/get-started)!
+
+#### Customize your integration
+
+Hooks are available to execute custom actions when the user cancels the payment
+or closes the Apple Pay payment sheet.
+
+```js
+function tokenizeApplePay() {
+  var session = ...; // See above
+
+  session.oncancel = function(e) {
+    // Custom action
+  };
+
+  client.tokenize(session, ...); // See above
+}
+```
+
+It is also possible to ask your customer for billing or shipping details,
+as well as offering the user choices of shipping methods. For further assistance
+with those uses-cases, please contact us at [help@processout.com](mailto:help@processout.com). 
+We'd love to help!
