@@ -13,22 +13,39 @@ its transaction for easy reference.
 |||
 --:|:--
 <span class="console-font">**id**</span><br />*string*<br />Read-only |
+<span class="console-font">**invoice**</span><br />*invoice_id*<br />*[Invoice](#invoices) expandable* | Invoice used to create the transaction, if any
 <span class="console-font">**customer**</span><br />*customer_id*<br />*[Customer](#customers) expandable* | Customer linked to the transaction
-<span class="console-font">**invoice**</span><br />*invoice_id*<br />*[Invoice](#invoices) expandable* | Invoice used to create the transaction
 <span class="console-font">**subscription**</span><br />*subscription_id*<br />*[Subscription](#subscriptions) expandable* | Subscription used to create the transaction
 <span class="console-font">**token**</span><br />*token_id*<br />*[Token](#tokens) expandable* | Token used to capture the transaction
 <span class="console-font">**card**</span><br />*card_id*<br />*[Card](#cards) expandable* | Card used to capture the transaction
+<span class="console-font">**operations**</span><br />*List of Operations expandable* | The list of all the transaction operations (pending, failed or successful) made on the transactions, such as `authorization`, `capture`, `refund` and so on- see below for object reference
+<span class="console-font">**operations**</span><br />*List of Operations expandable* | The list of all the transaction operations (pending, failed or successful) made on the transactions, such as `authorization`, `capture`, `refund` and so on- see below for object reference
 <span class="console-font">**name**</span><br />*string*<br />Read-only | Name of the Transaction
+<span class="console-font">**amount**</span><br />*string*<br />Read-only | Amount requested when creating the transaction
 <span class="console-font">**authorized_amount**</span><br />*string*<br />Read-only | Amount that was authorized for the transaction
 <span class="console-font">**captured_amount**</span><br />*string*<br />Read-only | Amount that was captured for the transaction
 <span class="console-font">**currency**</span><br />*string*<br />Read-only | Currency of the transaction
 <span class="console-font">**authorized**</span><br />*boolean*<br />Read-only | Whether or not the transaction was authorized
 <span class="console-font">**captured**</span><br />*boolean*<br />Read-only | Whether or not the transaction was captured
 <span class="console-font">**status**</span><br />*string*<br />Read-only | [Status](/payments/handle-status-changes-webhooks/#transaction-statuses) of the transaction
+<span class="console-font">**error_code**</span><br />*string*<br />Read-only | Transaction error code when the payment has failed
 <span class="console-font">**processout_fee**</span><br />*string*<br />Read-only | Fee taken by ProcessOut to handle the transaction
 <span class="console-font">**estimated_fee**</span><br />*string*<br />Read-only | Gateway fee estimated before processing the payment
 <span class="console-font">**gateway_fee**</span><br />*string*<br />Read-only | Fee taken by the payment gateway to process the payment
 <span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the transaction's invoice, key-value pair (string - string)
+<span class="console-font">**created_at**</span><br />*RFC1123 date or timestamp*<br />Read-only |
+
+##### Operation attributes
+|||
+--:|:--
+<span class="console-font">**id**</span><br />*string*<br />Read-only |
+<span class="console-font">**amount**</span><br />*string*<br />Read-only | Amount related to the transaction operation (can be negative)
+<span class="console-font">**is_attempt**</span><br />*boolean*<br />Read-only | Whether or not the operation is the attempt
+<span class="console-font">**has_failed**</span><br />*boolean*<br />Read-only | Whether or not the operation has failed. Typically, `has_failed` will only be set when `is_attempt` is `false` (i.e. when the operation got its result back, after attempting it)
+<span class="console-font">**is_accountable**</span><br />*boolean*<br />Read-only | Whether or not the amount of the operation should be used to compute the actual amount of the transaction
+<span class="console-font">**error_code**</span><br />*string*<br />Read-only | Operation error code, typically set when `has_failed` is true
+<span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the transaction's invoice, key-value pair (string - string)
+<span class="console-font">**created_at**</span><br />*RFC1123 date or timestamp*<br />Read-only |
 
 As seen in the transaction's attributes, it also contains a `status`, representing
 the current status of the transaction. This status is automatically updated

@@ -4,14 +4,15 @@ Tokens are objects referencing to a customer payment method, and can be used
 to capture payments for your customers programmatically.
 
 Tokens can reference objects such as `cards`, but also tokens native to the
-alternative payment gateways you use. It is therefore possible to create tokens
-for [PayPal](https://paypal.com) for instance.
+alternative payment gateways you use. For example, it is therefore possible to create tokens
+for [PayPal](https://paypal.com).
 
 When activating a subscription, tokens are also automatically created and linked
 to the subscription so that ProcessOut uses it under the hood to automatically
 capture payments as the subscription iterates. Such tokens will be marked with
 a `is_subscription_only` set to `true`, and can only be used on the subscription 
-they were created for.
+they were created for. For this reason, you might want to avoid displaying
+those tokens to your customers when listing their stored payment methods.
 
 ##### Attributes
 |||
@@ -21,8 +22,10 @@ they were created for.
 <span class="console-font">**card**</span><br />*card_id*<br />*[Card](#cards) expandable* | Card used to create the token
 <span class="console-font">**type**</span><br />*string*<br />Read-only | Source used to create the token. Most of the time will be a `card`
 <span class="console-font">**is_subscription_only**</span><br />*boolean*<br />Read-only | Whether or not the token was created for a specific subscription
+<span class="console-font">**is_default**</span><br />*boolean*<br />Read-only | Whether or not the token is the default customer token (i.e. the one used when capturing a payment using the customer ID as the source)
 <span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the customer, key-value pair (string - string)
 <span class="console-font">**sandbox**</span><br />*boolean*<br />Read-only |
+<span class="console-font">**created_at**</span><br />*RFC1123 date or timestamp*<br />Read-only |
 
 ### Create a token
 

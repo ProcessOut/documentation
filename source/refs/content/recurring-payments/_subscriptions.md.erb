@@ -10,19 +10,28 @@ Subscriptions are objects representing your customers' subscriptions.
 <span class="console-font">**customer**</span><br />*customer_id*<br />*[Customer](#customers) expandable* | Customer owning the subscription
 <span class="console-font">**plan**</span><br />*plan_id*<br />*[Plan](#plans) expandable* | Plan, if one was used when creating the subscription
 <span class="console-font">**token**</span><br />*token_id*<br />*[Token](#tokens) expandable* | Token used to capture payments of the subscription
-<span class="console-font">**discounts**</span><br />*[Discounts](#discounts) expandable* | Discounts list applied to the subscription
-<span class="console-font">**addons**</span><br />*[Addons](#addons) expandable* | Addons list applied to the subscription
+<span class="console-font">**discounts**</span><br />*list of [Discounts](#discounts) expandable* | Discounts list applied to the subscription
+<span class="console-font">**addons**</span><br />*list of [Addons](#addons) expandable* | Addons list applied to the subscription
 <span class="console-font">**name**</span><br />*string* | Name of the subscription
-<span class="console-font">**amount**</span><br />*string* | Amount to be paid at every iteration of the subscription
+<span class="console-font">**amount**</span><br />*string* | Base amount of the subscription
+<span class="console-font">**billable_amount**</span><br />*string* | Amount to be paid at the next subscirption billing cycle (computed from discounts and addons)
+<span class="console-font">**discounted_amount**</span><br />*string* | Amount currently discounted on the subscription
+<span class="console-font">**addons_amount**</span><br />*string* | Amount currently added to the subscription with addons
 <span class="console-font">**currency**</span><br />*string* | Currency of the subscription, in the ISO 4217 format (ex: `USD`)
 <span class="console-font">**interval**</span><br />*string* | Interval between each subscription iteration. "1m" for monthly subscriptions, "1w" for weekly.
-<span class="console-font">**trial_end_at**</span><br />*string* | Date at which the trial of the subscription will end. Defaults to no trial
-<span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the subscription, key-value pair (string - string)
 <span class="console-font">**return_url**</span><br />*string* | `url` used to redirect the customer once the payment is placed
 <span class="console-font">**cancel_url**</span><br />*string* | `url` used to redirect the customer when the payment is canceled |ProcessOut cancelation landing page
+<span class="console-font">**trial_end_at**</span><br />*RFC1123 date or timestamp* | Date at which the trial of the subscription will end. Defaults to no trial
+<span class="console-font">**cancel_at**</span><br />*RFC1123 date or timestamp* | Date at which you want to automatically cancel the subscription. Is automatically set the current time when canceling a subscription to trigger an immediate cancellation
 <span class="console-font">**canceled**</span><br />*boolean* |
 <span class="console-font">**cancellation_reason**</span><br />*boolean* | If `canceled` is true, represents the reason why the subscription was canceled
+<span class="console-font">**pending_cancellation**</span><br />*boolean* | Whether or not the subscription is pending cancellation (meaning a cancel_at date was set)
+<span class="console-font">**unpaid_state**</span><br />*string* | When the subscription has unpaid invoices, defines the dunning logic of the subscription (as specified in the project settings)
+<span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the subscription, key-value pair (string - string)
 <span class="console-font">**sandbox**</span><br />*boolean*<br />Read-only |
+<span class="console-font">**created_at**</span><br />*RFC1123 date or timestamp*<br />Read-only | Date at which the subscription was created
+<span class="console-font">**activated_at**</span><br />*RFC1123 date or timestamp*<br />Read-only | Date at which the subscription was activated
+<span class="console-font">**iterate_at**</span><br />*RFC1123 date or timestamp*<br />Read-only | Date at which the subscription will iterate, corresponding to the next billing cycle
 
 
 ### Create a subscription
