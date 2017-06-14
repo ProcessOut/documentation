@@ -1,9 +1,9 @@
 ## Cards
 
-Cards resources are card tokens created using [ProcessOut.js](/payments/processoutjs).
-A card token is an immutable object that should only be used once. Once the card
-resource has been used to capture a payment or create a customer token, the 
-card token may not be used anymore. 
+Cards resources are card objects created using [ProcessOut.js](/payments/processoutjs).
+A card object is an immutable object that should only be used once. Once the card
+has been used to capture a payment or create a customer token, the 
+card object may not be used anymore. 
 
 For this reason, if you wish to capture
 several payments using the card (at once or in the future), you must create 
@@ -16,6 +16,7 @@ can ask your customers to update their payment details.
 |||
 --:|:--
 <span class="console-font">**id**</span><br />*string*<br />Read-only |
+<span class="console-font">**token**</span><br />*[Token](#tokens) expandable* | Token created using this card object, if any
 <span class="console-font">**scheme**</span><br />*string*<br />Read-only | Scheme of the card, such as Visa or Mastercard
 <span class="console-font">**type**</span><br />*string*<br />Read-only | Type of card, such as debit or credit
 <span class="console-font">**bank_name**</span><br />*string*<br />Read-only | Card issuing bank
@@ -36,3 +37,4 @@ can ask your customers to update their payment details.
 <span class="console-font">**expires_soon**</span><br />*boolean*<br />Read-only | Whether or not the card will expire soon. This is automatically set by ProcessOut before firing a `card.expires_soon` [event](#events)
 <span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the card, key-value pair (string - string)
 <span class="console-font">**sandbox**</span><br />*boolean*<br />Read-only |
+<span class="console-font">**created_at**</span><br />*RFC1123 date or timestamp*<br />Read-only |
