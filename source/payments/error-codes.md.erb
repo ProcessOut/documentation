@@ -1,0 +1,88 @@
+---
+title: Transaction error codes
+---
+
+## Handle error codes on payment failures
+
+When a payment fails, it can be useful to retrieve the error code returned
+by the customer's bank, the payment network or the payment processor. Such token
+can be used to determine the potential cause of the failure, and give 
+valuable insights to your customer success teams.
+
+<hr>
+
+#### Error codes
+
+Error codes are normalized by ProcessOut to provide a convinient and general
+error mapping, regardless of which payment processor was used to process the
+transaction.
+
+On a transaction failure, the error code is stored in the `error_code` field
+of a [`Transaction` &nearr;](/refs/#transactions), as well as in the `error_code`
+field of the [`Operation` &nearr;](/refs/#transactions) that lead to the error.
+
+Codes are splitted in two distinct categories: soft and hard declines. Soft declines
+represent errors that can be retried at a later date, while hard declines
+represent transactions that shouldn't be retried at all.
+
+|||
+--:|:--
+ | *Soft declines:*
+<div style="white-space: nowrap; color: #795da3;" class="console-font">payment.declined</div> | The payment was declined, but no further information was returned
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.declined</div> | Similarly to payment.declined, the card payment was declined with no further information
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.do-not-honor</div> | Do Not Honor is the default error code sent by bank, without any additional information
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.no-action-taken</div> | No action was done by the payment provider, and should be retried
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.please-retry</div> | The payment should be retried
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.security-violation</div> | The transaction represented a security threat during its processing and was declined
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.acquirer-failed</div> | The acquirer used by the payment processor failed to process the transaction
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.issuer-failed</div> | The card holder bank failed to process the transaction
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.processing-error</div> | The processing failed at the acquirer or card holder bank level
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.issuer-down</div> | The card holder bank could not process the payment
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.maximum-attempts</div> | The card maximum payment attempts were reached- the customer should contact its bank
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.contact-bank</div> | The card holder bank declined the payment, and should be contacted by your customer
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.exceeded-limits</div> | The card limits were reached (ex: amounts, transactions volume) and the customer should contact its bank
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.exceeded-withdrawal-limit</div> | The card withdrawal limit was reached, the customer should contact its bank
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.exceeded-activity-limits</div> | The card activity limit was reached, the customer should contact its bank
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.no-money</div> | The card has money left in its bank account, the customer should add more funds
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.possible-fraud</div> | The payment was blocked for potential fraud
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.duplicate</div> | The transaction had high chances of being a duplicate, and was declined
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.issuer-not-found</div> | The payment provider could not find the card issuer bank
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.network-failed</div> | The payment provider failed to contact the card network to process the transaction
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.not-supported</div> | The card is not supported by the payment provider
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.currency-unsupported</div> | The currency is not supported by this card
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.type-not-supported</div> | The card type was not supported by the payment provider
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.not-activated</div> | The card was not activated yet by the card holder or its bank
+ | *Hard declines:*
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.expired</div>   | The card was expired
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.invalid</div>   | The card was invalid (invalid number/expiration date/CVC)
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.invalid-number</div> | The card has an invalid number
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.invalid-pin</div> | The card PIN was invalid. This error code does not apply for online payments
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.invalid-name</div> | The name on the card was invalid (potential AVS failure)
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.invalid-expiry-date</div> | The card expiration date was invalid
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.invalid-expiry-month</div> | The card expiration month was invalid
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.invalid-expiry-year</div> | The card expiration year was invalid
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.invalid-zip</div> | The card holder ZIP code was invalid (potential AVS failure)
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.invalid-address</div> | The card holder address was invalid (potential AVS failure)
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.missing-cvc</div> | The card CVC was missing, but needed to process the payment
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.missing-expiry</div> | The card expiry date was missing, but needed to process the payment
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.missing-number</div> | The card number was missing
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.missing-3ds</div> | The card 3DS verification process was missing but needed to process the payment
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.failed-cvc</div> | The card CVC check failed
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.failed-avs</div> | The card AVS check failed
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.failed-avs-postal</div> | The card AVS check failed on the postal code
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.failed-3ds</div> | The card 3DS check failed
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.expired-3ds</div> | The card 3DS check expired and needs to be retried
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.couldnt-3ds</div> | The card does not support 3DS, but 3DS was requested
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.failed-avs-address</div> | The card AVS check failed on the address
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.failed-cvc-and-avs</div> | Both the card CVC and AVS checks failed
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.bad-track-data</div> | The track data of the card was invalid (expiration date or CVC)
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.not-authorized</div> | The card is not authorized to make the payment
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.not-registered</div> | The card was not yet registered and can therefore not process payments
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.stolen</div> | The card was stolen
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.lost</div> | The card was lost by its card holder
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.dont-retry</div> | The payment should not be retried
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.invalid-account</div> | The card bank account was invalid, the customer should contact its bank
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.revoked</div> | The card was revoked
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.revoked-all</div> | All the card holder cards were revoked
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.test</div> | The card was a test card and can't be used to process live transactions
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.blacklisted</div> | The card was blacklisted from the payment provider
