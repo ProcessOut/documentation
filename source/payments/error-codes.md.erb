@@ -15,7 +15,13 @@ valuable insights to your customer success teams.
 
 Error codes are normalized by ProcessOut to provide a convinient and general
 error mapping, regardless of which payment processor was used to process the
-transaction.
+transaction. While ProcessOut aims to return all the available information,
+payment providers and banks sometime simply don't, and return generic error codes such as
+`card.do-not-honor`. In this cases, ProcessOut uses machine learning on all
+the transactions analyzed on the network to pin-point possible reasons, which
+can be used by both your finance teams to improve your global authorization rates,
+and by your customer success to follow up with recoverable customers. Find more
+about it directly in [your Dashboard &nearr;](https://dashboard.processout.com).
 
 On a transaction failure, the error code is stored in the `error_code` field
 of a [`Transaction` &nearr;](/refs/#transactions), as well as in the `error_code`
