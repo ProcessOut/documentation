@@ -329,6 +329,7 @@ function processoutReadyHandler(form) {
 
       // We add the token input so that it's sent back to  the server.
       // The only thing left to do is to submit the form
+      formElement.appendChild(field);
       formElement.submit();
     }, function(err) {
 
