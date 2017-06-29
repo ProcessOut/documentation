@@ -16,11 +16,27 @@ Before integrating Apple Pay and tokenizing the cards of your customers,
 you need to configure Apple Pay in your [ProcessOut Dashboard &nearr;](https://dashboard.processout.com).
 To finalize set up, you will need a proper Apple Developer account, needed
 to generate the Apple certificates and validate the domains on which you wish
-to accept payments with Apple Pay. 
+to accept payments with Apple Pay.
 
 Don't worry though- the steps are all explained in details and shouldn't take more than a few minutes!
 
-#### 2. Add the Apple Pay button to your website
+#### 2. Get your Apple Pay Sandbox account
+
+When developing your store and integrating Apple Pay, you might want to use the 
+Apple Pay Sandbox to avoid using your real cards. Setting up your Apple Pay 
+Sandbox account only takes a few minutes:
+
+- Create an [Apple Developer account &nearr;](https://developer.apple.com/);
+- Log into [iTunes Connect &nearr;](https://itunesconnect.apple.com/);
+- In Users and Roles, click on Sandbox Testers, and click on the + sign to create a new test user;
+- Fill out the form making sure to note the email and password you used, and click save;
+- On your test device, log out of your personal iCloud account and log in using the newly created test credentials;
+- Go into Wallet & Apple Pay in your Settings;
+- Click on Add Credit or Debit Card, and Enter Card Details Manually;
+- You can now use any of [Apple Pay test cards &nearr;](https://developer.apple.com/support/apple-pay-sandbox/). `4761 1200 1000 0492`, exp `11/2022` and CVC `533` is one of the test Visa cards you can use.
+
+
+#### 3. Add the Apple Pay button to your website
 
 The below code will show a white version of the Apple Pay logo, automatically
 using the Apple Pay images built in the Safari browser (mobile and desktop).
@@ -67,7 +83,7 @@ client.applePay.checkAvailability(function(err) {
 });
 ```
 
-#### 3. Tokenize the user's card with Apple Pay
+#### 4. Tokenize the user's card with Apple Pay
 
 Because the action of displaying the Apple Pay payment sheet must be done
 in conjonction with a user event (such as a click), we'll bind the 
@@ -94,8 +110,8 @@ to the amount you'll charge the user.
 function tokenizeApplePay() {
   var session = client.applePay.newSession({
     total: {
-      label: 'Amazing invoice',
-      amount: '19.99'
+      label: "Amazing invoice",
+      amount: "19.99"
     },
     currencyCode: "USD",
     countryCode: "US"

@@ -237,6 +237,7 @@ function processoutRedirectHandler(el, e) {
       field.type  = "hidden";
       field.name  = "token";
       field.value = token;
+      formElement.appendChild(field);
       formElement.submit();
     }, function(err) {
       // An error occured during checkout. This could just be the
