@@ -41,6 +41,14 @@ In order to fetch your ProcessOut gateways configuration, we'll also need to
 create an invoice, as some of the gateways will need some information before
 the payment actually takes place.
 
+Please keep in mind that when using the ProcessOut sandbox, your gateway configurations
+aren't returned, but instead a single entry `sandbox` is. Its main purpose is to
+provide you with a way to easily test successful and errored checkouts. Because 
+this guide provides you with a generic implementation that works with all
+alternative payments available on ProcessOut, switching over to production 
+should not break any of your logic, and alternative payment solutions such as 
+PayPal should work right out of the box.
+
 <div class="language-selector-wrapper">
 <%= partial "lg-selector" %>
 ```shell
