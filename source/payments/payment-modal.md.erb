@@ -122,25 +122,23 @@ modal and manually trigger its loading/appearance using some Javascript.
 ```javascript
 var processOut = new ProcessOut.ProcessOut("<%= partial "projectID" %>");
 
-processOut.newModal('https://checkout.processout.com/resource-id',
-function(modal) {
-  // The modal is now ready, we may show it to the customer
-  modal.show();
-
-  // callbacks may also be passed to show():
-  modal.show(function(modal) {
-    // On Shown
-  }, function(modal) {
-    // On hidden
-  }, function(error) {
-    // Error
-  })
-
-  // ...
-  // For some reason, we want to hide the modal from the customer
-  modal.hide();
-
-}, function(err) {
-
+processOut.newModal({
+  url: "https://checkout.processout.com/resource-id",
+  // or:
+  amount:   5.99,
+  currency: "USD",
+  name:     "$5.99 invoice",
+  onReady: function(modal) {
+    modal.show({
+      onShow:         function(modal)       { /* ... */ },
+      onHide:         function(modal)       { /* ... */ },
+      onError:        function(modal, err)  { /* ... */ },
+      onPayment:      function(modal, data) { /* ... */ },
+      onPaymentError: function(modal, err)  { /* ... */ }
+    });
+  },
+  onError: function(err) {
+    console.log("The modal couldn't be loaded:"+err);
+  }
 });
 ```
