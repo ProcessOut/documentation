@@ -134,7 +134,8 @@ processOut.newModal({
       onHide:         function(modal)       { /* ... */ },
       onError:        function(modal, err)  { /* ... */ },
       onPayment:      function(modal, data) { /* ... */ },
-      onPaymentError: function(modal, err)  { /* ... */ }
+      onPaymentError: function(modal, err)  { /* ... */ },
+      hideAfterSuccessTimeout: 2500 // in ms. If <= 0, doesn't hide automatically
     });
   },
   onError: function(err) {
