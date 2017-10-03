@@ -290,7 +290,7 @@ as the DOM is fully loaded, and setup our form:
       "<%= partial "projectID" %>");
     var formElement = document.getElementById("payment-form");
     client.setupForm(formElement, processoutReadyHandler, function(err) {
-      alert("Woops, couldn't setup the form: "+err);
+      console.log("Woops, couldn't setup the form: "+err);
     });
   });
 </script>
