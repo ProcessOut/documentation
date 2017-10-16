@@ -283,17 +283,15 @@ Now that `ProcessOut.js` is loaded, we can start using it. Let's first
 instanciate a new `ProcessOut` instance in a different script tag as soon
 as the DOM is fully loaded, and setup our form:
 
-```html
-<script type="text/javascript">
-  document.addEventListener("DOMContentLoaded", function() {
-    var client = new ProcessOut.ProcessOut(
-      "<%= partial "projectID" %>");
-    var formElement = document.getElementById("payment-form");
-    client.setupForm(formElement, processoutReadyHandler, function(err) {
-      console.log("Woops, couldn't setup the form: "+err);
-    });
+```javascript
+document.addEventListener("DOMContentLoaded", function() {
+  var client = new ProcessOut.ProcessOut(
+    "<%= partial "projectID" %>");
+  var formElement = document.getElementById("payment-form");
+  client.setupForm(formElement, processoutReadyHandler, function(err) {
+    console.log("Woops, couldn't setup the form: "+err);
   });
-</script>
+});
 ```
 
 **Note**: Remember to replace the project ID in the example with your own. When testing,
