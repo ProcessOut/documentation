@@ -183,8 +183,10 @@
 
 					// Let's tokenize the card
 					processout.tokenize(form, {
-						name: document.getElementById("cardholdername"),
-						zip:  document.getElementById("cardholderzip")
+						name: document.getElementById("cardholdername").value,
+						contact: {
+							zip: document.getElementById("cardholderzip").value
+						}
 					}, function(token) {
 						document.getElementById("success").innerHTML = "Success! Your created card token is "+token;
 					}, function(err) {
