@@ -1,0 +1,43 @@
+## 3D-Secure
+
+3D-Secure is a protocol developed by card schemes (such as Visa or Mastercard) to
+provide a way to better authenticate the buyer through its bank and improve the 
+security of online payments.
+Its goal is to reduce fraud and improve the ratio of approved transactions.
+
+Please note that not every card scheme is compatible with the 3D-Secure protocole,
+and even though a card could be compatible, it might not be enrolled in the 
+3D-Secure program.
+
+### Initiate a 3D-Secure flow
+
+```shell
+curl https://api.processout.com/invoices/iv_MgeLS2Rr3ZGwjqOvDvYSuWx7ce88luXl/three-d-s \
+    <%= partial "header-curl" %> \
+    -d source=card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ
+```
+
+To initiate a 3D-Secure flow, you'll first need to have a pending [invoice](#create-an-invoice)
+ready. You'll also need to either have a [card](#cards) or a [customer token](#tokens)
+representing a card to initiate the 3DS authentication.
+
+If the provided card is enrolled in a 3D-Secure program, a `customer_action` 
+will be returned, of a type `url` and a `value`` containing the link to which
+your customer should be redirected to. 
+
+Once redirected to the customer action URL, the customer will be able to
+authenticate on its bank. When the authentication is done, it is then
+redirected back to ProcessOut to verify the 3DS authentication. If you
+specified a `return_url` during the [invoice](#invoices) creation, the customer
+will also be redirected back to this link so you can continue with the payment
+flow.
+
+### Capture a 3DS invoice
+
+When a transaction is fully 3D-Secure authenticated, you can follow the same
+flow as usual, by calling either `authorize` or `capture` on the invoice to
+[finish the payment](#capture-an-invoice).
+
+*Keep in mind* that when authorizing/capturing a previously 3D-Secure authenticated
+transaction you should use the same card that was used to initiate the 3D-Secure
+flow.
