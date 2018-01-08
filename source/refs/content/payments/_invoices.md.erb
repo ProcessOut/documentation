@@ -211,3 +211,49 @@ of the transaction.
 
 Capturing an invoice can be done using a `card`, a [Token](#tokens) or a 
 [Gateway request](#).
+
+### Void an invoice
+
+```shell
+curl https://api.processout.com/invoices/iv_MgeLS2Rr3ZGwjqOvDvYSuWx7ce88luXl/void \
+    <%= partial "header-curl" %>
+```
+
+```javascript
+<%= partial "header-js" %>
+// The source could also be a token tok_fKK4btSG7wd13ZZaevzhMcuNbpjcu1Zy
+invoice.void().then(
+    function(transaction) {
+        // The invoice was voided and returned a transaction
+
+    }, function(err) {
+        // The invoice could not be voided
+    });
+```
+
+```python
+<%= partial "header-python" %>
+transaction = invoice.void()
+```
+
+```ruby
+<%= partial "header-ruby" %>
+transaction = invoice.void()
+```
+
+```php
+<%= partial "header-php" %>
+$transaction = $invoice->void();
+```
+
+```go
+<%= partial "header-go" %>
+tr, _ := iv.Void()
+```
+
+Voiding an invoice is meant to cancel a previously authorized transaction (and
+can therefore not be done on a transaction that's not with an `authorized` state).
+
+Voiding an invoice is done by calling `void` on the invoice, and doesn't need
+any extra parameter. If an error occured while capturing the payment, an error 
+is thrown. Otherwise, the transaction linked to the invoice is updated and returned.

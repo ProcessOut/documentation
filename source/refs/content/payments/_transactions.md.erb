@@ -28,6 +28,7 @@ its transaction for easy reference.
 <span class="console-font">**authorized**</span><br />*boolean*<br />Read-only | Whether or not the transaction was authorized
 <span class="console-font">**captured**</span><br />*boolean*<br />Read-only | Whether or not the transaction was captured
 <span class="console-font">**status**</span><br />*string*<br />Read-only | [Status](/payments/handle-status-changes-webhooks/#transaction-statuses) of the transaction
+<span class="console-font">**three_d_s_status**</span><br />*string*<br />Read-only | Status of the 3-D Secure authentication done on the transaction. Can be null if no authentication was performed
 <span class="console-font">**error_code**</span><br />*string*<br />Read-only | Transaction error code when the payment has failed
 <span class="console-font">**processout_fee**</span><br />*string*<br />Read-only | Fee taken by ProcessOut to handle the transaction
 <span class="console-font">**estimated_fee**</span><br />*string*<br />Read-only | Gateway fee estimated before processing the payment
