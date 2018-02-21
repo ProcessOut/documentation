@@ -1,0 +1,90 @@
+---
+title: "mobile: iOS/Swift integration"
+---
+
+## mobile: iOS/Swift integration
+
+The easiest way to start accepting payments on iOS devices using ProcessOut
+is to use the ProcessOut iOS SDK.
+The SDK will take care of tokenizing your customers' card numbers, so that
+you can send those generated tokens to your backend and [process payments &nearr;](/payments/capture-a-payment).
+
+See our [Android integration guide &nearr;](/payments/mobile-android-sdk) to handle Android devices as well.
+
+<hr>
+
+#### Requirements
+
+The ProcessOut iOS SDK is available on *iOS 8.0+*.
+
+ProcessOut is available through [CocoaPods](http://cocoapods.org/). To install it, 
+simply add the following line to your Podfile:
+
+```ruby
+pod 'ProcessOut'
+```
+
+and run in your terminal:
+
+```sh
+pod install
+```
+
+You'll then be able to import ProcessOut in your code base and configure the SDK
+with your ProcessOut API credentials.
+
+```swift
+import UIKit
+import ProcessOut
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+    func application(_ application: UIApplication, 
+        didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+
+        // You can find your project ID in your dashboard
+        ProcessOut.Setup(projectId: "test-<%= partial "projectID" %>")
+        // Your application code goes here
+        return true
+    }
+}
+```
+
+#### Tokenize a card
+
+Once all set up, you'll be able to tokenize the card numbers. The returned
+token is a simple `string`.
+
+```swift
+ProcessOut.Tokenize(card: card, metadata: [:], completion: {(token, error) -> Void in
+    if error != nil {
+        switch error! {
+        case .BadRequest(let message):
+            print(message)
+        case .InternalError:
+            print("An internal error occured")
+        case .MissingProjectId:
+            print("Check your app delegate file")
+        case .NetworkError:
+            print("Request could not go through")
+        }
+    } else {
+        // Send token to your backend to charge the customer
+        print(token!)
+    }
+})
+```
+
+#### Next steps
+
+You're all set! You can now send the newly created token to your backend
+to:
+
+- Handle simple one-off payments by [capturing a payment &nearr;](/payments/capture-a-payment);
+- Set up recurring billing for your customers by [creating a subscription &nearr;](/subscriptions/get-started); or
+- Providing one-click payments [by saving the token for later use &nearr;] (/payments/save-token-and-capture-later).
+
+If you're currently setting up payments for your mobile application, you're
+also most likely developping it for the Android platform as well. We have
+a very similar SDK available for Android devices, [available here &nearr;](/payments/mobile-android-sdk).
+Feel free to check it out!
