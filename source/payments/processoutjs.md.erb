@@ -320,7 +320,11 @@ function processoutReadyHandler(form) {
     client.tokenize(form, {
       // It's possible to send cardholder information (optional)
       name: document.getElementById("cardholdername"),
-      zip:  document.getElementById("cardholderzip")
+      contact: {
+        zip: document.getElementById("cardholderzip"),
+        // Available contact fields:
+        // address1, address2, city, state, country_code, zip
+      }
     }, function(token) {
       var field   = document.createElement("input");
       field.type  = "hidden";
