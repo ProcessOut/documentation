@@ -1,0 +1,84 @@
+---
+title: "mobile: Android integration"
+---
+
+## mobile: Android integration
+
+The easiest way to start accepting payments on Android devices using ProcessOut
+is to use the ProcessOut Android SDK.
+The SDK will take care of tokenizing your customers' card numbers, so that
+you can send those generated tokens to your backend and [process payments &nearr;](/payments/capture-a-payment).
+
+See our [iOS integration guide &nearr;](/payments/mobile-ios-sdk) to handle Apple's devices as well.
+
+<hr>
+
+#### Requirements
+
+The ProcessOut Android SDK is available on *Android SDK 14+*.
+
+ProcessOut is available through Jitpack. To install it, 
+simply add the following line to your build file:
+
+```gradle
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+
+as well as this dependency in your `build.gradle` file:
+
+```gradle
+dependencies {
+    compile 'com.github.processout:processout-android:1.0'
+}
+```
+
+You'll then be able to import Processout in your code base and configure the SDK
+with your ProcessOut API credentials.
+
+```java
+// You can find your project ID in your dashboard
+final ProcessOut client = new ProcessOut(this, 
+    "test-<%= partial "projectID" %>");
+```
+
+#### Tokenize a card
+
+Once all set up, you'll be able to tokenize the card numbers. The returned
+token is a simple `string`.
+
+```java
+// First create a card object containing the card details
+Card card = new Card("Jeremy lejoux", "4242424242424242", 11, 19, "123");
+
+// And then send the card data to ProcessOut to tokenize
+client.tokenize(card, new TokenCallback() {
+    @Override
+    public void onSuccess(String token) {
+        // Send the card token to your backend for charging
+    }
+
+    @Override
+    public void onError(POErrors error) {
+        Log.e("ProcessOut", String.valueOf(error));
+    }
+});
+```
+
+#### Next steps
+
+You're all set! You can now send the newly created token to your backend
+to:
+
+- Handle simple one-off payments by [capturing a payment &nearr;](/payments/capture-a-payment);
+- Set up recurring billing for your customers by [creating a subscription &nearr;](/subscriptions/get-started); or
+- Providing one-click payments [by saving the token for later use &nearr;] (/payments/save-token-and-capture-later).
+
+If you're currently setting up payments for your mobile application, you're
+also most likely developping it for the iOS platform as well. We have
+a very similar SDK available for Apple's devices, [available here &nearr;](/payments/mobile-ios-sdk). 
+Feel free to check it out!
