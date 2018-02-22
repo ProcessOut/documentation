@@ -90,6 +90,52 @@ create the token, and a source. The source can be a `card`, but also a
 The ID of the token that was created should be stored in your application
 so you can [capture payments](#capture-an-invoice) using it later.
 
+### Fetch a token
+
+```shell
+curl https://api.processout.com/customers/cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks/tokens/tok_fKK4btSG7wd13ZZaevzhMcuNbpjcu1Zy \
+    <%= partial "header-curl" %>
+```
+
+```javascript
+<%= partial "header-js" %>
+client.newToken().find("cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks",
+        "tok_fKK4btSG7wd13ZZaevzhMcuNbpjcu1Zy").then(
+    function(token) {
+        // And let's say our customer wants to remove its token
+        token.delete(); 
+
+    }, function(err) {
+        // The customer's token could not be fetched
+    });
+```
+
+```python
+<%= partial "header-python" %>
+token = client.new_token().find("cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks",
+    "tok_fKK4btSG7wd13ZZaevzhMcuNbpjcu1Zy")
+```
+
+```ruby
+<%= partial "header-ruby" %>
+token = client.token.find("cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks",
+    "tok_fKK4btSG7wd13ZZaevzhMcuNbpjcu1Zy")
+```
+
+```php
+<%= partial "header-php" %>
+$token = $client->newToken()->find("cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks",
+    "tok_fKK4btSG7wd13ZZaevzhMcuNbpjcu1Zy");
+```
+
+```go
+<%= partial "header-go" %>
+tok, err := client.NewToken().Find("cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks",
+    "tok_fKK4btSG7wd13ZZaevzhMcuNbpjcu1Zy")
+```
+
+Fetch a specific customer's token
+
 ### List a customer's tokens
 
 ```shell
