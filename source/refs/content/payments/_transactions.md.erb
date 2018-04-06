@@ -20,7 +20,6 @@ its transaction for easy reference.
 <span class="console-font">**card**</span><br />*card_id*<br />*[Card](#cards) expandable* | Card used to capture the transaction
 <span class="console-font">**gateway_configuration**</span><br />*gateway_configuration_id*<br />*[Card](#cards) expandable* | Card used to capture the transaction
 <span class="console-font">**operations**</span><br />*List of Operations expandable* | The list of all the transaction operations (pending, failed or successful) made on the transactions, such as `authorization`, `capture`, `refund` and so on- see below for object reference
-<span class="console-font">**operations**</span><br />*List of Operations expandable* | The list of all the transaction operations (pending, failed or successful) made on the transactions, such as `authorization`, `capture`, `refund` and so on- see below for object reference
 <span class="console-font">**name**</span><br />*string*<br />Read-only | Name of the Transaction
 <span class="console-font">**amount**</span><br />*string*<br />Read-only | Amount requested when creating the transaction
 <span class="console-font">**authorized_amount**</span><br />*string*<br />Read-only | Amount that was authorized for the transaction
@@ -42,6 +41,7 @@ its transaction for easy reference.
 --:|:--
 <span class="console-font">**id**</span><br />*string*<br />Read-only |
 <span class="console-font">**amount**</span><br />*string*<br />Read-only | Amount related to the transaction operation (can be negative)
+<span class="console-font">**type**</span><br />*string*<br />Read-only | Type of the operation. Can be `request`, `three_d_s_check`, `authorization`, `capture`, `void`, `refund`, `chargeback`.
 <span class="console-font">**is_attempt**</span><br />*boolean*<br />Read-only | Whether or not the operation is the attempt
 <span class="console-font">**has_failed**</span><br />*boolean*<br />Read-only | Whether or not the operation has failed. Typically, `has_failed` will only be set when `is_attempt` is `false` (i.e. when the operation got its result back, after attempting it)
 <span class="console-font">**is_accountable**</span><br />*boolean*<br />Read-only | Whether or not the amount of the operation should be used to compute the actual amount of the transaction
