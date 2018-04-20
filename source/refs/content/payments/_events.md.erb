@@ -216,17 +216,6 @@ completed, and its corresponding event will also be fired.
 <div style="white-space: nowrap; color: #795da3;" class="console-font smaller">subscription.payment_failed</div> | The payment of the current subscription period failed
 <div style="white-space: nowrap; color: #795da3;" class="console-font smaller">subscription.canceled</div> | The customer's subscription was canceled <br />*Note:* It might have been canceled because the payment gateway refused your customer's payment (ex: when the credit card expired). The reason of the cancellation is available in the `cancellation_reason` attribute of the subscription
 
-### Card events
-
-Card events are fired when an update regarding a card object occurs, or when a
-card is going to expire. This can be used to ask your customers to update
-their payment details when necessary.
-
-##### Events
-|||
---:|:--
-<div style="white-space: nowrap; color: #795da3;" class="console-font smaller">card.expires_soon</div> | The card is going to expire, typically within a month
-
 ### Customer events
 
 The customer events are fired when an update regarding a [customer](#customers)
