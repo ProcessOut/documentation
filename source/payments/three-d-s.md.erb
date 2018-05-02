@@ -39,22 +39,16 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 ```
 
-#### 2. Redirect to 3-D Secure page
+#### 2. Display the 3-D Secure page
 
-You can now redirect your customer to the 3DS authentication page using
+You can now display the 3DS authentication page to your customer using
 the `authenticate` method helper. The method takes two set of parameters:
 
 - the first is the invoice parameters used to initiate the 3DS authentication. It will be attempted on this invoice, and you'll later be able to capture a payment on this invoice using the 3DS authentication ;
 - the second is a source, which must be either a card token, or a customer token representing a card. You can learn more about it here: how to [tokenize a card &nearr;](/payments/processoutjs) and how to [create a customer token &nearr;](payments/save-token-and-capture-later/).
 
-Because the `authenticate` method opens a new page on the customer's browser
-to proceed with the 3-D Secure authentication, the browser might flag that new
-page as a pop-up. To be sure this does not happen, make sure to **always
-call `threeDS.authenticate({...})` in a user event** such as an `onClick` handler.
-If you make the call in a callback, such as a promise or a timeout, there will
-be very high chances for the browser to flag the new page as a pop-up. This is due
-to the fact that the browser won't see this new page originating from a user's
-action.
+The `authenticate` method opens a modal on top of your website to show
+the 3DS authentication page.
 
 ```javascript
 client.threeDS.authenticate({
