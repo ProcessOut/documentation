@@ -1,0 +1,132 @@
+<div id="payouts-category"></div>
+
+## Payouts *(beta)*
+
+When processing payments, it's important for businesses to be able to track
+cash, especially if several PSPs (Payment Service Providers) are being used.
+
+When possible/available, ProcessOut will communicate to your PSPs using your
+API keys or through reports to fetch reconciliation/settlement reports from them and 
+automatically match them with the transactions you processed on ProcessOut.
+
+Once these reports are ingested by ProcessOut, new `Payout` objects are created,
+each of them containing items that correspond to lines involved in the final
+amount transfered to your bank account (positive amounts for successful payments,
+but negative ones for refunds or chargebacks as well).
+
+Please note that this feature is currently in Beta. Payouts are not available in
+sandbox mode.
+
+
+### Pre-requisites
+
+Because each PSP handles reports in a different way, please reach out to your
+account representative at ProcessOut to see how yours are specifically handled.
+
+##### Attributes
+|||
+--:|:--
+<span class="console-font">**id**</span><br />*string*<br />Read-only |
+<span class="console-font">**items**</span><br />*list of [PayoutItems](#payout-items) expandable* | Items listed in the payout
+<span class="console-font">**status**</span><br />*string*<br />Read-only | Status of the payout. Can be `pending`, `in-flight`, `received`, `canceled` or `failed`
+<span class="console-font">**failure_reason_code**</span><br />*string*<br />Read-only | Failure reason code (if status is set to `failed`)
+<span class="console-font">**failure_reason**</span><br />*string*<br />Read-only | Failure reason message (if status is set to `failed`)
+<span class="console-font">**amount**</span><br />*string*<br />Read-only | Amount of the payout wired to your bank
+<span class="console-font">**currency**</span><br />*string*<br />Read-only | Currency of the payout
+<span class="console-font">**bank_name**</span><br />*string*<br />Read-only | Name of the bank to which the wire was issued
+<span class="console-font">**bank_summary**</span><br />*string*<br />Read-only | Bank summary of the wire
+<span class="console-font">**sales_transactions**</span><br />*integer*<br />Read-only | Number of transactions known by ProcessOut involved in this wire
+<span class="console-font">**sales_volume**</span><br />*string*<br />Read-only | Transactions volume known by ProcessOut involved in this wire
+<span class="console-font">**refunds_transactions**</span><br />*integer*<br />Read-only | Number of refunds known by ProcessOut involved in this wire
+<span class="console-font">**refunds_volume**</span><br />*string*<br />Read-only | Refunds volume known by ProcessOut involved in this wire
+<span class="console-font">**chargebacks_transactions**</span><br />*integer*<br />Read-only | Number of chargebacks known by ProcessOut involved in this wire
+<span class="console-font">**chargebacks_volume**</span><br />*string*<br />Read-only | Chargebacks volume known by ProcessOut involved in this wire
+<span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary*<br />Read-only | Context related to the payout, key-value pair (string - string)
+<span class="console-font">**fees**</span><br />*string*<br />Read-only | Fees taken by the PSP
+<span class="console-font">**adjustments**</span><br />*string*<br />Read-only | Adjustments applied by the PSP to the final wired amount
+<span class="console-font">**reserve**</span><br />*string*<br />Read-only | Reserve kept by the PSP for the payout
+<span class="console-font">**created_at**</span><br />*RFC1123 date or timestamp*<br />Read-only |
+
+##### Payout item attributes
+|||
+--:|:--
+<span class="console-font">**id**</span><br />*string*<br />Read-only |
+<span class="console-font">**transaction**</span><br />*transaction_id*<br />*[Transaction](#transactions) expandable* | Transaction involved in this payout item. Can be `null`
+<span class="console-font">**type**</span><br />*string*<br />Read-only | Type of the payout item. Can be `sale`, `refund`, `chargeback`, `fee`, `adjustment`, `reserve`
+<span class="console-font">**gateway_id**</span><br />*string*<br />Read-only | ID used by the PSP to reference that payout item
+<span class="console-font">**amount**</span><br />*string*<br />Read-only | Amount of the payout item (can be negative)
+<span class="console-font">**fee**</span><br />*string*<br />Read-only | Fee taken on this specific payout item
+<span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the transaction's invoice, key-value pair (string - string)
+<span class="console-font">**created_at**</span><br />*RFC1123 date or timestamp*<br />Read-only |
+
+
+### List your payouts
+
+```shell
+curl https://api.processout.com/payouts \
+    <%= partial "header-curl" %>
+```
+
+```javascript
+// Javascript is currently not supported for Payouts
+```
+
+```python
+<%= partial "header-python" %>
+# Python is currently not supported for Payouts
+```
+
+```ruby
+<%= partial "header-ruby" %>
+# Ruby is currently not supported for Payouts
+```
+
+```php
+<%= partial "header-php" %>
+// PHP is currently not supported for Payouts
+```
+
+```go
+<%= partial "header-go" %>
+// Go is currently not supported for Payouts
+```
+
+[Paginate](#pagination) through all your payouts.
+
+If you expand the `items` field of the payout, only the first few items will be
+returned. If you'd like to access all the items of a specific payout, you can
+[paginate through them](#paginate-through-payout-items) using the payout ID.
+
+
+### Paginate through payout items
+
+```shell
+curl https://api.processout.com/payouts/payt_3vfLtjoiQxpXZrdd6dc8Qgxxe26vy0aH/items \
+    <%= partial "header-curl" %>
+```
+
+```javascript
+// Javascript is currently not supported for Payouts
+```
+
+```python
+<%= partial "header-python" %>
+# Python is currently not supported for Payouts
+```
+
+```ruby
+<%= partial "header-ruby" %>
+# Ruby is currently not supported for Payouts
+```
+
+```php
+<%= partial "header-php" %>
+// PHP is currently not supported for Payouts
+```
+
+```go
+<%= partial "header-go" %>
+// Go is currently not supported for Payouts
+```
+
+[Paginate](#pagination) through all the items of a specific payout.
