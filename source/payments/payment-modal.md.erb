@@ -127,11 +127,12 @@ modal and manually trigger its loading/appearance using some Javascript.
 var processOut = new ProcessOut.ProcessOut("<%= partial "projectID" %>");
 
 processOut.newModal({
-  url: "https://checkout.processout.com/resource-id",
+  url: "<generated-link-goes-here>",
   // or:
   amount:   5.99,
   currency: "USD",
   name:     "$5.99 invoice",
+  // and some additional options to further customize:
   onReady: function(modal) {
     modal.show({
       onShow:         function(modal)       { /* ... */ },
