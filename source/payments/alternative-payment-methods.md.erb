@@ -5,7 +5,7 @@ title: Alternative payment methods for payments
 ## Handle alternative payment methods
 
 On top of helping you accept payments using credit cards, ProcessOut also
-lets you accept payments through alternative payment methods, such as 
+lets you accept payments through alternative payment methods, such as
 [PayPal](https://paypal.com) or [cryptocurrencies with coinpayments](https://coinpayments.com).
 
 <hr>
@@ -29,7 +29,7 @@ ProcessOut tries to bridge that gap by letting merchants keep control of their
 customer flow, **even after a redirection**. The customer is transparently
 redirected to the payment method's payment page in a new window, and once
 the payment is completed, the alternative payment method's window is closed
-and the original merchant payment page is notified of the payment via Javascript. 
+and the original merchant payment page is notified of the payment via Javascript.
 
 #### Fetch the available alternative payment methods
 
@@ -43,10 +43,10 @@ the payment actually takes place.
 
 Please keep in mind that when using the ProcessOut sandbox, your gateway configurations
 aren't returned, but instead a single entry `sandbox` is. Its main purpose is to
-provide you with a way to easily test successful and errored checkouts. Because 
+provide you with a way to easily test successful and errored checkouts. Because
 this guide provides you with a generic implementation that works with all
-alternative payments available on ProcessOut, switching over to production 
-should not break any of your logic, and alternative payment solutions such as 
+alternative payments available on ProcessOut, switching over to production
+should not break any of your logic, and alternative payment solutions such as
 PayPal should work right out of the box.
 
 <div class="language-selector-wrapper">
@@ -60,9 +60,9 @@ curl https://api.processout.com/invoices \
     -d currency=USD
 
 # And fetch the gateways
-curl https://api.processout.com/projects/<%= partial "projectID" %>/gateway-configurations \
+curl https://api.processout.com/gateway-configurations \
     -u <%= partial "projectID" %>:<%= partial "projectSecret" %> \
-    -d expand[]=gateway
+    -d expand[]=gateway \
     -d filter="tags: redirection flows: one-off"
 ```
 
@@ -77,7 +77,7 @@ client.newInvoice().create({
     expand: ["project"]
 }).then(function(invoice) {
     // And now fetch the project available gateways for one-off payments
-    invoice.getProject().fetchGatewayConfigurations({
+    client.newGatewayConfiguration().all({
         expand: ["gateway"],
         filter: "tags: redirection flows: one-off"
     }).then(function(gateways) {
@@ -100,12 +100,12 @@ invoice = client.new_invoice().create({
     "name":     "Amazing item",
     "amount":   "4.99",
     "currency": "USD",
-    
+
     "expand": ["project"]
 })
 
 # And now fetch the project's available gateways
-gateways = invoice.project.fetchGatewayConfigurations({
+gateways = client.new_gateway_configuration().all({
     expand: ["gateway"],
     filter: "tags: redirection flows: one-off"
 })
@@ -123,7 +123,7 @@ invoice = client.invoice.create(
 )
 
 # And now fetch the project's available gateways
-gateways = invoice.project.fetch_gateway_configurations({
+gateways = client.gateway_configuration.all({
     expand: ["gateway"],
     filter: "tags: redirection flows: one-off"
 })
@@ -136,12 +136,12 @@ $invoice = $client->newInvoice()->create(array(
     "name"     => "Amazing item",
     "amount"   => "4.99",
     "currency" => "USD",
-    
+
     "expand" => array("project")
 ));
 
 // And now fetch the project's available gateways
-$gateways = $invoice->getProject()->fetchGatewayConfigurations(array(
+$gateways = $client->newGatewayConfiguration()->all(array(
     "expand" => array("gateway"),
     "filter" => "tags: redirection flows: one-off"
 ));
@@ -165,7 +165,7 @@ if err != nil {
 }
 
 // And now fetch the project available gateways for one-off payments
-gateways, erri := iv.Project.FetchGatewayConfigurations(processout.ProjectFetchGatewayConfigurationsParameters{
+gateways, erri := client.NewGatewayConfiguration().All(processout.GatewayConfigurationAllParameters{
     Options: &processout.Options{
         Expand: []string{"gateway"},
         Filter: "tags: redirection flows: one-off",
@@ -236,7 +236,7 @@ function processoutRedirectHandler(el, e) {
   // Prevent from doing the default redirection
   e.preventDefault();
 
-  var action = client.handleAction(el.getAttribute("href"), 
+  var action = client.handleAction(el.getAttribute("href"),
     function(token) {
       // The customer completed the gateway payment flow,
       // we can send the token back to our backend to finish the
@@ -279,7 +279,7 @@ curl https://api.processout.com/invoices/iv_tIWEiBcrXIFHzJeXcZzqyp8EpY0xwmuT/cap
 <%= partial "header-js" %>
 invoice.capture("gway_req_V2UncmUgaGlyaW5nIQ==").then(
     function(transaction) {
-        // 
+        //
 
     }, function(err) {
         // The invoice could not be captured
@@ -312,8 +312,8 @@ an abstraction of the request done by the customer on the gateway. The content
 of the token is therefore directly encoded inside it, in base64.
 
 The capture should return a transaction if it was successful. It is strongly
-advised to check its `status` attribute is set to `completed` to make sure the 
-payment made it through. We highly recommand you to set up a way to 
+advised to check its `status` attribute is set to `completed` to make sure the
+payment made it through. We highly recommand you to set up a way to
 [receive webhooks &nearr;](/payments/handle-status-changes-webhooks) as
 this will make you able to handle updates on payments made using alternative
-payment methods. 
+payment methods.
