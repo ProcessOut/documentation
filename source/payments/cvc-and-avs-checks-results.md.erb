@@ -1,0 +1,53 @@
+---
+title: CVC and AVS checks results
+---
+
+## CVC and AVS checks results
+
+When processing a card payment, your customer will most likely enter its 
+CVC code and/or some billing information. This data can be used to authenticate 
+the user and further validate the transaction.
+
+<hr>
+
+#### CVC checks
+
+The CVC (also known as CVV) is the number that can be found on the back of a
+card, and is used to authenticate the user and protect you against fraud.
+An additional benefit of providing CVCs is that they usually increase a lot
+your payment performances as the issuing bank (the bank of your customer) sees
+the transactions as more legit.
+
+Because CVCs are mainly used to prove that a customer initiated the transaction
+manually, it cannot be used more than once, and is therefore deleted after
+a successful authorization per PCI-DSS rules. This means that for recurring 
+payments/subscriptions, the initial transactions may have the CVC sent, but 
+subsequent transactions won't have it and will have different flags sent to 
+properly process the recurring transactions.
+
+If you stored/tokenized a customer's card but already processed a transaction
+for it and would like to have the CVC again for a new transaction (for example,
+to improve your authorization rate), you may [refresh a card's CVC &nearr;](/payments/refresh-card-cvc/).
+
+The possible CVC check results are listed below:
+
+|||
+--:|:--
+<div style="white-space: nowrap; color: #795da3;" class="console-font">passed</div> | The CVC was sent and was correct
+<div style="white-space: nowrap; color: #795da3;" class="console-font">failed</div> | The CVC was sent but was incorrect
+<div style="white-space: nowrap; color: #795da3;" class="console-font">unchecked</div>   | The CVC was sent but wasn't checked by the issuing bank
+<div style="white-space: nowrap; color: #795da3;" class="console-font">unavailable</div>   | The CVC wasn't sent as it either wasn't specified by the user, or the transaction is recurring and the CVC was previously deleted
+<div style="white-space: nowrap; color: #795da3;" class="console-font">unknown</div>   | Some payment providers sometimes don't have the final result of CVC checks, in which case the CVC check status will be unknown
+
+#### AVS checks
+
+The AVS (Address Verificate System) can be used similarly to CVCs, but uses billing
+data from your customer and can be used indefinitely (i.e. the billing details
+don't need to be deleted after a successful authorization).
+
+As for CVC checks, AVS can be used to improve the confidence of issuing banks
+in the legitimacy of a transaction. AVS can be done on different billing details:
+
+- ZIP code;
+- Address; 
+- Cardholder name (i.e. name on the card).
