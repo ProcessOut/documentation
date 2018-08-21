@@ -198,7 +198,7 @@ input[type="submit"] {
 
 ```js
 document.addEventListener("DOMContentLoaded", function() {
-  var processout = new ProcessOut.ProcessOut("test-proj_gAO1Uu0ysZJvDuUpOGPkUBeE3pGalk3x");
+  var processout = new ProcessOut.ProcessOut("test-<%= partial "projectID" %>");
   var formElement = document.getElementById("card-form")
   processout.setupForm(formElement, {
     style: {
