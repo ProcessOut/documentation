@@ -232,7 +232,8 @@ When a customer will click on the alternative gateway link, the `processoutRedir
 function will be called. Let's define it:
 
 ```javascript
-function processoutRedirectHandler(el, e) {
+function processoutRedirectHandler(e) {
+  var el = e.target;
   // Prevent from doing the default redirection
   e.preventDefault();
 
