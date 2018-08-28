@@ -51,24 +51,33 @@ The `authenticate` method opens a modal on top of your website to show
 the 3DS authentication page.
 
 ```javascript
+// Make sure the button that initiated this authentication is kept
+// disabled until the flow is finished
+
 client.threeDS.authenticate({
     // Set the source
     source:    "card_Tpu6ZOCDu1tnDKp0kTnPOcVDMUbW7dTU",
-    // And the invoice parameters
+    // And the invoice ID
+    invoiceID: "iv_lEZFFcQg5WwpKcolBrlzioeeFnnuPmyE"
+    // Alternatively, although not recommended, you can create a new invoice
     amount:    "5.00",
     currency:  "USD",
     name:      "my 3-D Secure invoice",
-    // Alternatively it is possible to directly provide an invoice ID
-    invoiceID: "iv_lEZFFcQg5WwpKcolBrlzioeeFnnuPmyE"
 }, function(invoiceID) {
     // The 3-D Secure authentication was successful, you can call your backend
     // with the invoice ID and source to capture the invoice (see step 3.)
+
+    // Enable back the button
+    document.getElementById("paymentBtn").disabled = false;
 }, function(err) {
     // An error occured during the 3-D Secure authentication. It could be that
     // your customer's card isn't enrolled in 3-D Secure, or that the
     // authentication was canceled. Keep in mind that a failed 3-D secure
     // authentication can't be retried on the same invoice, so you'll need
     // to create a new invoice if you'd like your customer to retry
+
+    // Enable back the button
+    document.getElementById("paymentBtn").disabled = false;
 });
 ```
 

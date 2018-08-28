@@ -148,7 +148,7 @@
 			</div>
 
 			<div>
-				<input type="submit">
+				<input type="submit" id="paymentBtn">
 			</div>
 			<div id="errors"></div>
 			<div id="success"></div>
@@ -180,6 +180,7 @@
 
 				form.addEventListener("submit", function(e) {
 					e.preventDefault();
+      				document.getElementById("paymentBtn").disabled = true;
 
 					// Let's tokenize the card
 					processout.tokenize(form, {
@@ -189,8 +190,10 @@
 						}
 					}, function(token) {
 						document.getElementById("success").innerHTML = "Success! Your created card token is "+token;
+						document.getElementById("paymentBtn").disabled = false;
 					}, function(err) {
 						document.getElementById("errors").innerHTML = err.message;
+						document.getElementById("paymentBtn").disabled = false;
 					});
 
 					return false;

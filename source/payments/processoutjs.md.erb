@@ -62,7 +62,7 @@ to be handled by ProcessOut.
     </div>
 
     <div>
-      <input type="submit">
+      <input type="submit" id="paymentBtn">
     </div>
     <div id="errors"></div>
     <div id="success"></div>
@@ -217,6 +217,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     form.addEventListener("submit", function(e) {
       e.preventDefault();
+      document.getElementById("paymentBtn").disabled = true;
 
       // Let's tokenize the card
       processout.tokenize(form, {
@@ -226,8 +227,10 @@ document.addEventListener("DOMContentLoaded", function() {
         }
       }, function(token) {
         document.getElementById("success").innerHTML = "Success! Your created card token is "+token;
+        document.getElementById("paymentBtn").disabled = false;
       }, function(err) {
         document.getElementById("errors").innerHTML = err.message;
+        document.getElementById("paymentBtn").disabled = false;
       });
 
       return false;
@@ -315,6 +318,10 @@ function processoutReadyHandler(form) {
   formElement.addEventListener("submit", function(e) {
     // Cancel any default action
     e.preventDefault();
+    // Blocking the form while performing the tokenization may also
+    // prevent from race conditions from happening, such as when
+    // the user double-clicks on the button
+    document.getElementById("paymentBtn").disabled = true;
 
     // Let's tokenize the card
     client.tokenize(form, {
@@ -331,6 +338,9 @@ function processoutReadyHandler(form) {
       field.name  = "token";
       field.value = token;
 
+      // Enable back the button
+      document.getElementById("paymentBtn").disabled = false;
+
       // We add the token input so that it's sent back to  the server.
       // The only thing left to do is to submit the form
       formElement.appendChild(field);
@@ -340,6 +350,9 @@ function processoutReadyHandler(form) {
       // Card validation errors or network issues are returned
       // as well. Find the full list of errors below
       alert(err.message);
+
+      // Enable back the button
+      document.getElementById("paymentBtn").disabled = false;
     });
 
     return false;
