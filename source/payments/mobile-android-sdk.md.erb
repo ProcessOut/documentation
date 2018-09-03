@@ -2,7 +2,7 @@
 title: "mobile: Android integration"
 ---
 
-## mobile: Android integration
+# mobile: Android integration
 
 The easiest way to start accepting payments on Android devices using ProcessOut
 is to use the ProcessOut Android SDK.
@@ -13,7 +13,7 @@ See our [iOS integration guide &nearr;](/payments/mobile-ios-sdk) to handle Appl
 
 <hr>
 
-#### Requirements
+## Requirements
 
 The ProcessOut Android SDK is available on *Android SDK 14+*.
 
@@ -46,7 +46,7 @@ final ProcessOut client = new ProcessOut(this,
     "test-<%= partial "projectID" %>");
 ```
 
-#### Tokenize a card
+## Tokenize a card
 
 Once all set up, you'll be able to tokenize the card numbers. The returned
 token is a simple `string`.
@@ -69,7 +69,7 @@ client.tokenize(card, new TokenCallback() {
 });
 ```
 
-#### Next steps
+## Next steps
 
 You're all set! You can now send the newly created token to your backend
 to:

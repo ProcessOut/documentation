@@ -20,10 +20,17 @@
                 background: #ecf0f1;
             }
 
-            h6 {
+            .category-title {
                 text-transform: uppercase;
                 color: #34495e;
                 opacity: 0.5;
+                font-family: "Sero Pro", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+                font-weight: normal;
+                font-style: normal;
+                text-rendering: optimizeLegibility;
+                font-size: 0.85em;
+                margin-bottom: 0.5rem;
+                padding-top: 1rem;
             }
             a:hover {
                 text-decoration: underline;
@@ -301,14 +308,14 @@
                             <input type="text" id="searchinput" placeholder="Search" />
                         </div>
 
-                        <h6>Welcome</h6>
+                        <div class="category-title">Welcome</div>
                         <ul class="no-bullet">
                             <li><%= link_to 'Home', '/index.html' %></li> 
                             <li><%= link_to 'Getting started', '/getting-started.html' %></li>
                             <li><%= link_to 'Testing', '/testing.html' %></li>
                         </ul>
 
-                        <h6>Accept payments</h6>
+                        <div class="category-title">Accept payments</div>
                         <ul class="no-bullet">
                             <li><%= link_to 'Payment modal', '/payments/payment-modal.html' %></li>
                             <li><%= link_to 'ProcessOut.js', '/payments/processoutjs.html' %></li>
@@ -330,7 +337,7 @@
                             <li><%= link_to 'Refresh a card\'s CVC', '/payments/refresh-card-cvc.html' %></li>
                         </ul>
 
-                        <h6>Subscriptions</h6>
+                        <div class="category-title">Subscriptions</div>
                         <ul class="no-bullet">
                             <li><%= link_to 'Subscribe a customer', '/subscriptions/get-started.html' %></li>
                             <li><%= link_to 'Cancel a subscription', '/subscriptions/cancel-a-subscription.html' %></li>

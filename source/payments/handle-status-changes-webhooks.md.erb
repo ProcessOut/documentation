@@ -2,7 +2,7 @@
 title: Events & webhooks
 ---
 
-## Handle status changes and webhooks
+# Handle status changes and webhooks
 
 When using the [`capture` &nearr;](/payments/capture-a-payment) endpoint, a 
 [`Transaction` &nearr;](/refs/#transactions) is
@@ -11,7 +11,7 @@ payment may still be pending, and a few fail-safes should be put in place.
 
 <hr>
 
-#### Why should I use webhooks
+## Why should I use webhooks
 
 Transactions can get stuck in an in-between pending & captured states, which
 makes it crucial to set up a way to be notified when the status
@@ -29,7 +29,7 @@ successfully processed but that the customer choses to chargeback the payment
 later. Handling webhooks will also make you able to handle this case and
 appropriately update your customer's profile on your business.
 
-#### Transaction statuses
+## Transaction statuses
 
 During a transaction's life, its status will change several times depending
 on multiple factors. For instance, when a payment is placed and confirmed, the
@@ -51,7 +51,7 @@ You may find the list of all the available transaction's statuses below:
 <div style="white-space: nowrap; color: #795da3;" class="console-font">partially-refunded</div> | The transaction was partially refunded
 <div style="white-space: nowrap; color: #795da3;" class="console-font">refunded</div> | The transaction was refunded
 
-#### Handling webhooks & status changes
+## Handling webhooks & status changes
 
 First, we'll have to create an endpoint on our online service that accepts
 requests from the Internet. This is the address to which ProcessOut will
@@ -228,7 +228,7 @@ func handleProcessOutWebhooks(w http.ResponseWriter,
 
 The full list of events can be found in our [`API reference` &nearr;](/refs/#transaction-events).
 
-#### Wrapping up by setting the URL in your Dashboard
+## Wrapping up by setting the URL in your Dashboard
 
 In order to receive webhooks, you will need to go to your 
 [Dashboard &nearr;](https://dashboard.processout.com) &rsaquo; Events &rsaquo; and add a

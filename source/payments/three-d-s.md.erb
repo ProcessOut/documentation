@@ -2,7 +2,7 @@
 title: 3-D Secure authentication
 ---
 
-## 3-D Secure authentication
+# 3-D Secure authentication
 
 3-D Secure (3DS) is a protocol developed by card schemes (such as Visa or Mastercard) to
 provide a way to better authenticate the buyer through its bank and improve the 
@@ -15,7 +15,7 @@ and even though a card could be compatible, it might not be enrolled in the
 
 <hr>
 
-#### 1. Set up ProcessOut.js
+## 1. Set up ProcessOut.js
 
 ProcessOut.js can be used to greatly simplify the 3DS authentication flow. It
 provides easy helpers you can use to automatically generate the 3DS link
@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 ```
 
-#### 2. Display the 3-D Secure page
+## 2. Display the 3-D Secure page
 
 You can now display the 3DS authentication page to your customer using
 the `authenticate` method helper. The method takes two set of parameters:
@@ -81,7 +81,7 @@ client.threeDS.authenticate({
 });
 ```
 
-#### 3. Capture the transaction
+## 3. Capture the transaction
 
 Now that your customer successfully authenticated using the 3-D Secure protocole,
 you can authorize and/or capture the invoice. The API calls stay the same as

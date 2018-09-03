@@ -2,7 +2,7 @@
 title: Accept payments with Apple Pay
 ---
 
-## Accepting payments with Apple Pay
+# Accepting payments with Apple Pay
 
 Additionnaly to accepting payments by card, Apple Pay lets you provide your
 customers with a one-click checkout process using cards stored in their personal
@@ -10,7 +10,7 @@ wallet, from within their browser.
 
 <hr>
 
-#### 1. Setting Apple Pay on ProcessOut
+## 1. Setting Apple Pay on ProcessOut
 
 Before integrating Apple Pay and tokenizing the cards of your customers,
 you need to configure Apple Pay in your [ProcessOut Dashboard &nearr;](https://dashboard.processout.com).
@@ -20,7 +20,7 @@ to accept payments with Apple Pay.
 
 Don't worry though- the steps are all explained in details and shouldn't take more than a few minutes!
 
-#### 2. Get your Apple Pay Sandbox account
+## 2. Get your Apple Pay Sandbox account
 
 When developing your store and integrating Apple Pay, you might want to use the 
 Apple Pay Sandbox to avoid using your real cards. Setting up your Apple Pay 
@@ -36,7 +36,7 @@ Sandbox account only takes a few minutes:
 - You can now use any of [Apple Pay test cards &nearr;](https://developer.apple.com/support/apple-pay-sandbox/). `4761 1200 1000 0492`, exp `11/2022` and CVC `533` is one of the test Visa cards you can use.
 
 
-#### 3. Add the Apple Pay button to your website
+## 3. Add the Apple Pay button to your website
 
 The below code will show a white version of the Apple Pay logo, automatically
 using the Apple Pay images built in the Safari browser (mobile and desktop).
@@ -83,7 +83,7 @@ client.applePay.checkAvailability(function(err) {
 });
 ```
 
-#### 4. Tokenize the user's card with Apple Pay
+## 4. Tokenize the user's card with Apple Pay
 
 Because the action of displaying the Apple Pay payment sheet must be done
 in conjonction with a user event (such as a click), we'll bind the 
@@ -146,7 +146,7 @@ function tokenizeApplePay() {
 The `card.id` can then be sent to your backend, and can be used to [charge your
 customers &nearr;](/payments/capture-a-payment) or [create subscriptions &nearr;](/subscriptions/get-started)!
 
-#### Customize your integration
+## Customize your integration
 
 Hooks are available to execute custom actions when the user cancels the payment
 or closes the Apple Pay payment sheet.

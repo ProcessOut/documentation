@@ -2,7 +2,7 @@
 title: Refresh your customers' cards CVC
 ---
 
-## Refresh your customers' cards CVC
+# Refresh your customers' cards CVC
 
 Once the first payment is placed using the card of a customer, the *PCI DSS 
 compliance* specifies that the card's CVC must be dropped. While this guarantees
@@ -12,7 +12,7 @@ solve this issue.
 
 <hr>
 
-#### Setting up
+## Setting up
 
 Refreshing a CVC is very similar to [creating a card token &nearr;](/payments/processoutjs) using ProcessOut.js.
 
@@ -60,7 +60,7 @@ prepend your project ID with `test-` like so: `test-<%= partial "projectID" %>`.
 
 We also still have to add the handler, which we'll do next.
 
-#### Bind the form and refresh the CVC
+## Bind the form and refresh the CVC
 
 As soon as the form is fully loaded, `setupForm` will call `processoutReadyHandler` 
 with the created `CardForm` object. We'll use this object to handle the
@@ -96,13 +96,13 @@ function processoutReadyHandler(form) {
 }
 ``` 
 
-### Customize the field and events
+# Customize the field and events
 
 Because the way the hosted CVC field works the same as the ones used to 
 tokenize a card, you can use the same tricks to customize the field as you
 like. [Learn more about it here &nearr;](/payments/processoutjs)
 
-#### What's next?
+## What's next?
 
 We've sent the card token back to our server. Let's use it to 
 [capture a payment &nearr;](/payments/capture-a-payment) or to 

@@ -2,14 +2,14 @@
 title: Coupons and discounts
 ---
 
-## Offer discounts to your customers
+# Offer discounts to your customers
 
 Offering coupons and discounts for your customers' subscriptions is a great way to
 acquire new users by lowering the friction.
 
 <hr>
 
-#### What are coupons and discounts
+## What are coupons and discounts
 
 A [`Coupon` &nearr;](/refs/#coupons) can be seen
 as a template for a [`Discount` &nearr;](/refs/#discounts) to be applied on a subscription: the coupon
@@ -31,7 +31,7 @@ It is also important to note that coupons cannot be redeemed more than once
 per subscription, and the amount deduced by the sum of all the discounts
 applied to a subscription cannot be greater than the amount of the subscription.
 
-#### Create a coupon
+## Create a coupon
 
 The easiest way to apply discounts on your customers' subscriptions it to
 create coupon codes that can be redeemed by your customers (or yourself in
@@ -112,7 +112,7 @@ if err != nil {
 ```
 </div>
 
-#### Apply a coupon to a subscription
+## Apply a coupon to a subscription
 
 Now that we've created a coupon, let's create and apply a subscription for a
 customer of ours (you'll need to replace the ID of the customer with one
@@ -220,7 +220,7 @@ discount, err := client.NewDiscount().Create(&processout.DiscountCreateParameter
 ```
 </div>
 
-#### Remove a coupon discount
+## Remove a coupon discount
 
 Sometimes, you might also want to remove a discount from a subscription. This
 can be done by providing the coupon with which the discount was created:

@@ -2,7 +2,7 @@
 title: Your payment forms with ProcessOut.js
 ---
 
-## Your own payment forms
+# Your own payment forms
 
 While the ProcessOut payment modal is a great way to start, it isn't that
 customizable. `ProcessOut.js` lets you entirely control the payment flow
@@ -12,7 +12,7 @@ for every ProcessOut user.
 
 <hr>
 
-#### Common payment flow
+## Common payment flow
 
 A common payment flow is composed of the following steps:
 
@@ -248,7 +248,7 @@ and ZIP code are actual inputs, whereas the ones for the cards are iFrames:
 **ProcessOut.js makes it easy to make common and card inputs styles perfectly match, 
 while keeping sensitive data secure.**
 
-#### Setting up
+## Setting up
 
 Let's set up a payment form.
 **Please note that the credit card fields aren't actual input boxes,** but are only
@@ -304,7 +304,7 @@ prepend your project ID with `test-` like so: `test-<%= partial "projectID" %>`.
 
 We also still have to add the handler, which we'll do just now:
 
-#### Bind the form and tokenize the card
+## Bind the form and tokenize the card
 
 As soon as the form is fully loaded, `setupForm` will call `processoutReadyHandler` 
 with the created `CardForm` object. We'll use this object to handle the
@@ -360,7 +360,7 @@ function processoutReadyHandler(form) {
 }
 ``` 
 
-#### Validation and error handling
+## Validation and error handling
 
 When tokenizing a card or catching errors, ProcessOut returns custom exceptions which
 can be used to better understand what happened and show friendly messages to
@@ -390,7 +390,7 @@ client.tokenize(form, {}, function(token) {}, function(err) {
 });
 ```
 
-#### Add some style
+## Add some style
 
 Now that card inputs are set up and working on your payment page, you might
 want to update their style a little bit. To provide maximum security, hosted 
@@ -435,7 +435,7 @@ ProcessOut.js also supports custom fonts for enterprise users. If you'd like to
 use your own font and branding on ProcessOut fields, reach out to us! We're 
 always glad to help.
 
-#### Handle input events
+## Handle input events
 
 It is possible to hook functions to specific events happening on card inputs,
 such as when the use clicks or focuses on an input.
@@ -456,7 +456,7 @@ client.setupForm(formElement, function(form) {
 });
 ```
 
-#### What's next?
+## What's next?
 
 We've sent the card token back to our server. Let's use it to 
 [capture a payment &nearr;](/payments/capture-a-payment) or to 

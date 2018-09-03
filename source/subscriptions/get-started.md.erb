@@ -2,7 +2,7 @@
 title: Get started with subscriptions
 ---
 
-## Get started with plans & subscriptions
+# Get started with plans & subscriptions
 
 Subscriptions are the best way to get recurring revenue from your customers. 
 ProcessOut automatically handles the subscription lifecycles and does all
@@ -10,7 +10,7 @@ the maths for you with upgrades, downgrades and coupons.
 
 <hr>
 
-#### Payment modal
+## Payment modal
 
 Before getting started, keep in mind that it's also possible to use the 
 [payment modal &nearr;](/payments/payment-modal) to handle subscriptions.
@@ -18,7 +18,7 @@ Create a subscription using the API, or a plan directly on your Dashboard,
 and use the subscription ID `sub_*` in the modal. The customer will be able
 to chose among your available payment options, and pay directly in the modal.
 
-#### Create a plan
+## Create a plan
 
 The first step to start using subscriptions on ProcessOut is to create a plan
 that your subscriptions will be based on. You can have as many plan as you
@@ -111,7 +111,7 @@ plan, err := client.NewPlan().Create(&processout.PlanCreateParameters{
 ```
 </div>
 
-#### Create a subscription for your customer
+## Create a subscription for your customer
 
 Once you have created the plans you want, let's also create a customer object
 on ProcessOut for each of your internal customers. ProcessOut customers are
@@ -271,7 +271,7 @@ sub, err := client.NewSubscription().Create(&processout.SubscriptionCreateParame
 ```
 </div>
 
-#### Staying up to date
+## Staying up to date
 
 **Congrats!** Your customer is now successfully subscribed to a subscription,
 and you will automatically be paid at each iteration of the subscription.

@@ -2,7 +2,7 @@
 title: Cancel a subscription
 ---
 
-## Cancel a customer's subscription
+# Cancel a customer's subscription
 
 When a customer requests to cancel a subscription, you might want to be able
 to do it programmatically so you don't have to go in your 
@@ -11,7 +11,7 @@ provides a convenient way to programmatically cancel subscriptions.
 
 <hr>
 
-#### How canceling works internally
+## How canceling works internally
 
 The [`Subscription` &nearr;](/refs/#subscriptions) object has a date attribute `cancel_at`. This attribute is used
 by our workers to cancel any subscription that has a `cancel_at` date set in the
@@ -25,7 +25,7 @@ or re-activate it. If you want to reactive it, you will need to create a new
 subscription and apply the token you used as a source to activate it the first
 time, if available.
 
-#### Cancel immediately
+## Cancel immediately
 
 Cancelling a subscription immediately can be done by calling the subscription
 cancellation endpoint without any `cancel_at` date. The call will set the 
@@ -104,7 +104,7 @@ if err != nil {
 ```
 </div>
 
-#### Schedule for cancellation
+## Schedule for cancellation
 
 It is also possible to schedule a subscription for cancellation in the future,
 at a given date. This can be useful if you want to do **installments** for instance,

@@ -2,7 +2,7 @@
 title: Save token and capture payments later
 ---
 
-## Save a token to capture future payments
+# Save a token to capture future payments
 
 While most e-commerce businesses handle one-off payments, you might need to
 ask for a customer's card and capture payments on it in the future (one, but
@@ -11,12 +11,12 @@ by [`ProcessOut.js` &nearr;](/payments/processoutjs).
 
 <hr>
 
-#### Getting started
+## Getting started
 
 Because tokens are specifically linked to one of your customers, you must first
 create a [`Customer` &nearr;](/refs/#customers) resource.
 
-#### Creating a customer
+## Creating a customer
 
 You can create any number of customer you may need. A customer object may be
 entirely empty, **but we strongly advise you to fill the object with as much
@@ -96,7 +96,7 @@ cust, err := client.NewCustomer().Create(processout.CustomerCreateParameters{
 set to the currency of the first invoice your customer will pay. It is also
 immutable.
 
-#### Creating a customer token
+## Creating a customer token
 
 Now that we have a customer object to work with, we can create tokens that'll
 belong to it. Customer tokens can be created from the ones returned by
@@ -159,7 +159,7 @@ token, err := client.NewToken().Create(&processout.TokenCreateParameters{
 ```
 </div>
 
-#### Capturing a payment for a customer
+## Capturing a payment for a customer
 
 After having created a customer token, it is possible to capture any invoice
 matching the currency of the customer at any point in time, using the ID
@@ -249,7 +249,7 @@ tr, _ := iv.Capture("tok_aKrYfz903uXn9MV0p8ZH7Lfly2JGtZWh")
 ```
 </div>
 
-#### Listing and deleting customers' tokens
+## Listing and deleting customers' tokens
 
 Once you've stored a token for a customer, you might want to list them
 so you can show them to your customers, or delete them when your customers

@@ -2,7 +2,7 @@
 title: Addons & metered usage
 ---
 
-## Handle price changes & metered usage
+# Handle price changes & metered usage
 
 If you operate a SaaS business, your pricing most likely varies depending
 on the usage of your service by your customers. Addons allow you to charge
@@ -10,7 +10,7 @@ your customers per collaborator, website, or per API call to only name a few.
 
 <hr>
 
-#### What are addons
+## What are addons
 
 [`Addons` &nearr;](/refs/#addons) are additional elements your customers are be billed 
 for at each billing cycles of the [`Subscription` &nearr;](/refs/#subscriptions) 
@@ -28,7 +28,7 @@ To apply an addon on a subscription, you can use [`Addons` &nearr;](/refs/#addon
 It is only possible to apply a [`Plan` &nearr;](/refs#plans) on a subscription as an addon once (although a subscription
 can have multiple addons composed of several different plans).
 
-#### Create a plan for our future addon
+## Create a plan for our future addon
 
 Let's first create a plan that'll be used as an addon on our future subscription.
 It is important to notice that the interval of the plan which will be used as an addon
@@ -109,7 +109,7 @@ plan, err := client.NewPlan().Create(&processout.PlanCreateParameters{
 ```
 </div>
 
-#### Use the plan as an addon
+## Use the plan as an addon
 
 Now that we've created the plan we want to use an addon, we just need to 
 apply it to an already existing subscription.

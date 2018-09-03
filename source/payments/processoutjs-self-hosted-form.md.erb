@@ -2,7 +2,7 @@
 title: Self hosted payment form — ProcessOut.js
 ---
 
-## Your own payment forms <span style="opacity: 0.7; font-size: 0.5em;">— self-hosted payment form</span>
+# Your own payment forms <span style="opacity: 0.7; font-size: 0.5em;">— self-hosted payment form</span>
 
 While the ProcessOut payment modal is a great way to start, it isn't that
 customizable. `ProcessOut.js` lets you entirely control the payment flow
@@ -12,7 +12,7 @@ for every ProcessOut user.
 
 <hr>
 
-### Compliant with PCI DSS SAQ A-EP
+## Compliant with PCI DSS SAQ A-EP
 
 By using your own form, you're elligible to [PCI DSS A-EP Self-Assessment Questionary &nearr;](https://www.pcisecuritystandards.org/documents/PCI-DSS-v3_2-SAQ-A_EP-rev1_1.pdf).
 
@@ -25,7 +25,7 @@ sure about the PCI compliancy of your payment page, we strongly advise you to
 rather use [ProcessOut's hosted payment fields &nearr;](/payments/processoutjs-hosted-fields), which still lets you have payment inputs
 in your own payment page using iframes.
 
-#### Setting up
+## Setting up
 
 Let's set up a payment form.
 
@@ -66,7 +66,7 @@ prepend your project ID with `test-` like so: `test-<%= partial "projectID" %>`.
 
 We also still have to add the handler, which we'll do just now:
 
-#### Bind the form and tokenize the card
+## Bind the form and tokenize the card
 
 As soon as the form is fully loaded, `setupForm` will call `processoutReadyHandler` 
 with the created `CardForm` object. We'll use this object to handle the
@@ -115,7 +115,7 @@ function processoutReadyHandler(form) {
 }
 ``` 
 
-#### Validation and error handling
+## Validation and error handling
 
 When tokenizing a card or catching errors, ProcessOut returns custom exceptions which
 can be used to better understand what happened and show friendly messages to
@@ -145,7 +145,7 @@ client.tokenize(card, {}, function(token) {}, function(err) {
 });
 ```
 
-#### What's next?
+## What's next?
 
 We've sent the card token back to our server. Let's use it to 
 [capture a payment &nearr;](/payments/capture-a-payment) or to 

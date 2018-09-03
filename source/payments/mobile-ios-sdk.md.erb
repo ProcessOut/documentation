@@ -2,7 +2,7 @@
 title: "mobile: iOS/Swift integration"
 ---
 
-## mobile: iOS/Swift integration
+# mobile: iOS/Swift integration
 
 The easiest way to start accepting payments on iOS devices using ProcessOut
 is to use the ProcessOut iOS SDK.
@@ -13,7 +13,7 @@ See our [Android integration guide &nearr;](/payments/mobile-android-sdk) to han
 
 <hr>
 
-#### Requirements
+## Requirements
 
 The ProcessOut iOS SDK is available on *iOS 8.0+*.
 
@@ -50,7 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 ```
 
-#### Tokenize a card
+## Tokenize a card
 
 Once all set up, you'll be able to tokenize the card numbers. The returned
 token is a simple `string`.
@@ -75,7 +75,7 @@ ProcessOut.Tokenize(card: card, metadata: [:], completion: {(token, error) -> Vo
 })
 ```
 
-#### Next steps
+## Next steps
 
 You're all set! You can now send the newly created token to your backend
 to:

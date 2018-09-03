@@ -2,7 +2,7 @@
 title: Alternative payment methods for payments
 ---
 
-## Handle alternative payment methods
+# Handle alternative payment methods
 
 On top of helping you get recurring payments, ProcessOut also
 lets you accept subscriptions through alternative payment methods, such as 
@@ -10,13 +10,13 @@ lets you accept subscriptions through alternative payment methods, such as
 
 <hr>
 
-#### Native to the payment modal
+## Native to the payment modal
 
 Before getting into the white-label integration, it is important to note that the
 [ProcessOut modal &nearr;](/payments/payment-modal) comes with the alternative payment methods right from
 the start, without any additional work needed. 
 
-#### Alternative payment methods flow
+## Alternative payment methods flow
 
 The alternative payment methods flow for [`Subscription` &nearr;](/refs/#subscriptions) is very similar to the one
 for one-off payments, that's been covered in its guides 
@@ -30,7 +30,7 @@ using alternative payment methods:
 - Upgrades &amp; downgrades
 - Coupons &amp; discounts
 
-#### Fetch the available alternative payment methods
+## Fetch the available alternative payment methods
 
 Before showing the payment methods to the customer, they need to be fetched
 from your ProcessOut configuration. This lets you dynamically enable and disable
@@ -152,7 +152,7 @@ gateways, erri := sub.Project.FetchGatewayConfigurations(
 ```
 </div>
 
-#### Display alternative methods payment links
+## Display alternative methods payment links
 
 The `gateways` variable fetched in the previous steps now contains all the
 available alternative payment gateways that were configured and activated
@@ -177,7 +177,7 @@ A payment link for an alternative payment gateway is as follows:
 **Note**: The links are put in a form so that we can later post the `token`
 representing the payment back to the merchant's backend.
 
-#### Hook ProcessOut.js on the payment links
+## Hook ProcessOut.js on the payment links
 
 We could technically stop there and simply redirect the customer to the checkout
 pages, but the merchant would lose control over its customer checkout flow.
@@ -204,7 +204,7 @@ prepend your project ID with `test-` like so: `test-<%= partial "projectID" %>`.
 
 We also still have to add the handler, which we'll do just now:
 
-#### Handle the redirection
+## Handle the redirection
 
 When a customer will click on the alternative gateway link, the `processoutRedirectHandler`
 function will be called. Let's define it:
@@ -236,7 +236,7 @@ function processoutRedirectHandler(e) {
 }
 ```
 
-#### Handle the subscription activation on the server
+## Handle the subscription activation on the server
 
 `ProcessOut.js` sent the `token` back to our server so we need to finish
 its activation. We'll need both the `token` and the `subscription ID` we created
