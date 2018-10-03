@@ -30,7 +30,7 @@ those tokens to your customers when listing their stored payment methods.
 ### Create a token
 
 ```shell
-curl https://api.processout.com/customers/cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj/tokens \
+curl -X POST https://api.processout.com/customers/cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj/tokens \
     <%= partial "header-curl" %> \
     -d source=card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj
 ```
@@ -93,7 +93,7 @@ so you can [capture payments](#capture-an-invoice) using it later.
 ### Fetch a token
 
 ```shell
-curl https://api.processout.com/customers/cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks/tokens/tok_fKK4btSG7wd13ZZaevzhMcuNbpjcu1Zy \
+curl -X GET https://api.processout.com/customers/cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks/tokens/tok_fKK4btSG7wd13ZZaevzhMcuNbpjcu1Zy \
     <%= partial "header-curl" %>
 ```
 
@@ -139,7 +139,7 @@ Fetch a specific customer's token
 ### List a customer's tokens
 
 ```shell
-curl https://api.processout.com/customers/cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks/tokens \
+curl -X GET https://api.processout.com/customers/cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks/tokens \
     <%= partial "header-curl" %>
 ```
 

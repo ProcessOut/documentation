@@ -34,7 +34,7 @@ additional data if needed.
 ### Create a customer
 
 ```shell
-curl https://api.processout.com/customers \
+curl -X POST https://api.processout.com/customers \
     <%= partial "header-curl" %> \
     -d email="john@smith.com" \
     -d first_name="John" \
@@ -94,8 +94,6 @@ cust, err := client.NewCustomer().Create(processout.CustomerCreateParameters{
 })
 ```
 
-Create a new customer.
-
 Once the customer is created, ProcessOut will return its resource `ID`.
 Storing this information on your backend may be useful if you want to
 easily find which ProcessOut Customer belongs to which of your internal
@@ -108,7 +106,7 @@ country of the customer.
 ### Fetch a customer
 
 ```shell
-curl https://api.processout.com/customers/cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb \
+curl -X GET https://api.processout.com/customers/cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb \
     <%= partial "header-curl" %>
 ```
 

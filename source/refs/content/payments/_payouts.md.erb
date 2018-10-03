@@ -63,7 +63,7 @@ account representative at ProcessOut to see how yours are specifically handled.
 ### List your payouts
 
 ```shell
-curl https://api.processout.com/payouts \
+curl -X GET https://api.processout.com/payouts \
     <%= partial "header-curl" %>
 ```
 
@@ -101,7 +101,7 @@ returned. If you'd like to access all the items of a specific payout, you can
 ### Paginate through payout items
 
 ```shell
-curl https://api.processout.com/payouts/payt_3vfLtjoiQxpXZrdd6dc8Qgxxe26vy0aH/items \
+curl -X GET https://api.processout.com/payouts/payt_3vfLtjoiQxpXZrdd6dc8Qgxxe26vy0aH/items \
     <%= partial "header-curl" %>
 ```
 

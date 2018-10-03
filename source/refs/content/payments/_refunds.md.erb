@@ -20,7 +20,7 @@ fraudulent.
 ### Issue a refund
 
 ```shell
-curl https://api.processout.com/transactions/tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC/refunds \
+curl -X POST https://api.processout.com/transactions/tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC/refunds \
     <%= partial "header-curl" %> \
     -d reason=customer_request \
     -d amount=4.99
@@ -90,7 +90,7 @@ the refund amount empty will refund what's left of the transaction amount.
 ### Fetch a refund
 
 ```shell
-curl https://api.processout.com/transactions/tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC/refunds/refd_QKliea9OGXtLBXcar2SJjfD11aY0J2SH \
+curl -X GET https://api.processout.com/transactions/tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC/refunds/refd_QKliea9OGXtLBXcar2SJjfD11aY0J2SH \
     <%= partial "header-curl" %>
 ```
 

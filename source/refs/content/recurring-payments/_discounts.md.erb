@@ -17,12 +17,12 @@ Discount objects represent discounts applied to your customers' subscriptions.
 ### Apply a discount
 
 ```shell
-curl https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/discounts \
+curl -X POST https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/discounts \
     <%= partial "header-curl" %> \
     -d amount=5
 
 # or
-curl https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/discounts \
+curl -X POSThttps://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/discounts \
     <%= partial "header-curl" %> \
     -d coupon_id=25percentoff
 ```
@@ -112,7 +112,7 @@ It is also possible to [apply a coupon to a subscription](#apply-a-coupon).
 ### Fetch a discount
 
 ```shell
-curl https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/discounts/disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq \
+curl -X GET https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/discounts/disc_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq \
     <%= partial "header-curl" %>
 ```
 

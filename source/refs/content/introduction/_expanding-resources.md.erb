@@ -1,9 +1,9 @@
 ## Expanding resources
 
 ```shell
-curl https://api.processout.com/customers/cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb \
+curl -X GET -G https://api.processout.com/customers/cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb \
     <%= partial "header-curl" %> \
-    -d expand[]=subscriptions
+    --data-urlencode expand[]=subscriptions
 ```
 
 ```javascript

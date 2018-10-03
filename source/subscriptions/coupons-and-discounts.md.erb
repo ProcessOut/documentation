@@ -42,7 +42,7 @@ For reference, let's create one through the API:
 <div class="language-selector-wrapper">
 <%= partial "lg-selector" %>
 ```shell
-curl https://api.processout.com/coupons \
+curl -X POST https://api.processout.com/coupons \
     <%= partial "header-curl" %> \
     -d id="25percentoff" \
     -d percent_off=25 \
@@ -121,14 +121,14 @@ of yours):
 <div class="language-selector-wrapper">
 <%= partial "lg-selector" %>
 ```shell
-curl https://api.processout.com/subscriptions \
+curl -X POST https://api.processout.com/subscriptions \
     <%= partial "header-curl" %> \
     -d customer_id=cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P \
     -d plan_id="silver-plan" \
     -d coupon_id="25percentoff"
 
 # or 
-curl https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/discounts \
+curl -X POST https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/discounts \
     <%= partial "header-curl" %> \
     -d coupon_id=25percentoff
 ```

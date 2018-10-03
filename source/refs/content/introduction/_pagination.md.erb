@@ -1,11 +1,11 @@
 ## Pagination
 
 ```shell
-curl -X GET https://api.processout.com/customers \
+curl -X GET -G https://api.processout.com/customers \
     <%= partial "header-curl" %> \
-    -d start_after=cust_FM5ZDn3PjkCmDVXYnqrZFrnlypilDicD \
-    -d limit=20 \
-    -d order=asc
+    --data-urlencode start_after=cust_FM5ZDn3PjkCmDVXYnqrZFrnlypilDicD \
+    --data-urlencode limit=20 \
+    --data-urlencode order=asc
 ```
 
 ```javascript

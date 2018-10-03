@@ -12,7 +12,7 @@ and even though a card could be compatible, it might not be enrolled in the
 ### Initiate a 3-D Secure flow
 
 ```shell
-curl https://api.processout.com/invoices/iv_MgeLS2Rr3ZGwjqOvDvYSuWx7ce88luXl/three-d-s \
+curl -X POST https://api.processout.com/invoices/iv_MgeLS2Rr3ZGwjqOvDvYSuWx7ce88luXl/three-d-s \
     <%= partial "header-curl" %> \
     -d source=card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ
 ```

@@ -37,7 +37,7 @@ must be the same as the one of the subscription we'll want to apply it to.
 <div class="language-selector-wrapper">
 <%= partial "lg-selector" %>
 ```shell
-curl https://api.processout.com/plans \
+curl -X POST https://api.processout.com/plans \
     <%= partial "header-curl" %> \
     -d id="per-seat-addon" \
     -d name="Per seat addon" \
@@ -122,7 +122,7 @@ Prorating is disabled for `metered` addons.
 <div class="language-selector-wrapper">
 <%= partial "lg-selector" %>
 ```shell
-curl https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/addons \
+curl -X POST https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/addons \
     <%= partial "header-curl" %> \
     -d plan_id="per-seat-addon" \
     -d quantity=2 \
