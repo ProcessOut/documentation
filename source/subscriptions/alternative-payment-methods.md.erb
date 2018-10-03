@@ -48,6 +48,12 @@ curl https://api.processout.com/subscriptions \
     <%= partial "header-curl" %> \
     -d customer_id=cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P \
     -d plan_id="silver-plan"
+
+# And now fetch the project's available gateways for subscriptions
+curl -X GET https://api.processout.com/gateway-configurations \
+    -u <%= partial "projectID" %>:<%= partial "projectSecret" %> \
+    -d expand[]=gateway \
+    -d filter="tags: redirection flows: subscription"
 ```
 
 ```javascript
@@ -59,10 +65,10 @@ client.newSubscription().create({
 
     expand: ["project"]
 }).then(function(subscription) {
-    // And now fetch the project available gateways for subscriptions
+    // And now fetch the project's available gateways for subscriptions
     subscription.getProject().fetchGatewayConfigurations({
         expand: ["gateway"],
-        filter: "tags: redirection flows: one-off"
+        filter: "tags: redirection flows: subscription"
     }).then(function(gateways) {
         //
 

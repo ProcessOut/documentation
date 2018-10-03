@@ -60,7 +60,7 @@ curl https://api.processout.com/invoices \
     -d currency=USD
 
 # And fetch the gateways
-curl https://api.processout.com/gateway-configurations \
+curl -X GET https://api.processout.com/gateway-configurations \
     -u <%= partial "projectID" %>:<%= partial "projectSecret" %> \
     -d expand[]=gateway \
     -d filter="tags: redirection flows: one-off"
