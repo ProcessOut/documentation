@@ -1,0 +1,41 @@
+---
+title: Onboarding quickstart
+---
+
+# Onboarding quickstart
+
+Welcome on board! We're glad to count you as a ProcessOut user. To get you started,
+you'll find some guides here to kickstart your integration and Dashboard
+usage.
+
+<hr>
+
+## Share your project with collaborators
+
+Most of the time, you’ll want to work with other members of your team on your payments data. This can be useful for:
+
+- *Developers*: give them access to the API call logs and webhooks so they can easily debug their integrations;
+- *Customer Success*: allow your supports team to see and search for transactions, and issue refunds when needed;
+- *Payment managers*: querying and exploring the data in the analytics can help figure out what could be optimized and easily have numbers to back the impact.
+
+## Where do I find my API keys:
+
+To integrate ProcessOut, you’ll need to authenticate your API requests with your project ID and project secret key. These can be found in your ProcessOut dashboard:
+
+- In the left-side menu, click on `Developer API`;
+- You’ll see your project ID (starting with `proj_`);
+- To access your project secret key, you’ll need to regenerate it. Be careful though: regenerating your secret key will invalidate your old ones. We strongly advise you to store the key somewhere safe once you generated it.
+
+ProcessOut also has a `sandbox` environment that helps you test most of the features on ProcessOut without having to process real payments. The ProcessOut sandbox runs on the same API as the production one. The only difference lies in the authentication: to switch to the sandbox environment, simply prepend your project ID with `test-`. [Learn more about testing here &nearr;](/testing.html).
+
+## Filtering out duplicated transactions
+
+More often than not, you’ll find you or your users retrying failed transactions. These retries create new transactions which if not filtered out will negatively impact your authorization rate, even though the transactions really only happened one within the customer’s checkout context.
+
+For this reason, ProcessOut dynamically computes deduplicated transactions to remove these from results when needed. Although this is done transparently and automatically for you, it is important to understand how this process works:
+
+- When a transaction gets stored in ProcessOut, we compute what we call a `fingerprint` of the transaction. This fingerprint takes into account many of the transaction’s parameters but most importantly its currency, amount, date, ID and card used.
+- When a duplicated transaction comes in, its fingerprint will match one of a prior duplicated transaction. This older transaction will therefor be detected as duplicated and will be marked as such.
+- Because we can look at transactions’ history in order to compute duplication statuses, we’re also able to compute the distance in time between two occurrences of a duplicated transaction. This can allow you to filter out duplicated transactions in specific scenarios:
+    - When a customer retries a transaction during its Checkout process, this retry will usually happen within the same hour. You can therefor only remove duplicated transaction that happened within the same hour: `duplicate_distance_seconds < 3600`
+    - If you’re a SaaS business, you’ll usually charge your customers on a monthly basis, and retry transactions in the middle if some failed. You can filter those out by removing duplicated transactions that happened within the month: `duplicate_distance_seconds < 2592000` *(60 seconds * 60 minutes * 24 hours * 30 days)*
