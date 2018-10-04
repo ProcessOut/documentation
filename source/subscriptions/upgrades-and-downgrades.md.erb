@@ -50,12 +50,6 @@ curl -X PUT https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2
     <%= partial "header-curl" %> \
     -d plan_id="gold-plan" \
     -d prorate=true
-
-# or
-curl -X DELETE https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3 \
-    <%= partial "header-curl" %> \
-    -d cancel_at="2022-10-02T15:00:00Z" \
-    -d cancellation_reason="Cancellation reason"
 ```
 
 ```javascript
