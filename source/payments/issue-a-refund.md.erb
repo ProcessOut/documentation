@@ -38,7 +38,7 @@ leaving the `amount` field empty will refund whats left of the transaction amoun
 <div class="language-selector-wrapper">
 <%= partial "lg-selector" %>
 ```shell
-curl https://api.processout.com/transactions/tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC/refunds \
+curl -X POST https://api.processout.com/transactions/tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC/refunds \
     <%= partial "header-curl" %> \
     -d reason=customer_request \
     -d amount=4.99

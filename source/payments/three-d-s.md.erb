@@ -97,7 +97,7 @@ You can find more examples on [how to capture a payment &nearr;](/payments/captu
 <div class="language-selector-wrapper">
 <%= partial "lg-selector" %>
 ```shell
-curl https://api.processout.com/invoices/iv_lEZFFcQg5WwpKcolBrlzioeeFnnuPmyE/capture \
+curl -X POST https://api.processout.com/invoices/iv_lEZFFcQg5WwpKcolBrlzioeeFnnuPmyE/capture \
     <%= partial "header-curl" %> \
     -d source=card_Tpu6ZOCDu1tnDKp0kTnPOcVDMUbW7dTU
 ```

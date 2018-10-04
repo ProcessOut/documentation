@@ -37,7 +37,7 @@ Subscriptions are objects representing your customers' subscriptions.
 ### Create a subscription
 
 ```shell
-curl https://api.processout.com/subscriptions \
+curl -X POST https://api.processout.com/subscriptions \
     <%= partial "header-curl" %> \
     -d customer_id=cust_uYW5WVnjHe91qnsUA1sHOxEjdAySvg0P \
     -d name="Amazing item" \
@@ -164,7 +164,7 @@ end at that specific date automatically.
 ### Fetch a subscription
 
 ```shell
-curl https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3 \
+curl -X GET https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3 \
     <%= partial "header-curl" %>
 ```
 

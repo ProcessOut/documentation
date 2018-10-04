@@ -39,7 +39,7 @@ using the ProcessOut API. To start using invoices, [let's create one](#create-an
 ### Create an invoice
 
 ```shell
-curl https://api.processout.com/invoices \
+curl -X POST https://api.processout.com/invoices \
     <%= partial "header-curl" %> \
     -d customer_id="cust_LvjCcLOVe6iWn2aeCNhNmK7RbbG6K8XF" \
     -d name="Amazing item" \
@@ -117,7 +117,7 @@ Simply create an Invoice resource with a `name`, `amount` and `currency`.
 ### Fetch an invoice
 
 ```shell
-curl https://api.processout.com/invoices/iv_MgeLS2Rr3ZGwjqOvDvYSuWx7ce88luXl \
+curl -X GET https://api.processout.com/invoices/iv_MgeLS2Rr3ZGwjqOvDvYSuWx7ce88luXl \
     <%= partial "header-curl" %>
 ```
 
@@ -158,7 +158,7 @@ could not be found, an error is thrown.
 ### Capture an invoice
 
 ```shell
-curl https://api.processout.com/invoices/iv_MgeLS2Rr3ZGwjqOvDvYSuWx7ce88luXl/capture \
+curl -X POST https://api.processout.com/invoices/iv_MgeLS2Rr3ZGwjqOvDvYSuWx7ce88luXl/capture \
     <%= partial "header-curl" %> \
     -d source=card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ
 ```
@@ -215,7 +215,7 @@ Capturing an invoice can be done using a `card`, a [Token](#tokens) or a
 ### Void an invoice
 
 ```shell
-curl https://api.processout.com/invoices/iv_MgeLS2Rr3ZGwjqOvDvYSuWx7ce88luXl/void \
+curl -X POST https://api.processout.com/invoices/iv_MgeLS2Rr3ZGwjqOvDvYSuWx7ce88luXl/void \
     <%= partial "header-curl" %>
 ```
 

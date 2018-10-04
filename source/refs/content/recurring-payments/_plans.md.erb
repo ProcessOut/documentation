@@ -19,7 +19,7 @@ Plans can be seen as templates for your [subscriptions](#subscriptions).
 ### Create a plan
 
 ```shell
-curl https://api.processout.com/plans \
+curl -X POST https://api.processout.com/plans \
     <%= partial "header-curl" %> \
     -d id="silver-plan" \
     -d name="Amazing item" \
@@ -97,7 +97,7 @@ Create a plan with the given attributes.
 ### Fetch a plan
 
 ```shell
-curl https://api.processout.com/plans/silver-plan \
+curl -X GET https://api.processout.com/plans/silver-plan \
     <%= partial "header-curl" %>
 ```
 

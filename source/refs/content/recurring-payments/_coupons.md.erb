@@ -19,7 +19,7 @@ Coupons can be seen as templates for [subscription discounts](#discounts).
 ### Create a coupon
 
 ```shell
-curl https://api.processout.com/coupons \
+curl -X POST https://api.processout.com/coupons \
     <%= partial "header-curl" %> \
     -d id="25percentoff" \
     -d percent_off=25
@@ -81,7 +81,7 @@ Once a coupon is create, you can use it to [create a discount](#discounts).
 ### Fetch a coupon
 
 ```shell
-curl https://api.processout.com/coupons/25percentoff \
+curl -X GET https://api.processout.com/coupons/25percentoff \
     <%= partial "header-curl" %>
 ```
 

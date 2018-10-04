@@ -25,7 +25,7 @@ subscription cycle. Such addon could be used for:
 ### Apply an addon
 
 ```shell
-curl https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/addons \
+curl -X POST https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/addons \
     <%= partial "header-curl" %> \
     -d name="Addon name" \
     -d amount="5.00" \
@@ -34,7 +34,7 @@ curl https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzz
     -d prorate=true
 
 # or 
-curl https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/addons \
+curl -X POST https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/addons \
     <%= partial "header-curl" %> \
     -d plan_id="addon-per-api-call" \
     -d type=metered \
@@ -179,7 +179,7 @@ Learn more about proration [here &nearr;](/subscriptions/upgrades-and-downgrades
 ### Fetch an addon
 
 ```shell
-curl https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/addons/addon_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq \
+curl -X GET https://api.processout.com/subscriptions/sub_7kAxfNML6jIc3bltGIt0uK2nKHDyzzq3/addons/addon_F9NXdvflVDyE3KOz2qxLw0e31eBeLcDq \
     <%= partial "header-curl" %>
 ```
 
