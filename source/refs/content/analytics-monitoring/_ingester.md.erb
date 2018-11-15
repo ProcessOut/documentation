@@ -1,0 +1,168 @@
+<div id="recurring-payments-category"></div>
+
+## Introduction
+
+ProcessOut, on top of its payments processing gateway, provides tools to help
+merchants analyze, benchmark and monitor their payments performance through
+our [Telescope and Monitoring products](https://www.processout.com/telescope/).
+
+Although ProcessOut connects directly to your PSPs to retrieve transactions
+for your automatically without any technical integration or change required
+from your side, it can sometimes still make sense to push transactions
+programmatically to our API. Such a case could for example be that the PSP
+doesn't expose any API to retrieve transactions from and you as a merchant
+want data to be ingested in ProcessOut's Analytics and Monitoring tools in 
+real-time.
+
+## Pushing data
+
+```shell
+curl -X POST https://api.processout.com/handlers/ingest-transactions/gway_conf_9ie0prejnta3p9l2ns9030fiphlra7sz \
+    <%= partial "header-curl" %> \
+    -H "Content-Type: application/json" \
+    -d @- << EOF
+    {
+        "transactions": [{
+            "id": "your-transaction-id",
+            "customer": {
+                "id": "your-customer-id",
+                "email": "john@smith.com",
+                "first_name": "John",
+                "last_name": "Smith",
+                "address1": "23 rue de Strasbourg",
+                "address2": "1e etage",
+                "city": "Paris",
+                "state": "",
+                "zip": "75001",
+                "country_code": "FR",
+                "ip_address": "127.0.0.1",
+                "metadata": {
+                    "custom_field": "with whatever data you want"
+                },
+                "created_at": "2009-11-10T23:00:00Z"
+            },
+            "new_operation": {
+                "id": "your-operation-id",
+                "card": {
+                    "id": "your-card-id",
+                    "iin": "424242",
+                    "last_4_digits": "4242",
+                    "exp_month": 12,
+                    "exp_year": 2020,
+                    "name": "Cardholder name",
+                    "metadata": {
+                        "custom_field": "with whatever data you want"
+                    },
+                    "created_at": "2009-11-10T23:00:00Z"
+                },
+                "amount": "12.90",
+                "has_failed": false,
+                "type": "authorization",
+                "metadata": {
+                    "custom_field": "with whatever data you want"
+                },
+                "raw_error_code": "05",
+                "raw_error_code_norm": "sips",
+                "payment_type": "card",
+                "acquirer_name": "societe generale",
+                "eci": "05",
+                "mcc": "5734",
+                "merchant_account_id": "your-merchant-id",
+                "cvc_check": "passed",
+                "avs_postal_check": "passwed",
+                "avs_street_check": "unavailable",
+                "avs_name_check": "unavailable",
+                "three_d_s_check": "passed",
+                "created_at": "2009-11-10T23:00:00Z"
+            },
+            "name": "Your transaction name/ID",
+            "currency": "EUR",
+            "metadata": {
+                "custom_field": "with whatever data you want"
+            },
+            "created_at": "2009-11-10T23:00:00Z"
+        }]
+    }
+    EOF
+```
+
+Pushing data to ProcessOut is done through one simple API endpoint. You can
+find a sample of the request JSON payload on the right side of the screen.
+
+**Don't be afraid by the size of the JSON payload!** Although it might appear
+lengthy (especially compared to our other routes), the required data is
+very straight-forward, and some of it is only optional when available.
+
+Please note several things:
+
+- The URL contains the gateway configuration ID to which the transaction you're pushing will be linked. 
+
+    This means that if you're using several PSPs, you'll need to create one gateway configuration for each of them in order for us to accurately split the transactions between them;
+
+- The transaction amount isn't stored in the transaction itself, but is dynamically computed from the operations you add to it. For example, a transaction 
+
+- Many fields aren't required, but it is always best to send as many as possible, as this is what gives Telescope data to work with.
+
+- Send raw error codes; not ones that you have potentially normalized on your side. `raw_error_code` should always contain the exact error code sent back by a PSP, and `raw_error_code_norm` should contain the name of the PSP that generated it. We'll take care of parsing it.
+
+##### Transaction attributes
+|||
+--:|:--
+<span class="console-font">**id**</span><br />*string*<br /><span class="highlighted">Required</span> | ID of the transaction you have stored internally. Should be unique
+<span class="console-font">**name**</span><br />*string*<br /><span class="highlighted">Required</span> | Name of the transaction. For example, its bank statement dynamic descriptor
+<span class="console-font">**currency**</span><br />*string*<br /><span class="highlighted">Required</span> | Currency of the transaction. For example, `EUR` or `USD`
+<span class="console-font">**new_operation**</span><br />*[Operation](#operation-attributes)*<br /><span class="highlighted">Required</span> | New operation processed on this transaction (such as an authorization or a refund)
+<span class="console-font">**customer**</span><br />*[Customer](#customer-attributes)* | Customer object to which this transaction is linked. Not required, but strongly recommanded if available
+<span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the transaction, key-value pair (string - string)
+<span class="console-font">**created_at**</span><br />*RFC1123 date or timestamp* | Date the transaction was created at
+
+##### Operation attributes
+|||
+--:|:--
+<span class="console-font">**id**</span><br />*string*<br /><span class="highlighted">Required</span> | ID of the operation you have stored internally. Should be unique
+<span class="console-font">**card**</span><br />*[Card](#card-attributes)*<br /><span class="highlighted">Required if payment_type=card</span> | Card object, required if the `payment_type` is `card`
+<span class="console-font">**type**</span><br />*string*<br /><span class="highlighted">Required</span> | Type of the operation. Can be `authorization`, `capture`, `void`, `refund`, `chargeback`
+<span class="console-font">**amount**</span><br />*string*<br /><span class="highlighted">Required</span> | Amount of the operation, in the currency of the transaction. ex: `"12.23"` for an amount of 12.23
+<span class="console-font">**has_failed**</span><br />*boolean*<br /><span class="highlighted">Required</span> | `true` if the operation was failed (for example if an `authorization` was declined), `false` otherwise
+<span class="console-font">**raw_error_code**</span><br />*string*<br /><span class="highlighted">Required if has_failed</span> | The raw error code returned by your PSP, such as `05` for SIPS. Do NOT send a modified error code, or we won't be able to parse it
+<span class="console-font">**raw_error_code_norm**</span><br />*string*<br /><span class="highlighted">Required if has_failed</span> | Norm of the error code (i.e. which kind of PSP generated that error code). Currently supported norms are `french_bank`, `payline`, `sips`, `hipay`. Contact us if yours isn't listed
+<span class="console-font">**payment_type**</span><br />*string*<br /><span class="highlighted">Required</span> | Type of the payment. Can be any of `card`, `three-d-s`, `paypal`, `vpay`, `sepa`, `ideal`, `sofort`, `apple-pay`, `bancontact`, `android-pay`
+<span class="console-font">**acquirer_name**</span><br />*string* | Acquirer used to process the transaction, such as `societe generale`
+<span class="console-font">**merchant_account_id**</span><br />*string* | ID of the merchant account used to process the transaction. Can be of any format
+<span class="console-font">**eci**</span><br />*string* | ECI used to process the transaction (also known as ERT in France). An example value is `05` for non-3DS transaction
+<span class="console-font">**mcc**</span><br />*string* | MCC (Merchant Category Code) used to process the transaction. An example value is `5734` for SaaS businesses
+<span class="console-font">**cvc_check**</span><br />*string* | Status of the CVC check, if known. Can be `passed`, `failed`, `unavailable`, `unchecked`, `unknown`, `required`. `Unavailable` means the CVC wasn't available to be sent to the PSP, whereas `unchecked` means it was available but wasn't used to process the check. `Required` means the CVC wasn't available but was required by the bank to accept the transaction
+<span class="console-font">**avs_postal_check**</span><br />*string* | Status of the AVS postal check, if known. Contains the same type of value as `cvc_check` above
+<span class="console-font">**three_d_s_check**</span><br />*string* | Status of the 3DS check performed on the transaction, if any. Can be `passed` or `failed`. If left empty, it means the transaction wasn't authenticated using 3DS
+<span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the operation, key-value pair (string - string)
+<span class="console-font">**created_at**</span><br />*RFC1123 date or timestamp* | Date the operation was created at
+
+##### Customer attributes
+|||
+--:|:--
+<span class="console-font">**id**</span><br />*string*<br /><span class="highlighted">Required</span> | ID of the customer you have stored internally. Should be unique
+<span class="console-font">**email**</span><br />*string* | Email of the customer
+<span class="console-font">**first_name**</span><br />*string* | First name of the customer
+<span class="console-font">**lasts_name**</span><br />*string* | Last name of the customer
+<span class="console-font">**address1**</span><br />*string* | Address line 1 of the customer
+<span class="console-font">**address2**</span><br />*string* | Address line 2 (such as floor) of the customer, if any
+<span class="console-font">**city**</span><br />*string* | City of the customer
+<span class="console-font">**state**</span><br />*string* | State of the customer, if any
+<span class="console-font">**zip**</span><br />*string* | ZIP code of the customer
+<span class="console-font">**country_code**</span><br />*string* | Country code of the customer, such as `FR` for France
+<span class="console-font">**ip_address**</span><br />*string* | IP address of the customer
+<span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the operation, key-value pair (string - string)
+<span class="console-font">**created_at**</span><br />*RFC1123 date or timestamp* | Date the operation was created at
+
+##### Card attributes
+|||
+--:|:--
+<span class="console-font">**id**</span><br />*string*<br /><span class="highlighted">Required</span> | ID of the card/token you have stored internally. Should be unique
+<span class="console-font">**iin**</span><br />*string*<br /><span class="highlighted">Required</span> | IIN of the card. Also known as BIN, or the first 6 digits
+<span class="console-font">**last_4_digits**</span><br />*string* | Last 4 digits of the card, if available
+<span class="console-font">**exp_month**</span><br />*integer*<br /><span class="highlighted">Required</span> | Expiry month of the card
+<span class="console-font">**exp_year**</span><br />*integer*<br /><span class="highlighted">Required</span> | Expiry year of the card, 4 digits format (i.e. 2018 instead of 18)
+<span class="console-font">**name**</span><br />*string* | Cardholder name if one was used to submit the transaction
+<span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the operation, key-value pair (string - string)
+<span class="console-font">**created_at**</span><br />*RFC1123 date or timestamp* | Date the operation was created at
+
