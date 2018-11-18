@@ -33,7 +33,7 @@ as well as this dependency in your `build.gradle` file:
 
 ```gradle
 dependencies {
-    compile 'com.github.processout:processout-android:1.0'
+    compile 'com.github.processout:processout-android:2.0'
 }
 ```
 
@@ -63,8 +63,8 @@ client.tokenize(card, new TokenCallback() {
     }
 
     @Override
-    public void onError(POErrors error) {
-        Log.e("ProcessOut", String.valueOf(error));
+    public void onError(Exception error) {
+        Log.e("ProcessOut", error.toString());
     }
 });
 ```
