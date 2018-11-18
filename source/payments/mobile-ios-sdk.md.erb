@@ -59,8 +59,8 @@ token is a simple `string`.
 ProcessOut.Tokenize(card: card, metadata: [:], completion: {(token, error) -> Void in
     if error != nil {
         switch error! {
-        case .BadRequest(let message):
-            print(message)
+        case .BadRequest(let message, let code):
+            print(message, code)
         case .InternalError:
             print("An internal error occured")
         case .MissingProjectId:
