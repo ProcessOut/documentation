@@ -56,6 +56,7 @@ Once all set up, you'll be able to tokenize the card numbers. The returned
 token is a simple `string`.
 
 ```swift
+let card = ProcessOut.Card(cardNumber: "4242424242424242", expMonth: 11, expYear: 19, cvc: nil, name: "NAME")
 ProcessOut.Tokenize(card: card, metadata: [:], completion: {(token, error) -> Void in
     if error != nil {
         switch error! {
