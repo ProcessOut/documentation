@@ -212,6 +212,11 @@ of the transaction.
 Capturing an invoice can be done using a `card`, a [Token](#tokens) or a 
 [Gateway request](#).
 
+It is also possible to partially capture a transaction using the `capture_amount` 
+flag in the request. However, beware that your PSPs need to support partial
+captures as well, otherwise you'll need to to do a full capture followed by a
+partial refund to achieve a similar goal.
+
 ### Void an invoice
 
 ```shell
