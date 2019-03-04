@@ -159,6 +159,83 @@ token, err := client.NewToken().Create(&processout.TokenCreateParameters{
 ```
 </div>
 
+## Verifying a card during tokenization *(optional)*
+
+If you're doing delayed payments for the cards you tokenize (i.e. you don't
+directly create transactions for cards you tokenize), we give you the option to
+verify the cards, which result in a $0 or $1 transaction being tried on the card
+and instantly voided/canceled.
+
+To issue a card verification, simply pass along `verify=true` during the 
+Customer Token creation call.
+
+If you are doing payments right after the tokenization, we advise against doing
+a card verification as it'll generate unneeded latency (roundtrips to the banks)
+for your end-user.
+
+<div class="language-selector-wrapper">
+<%= partial "lg-selector" %>
+```shell
+curl -X POST https://api.processout.com/customers/cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks/tokens \
+    <%= partial "header-curl" %> \
+    -d source=card_ZGJ8EnCPfcr298O1wD6u9McfnZQucIv1 \
+    -d verify=true
+```
+
+```javascript
+<%= partial "header-js" %>
+client.newToken().create({
+    customer_id: "cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj", 
+    source:      "card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
+    verify:      true
+}).then(function(token) {
+    // 
+
+}, function(err) {
+    // An error occured
+
+});
+```
+
+```python
+<%= partial "header-python" %>
+token = client.new_token().create({
+    "customer_id": "cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
+    "source":      "card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
+    "verify":      true
+})
+```
+
+```ruby
+<%= partial "header-ruby" %>
+token = client.token.create(
+    customer_id: "cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
+    source:      "card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
+    verify:      true
+)
+```
+
+```php
+<%= partial "header-php" %>
+$token = $client->newToken()->create(array(
+    "customer_id" => "cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
+    "source"      => "card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
+    "verify"      => true
+));
+```
+
+```go
+<%= partial "header-go" %>
+token, err := client.NewToken().Create(&processout.TokenCreateParameters{
+    Token: &processout.Token{
+        CustomerID: processout.String("cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj"),
+    },
+    Source: "card_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
+    Verify: true,
+})
+```
+</div>
+
 ## Capturing a payment for a customer
 
 After having created a customer token, it is possible to capture any invoice
