@@ -37,3 +37,83 @@ can ask your customers to update their payment details.
 <span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the card, key-value pair (string - string)
 <span class="console-font">**sandbox**</span><br />*boolean*<br />Read-only |
 <span class="console-font">**created_at**</span><br />*RFC1123 date or timestamp*<br />Read-only |
+
+### Tokenize a card
+
+```shell
+curl -X POST https://api.processout.com/cards \
+    <%= partial "header-curl" %> \
+    -d name="John Smith" \
+    -d number=4242424242424242 \
+    -d exp_month=12 \
+    -d exp_year=2020 \
+    -d cvc2=200
+```
+
+```javascript
+// NodeJS is currently not supported for Cards (please use ProcessOut.js instead)
+```
+
+```python
+<%= partial "header-python" %>
+# Python is currently not supported for Cards
+```
+
+```ruby
+<%= partial "header-ruby" %>
+# Ruby is currently not supported for Cards
+```
+
+```php
+<%= partial "header-php" %>
+// PHP is currently not supported for Cards
+```
+
+```go
+<%= partial "header-go" %>
+// Go is currently not supported for Cards
+```
+
+Tokenizing a card on ProcessOut can be done using the Cards endpoint. It is most
+useful to merchants already PCI compliant. However, for most merchants and 
+use-cases we strongly advise to use our ProcessOut.js and mobile SDKs to 
+tokenize the cards, as these SDKs allow you to remove the need for complexe
+card data certifications (PCI-DSS).
+
+### Fetch a card
+
+```shell
+curl -X GET https://api.processout.com/cards/card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ \
+    <%= partial "header-curl" %>
+```
+
+```javascript
+// NodeJS is currently not supported for Cards
+```
+
+```python
+<%= partial "header-python" %>
+# Python is currently not supported for Cards
+```
+
+```ruby
+<%= partial "header-ruby" %>
+# Ruby is currently not supported for Cards
+```
+
+```php
+<%= partial "header-php" %>
+// PHP is currently not supported for Cards
+```
+
+```go
+<%= partial "header-go" %>
+// Go is currently not supported for Cards
+```
+
+Retrieve a card to fetch data stored earlier during a tokenization call.
+
+This API endpoint can also be used to **detokenize** a card if you own a PCI
+environment. Please talk to your ProcessOut account manager to learn more!
+
+
