@@ -10,13 +10,6 @@ lets you accept payments through alternative payment methods, such as
 
 <hr>
 
-## Native to the payment modal
-
-Before getting into the white-label integration, it is important to note that the
-[ProcessOut modal &nearr;](#) comes with the alternative payment methods right from
-the start, without any additional work needed. The modal is a perfect fit if you
-want a simple solution out of the box.
-
 ## Alternative payment methods flow
 
 Because of their nature, most alternative payment methods are `asynchronous`. This
@@ -31,44 +24,194 @@ redirected to the payment method's payment page in a new window, and once
 the payment is completed, the alternative payment method's window is closed
 and the original merchant payment page is notified of the payment via Javascript.
 
-## Fetch the available alternative payment methods
+<div class="language-selector-wrapper" style="margin-top: 4rem;">
+<div class="language-selector-preview">
+<a href="#" data-language="preview" class="selected">Preview</a> 
+<a href="#" data-language="html">HTML</a> 
+<a href="#" data-language="css">CSS</a> 
+<a href="#" data-language="javascript">JS</a>
+</div>
+<div>
+<div class="highlight preview">
+<script src="/javascripts/iframeSizer.min.js"></script>
+<iframe src="/payments/processoutjs-apms-example" frameborder="0" width="100%" class="rounded shadowed" id="processoutjs-example" style="min-height: 270px; margin-top: 0.9rem;"></iframe>
+<script>iFrameResize({heightCalculationMethod: "max"}, '#processoutjs-example')</script>
+</div>
+</div>
 
-Before showing the payment methods to the customer, they need to be fetched
-from your ProcessOut configuration. This lets you dynamically enable and disable
-payment options without having to update any of your code.
+```html
+<div class="container">
+  <form action="" method="POST" id="apms-form">
+    <div id="results">
+      <div id="errors"></div>
+      <div id="success"></div>
+      <input id="success-token" class="hidden" />
+    </div>
+  </form>
+</div>
+```
 
-In order to fetch your ProcessOut gateways configuration, we'll also need to
+```css
+/*! PocketGrid 1.1.0
+* Copyright 2013 Arnaud Leray
+* MIT License
+*/
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+/* Clearfix */
+.block-group {
+  *zoom: 1;
+}
+.block-group:before, .block-group:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.block-group:after {
+  clear: both;
+}
+
+.block-group {
+  /* ul/li compatibility */
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Nested grid */
+.block-group > .block-group {
+  clear: none;
+  float: left;
+  margin: 0 !important;
+}
+
+/* Default block */
+.block {
+  float: left;
+  width: 100%;
+}
+.b75 {
+  width: 74%;
+}
+.b25 {
+  width: 24%;
+  margin-left: 2%;
+}
+
+html, body {
+  background: #ECEFF1;
+  font-size: 16px;
+}
+
+.container {
+  width: 100%;
+  max-width: 400px;
+  background: white;
+  margin: 3em auto;
+  padding: 1em;
+  border-radius: 4px;
+  box-shadow: 0 5px 7px rgba(50, 50, 93, 0.04), 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+input {
+  border: 1px solid #ECEFF1;
+  border-radius: 4px;
+  box-shadow: 0 5px 7px rgba(50, 50, 93, 0.04), 0 1px 3px rgba(0, 0, 0, 0.03);
+  padding: 0.5em;
+  width: 100%;
+  margin-bottom: 1em;
+  font-size: 14px;
+  min-height: 2em;
+}
+
+.button {
+  margin: 0; margin-bottom: 1em;
+  padding: 0.75em;
+  text-align: center;
+  box-shadow: 0 5px 7px rgba(50, 50, 93, 0.04), 0 1px 3px rgba(0, 0, 0, 0.03);
+  background: #3F51B5;
+  color: white;
+  border-radius: 4px;
+  border: 1px solid #303F9F;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+#errors, #success {
+  margin-bottom: 1em;
+  text-align: center;
+  font-size: 0.9em;
+  color: #D84315;
+}
+#success {
+  color: #4CAF50;
+}
+```
+
+```js
+document.addEventListener("DOMContentLoaded", function() {
+  var client = new ProcessOut.ProcessOut(
+    "test-<%= partial "projectID" %>");
+  client.fetchGatewayConfigurations({
+    invoiceID:         "iv_tIWEiBcrXIFHzJeXcZzqyp8EpY0xwmuT",
+    alternativePaymentMethods: true
+  }, processoutAPMsReady, function(err) {
+    console.log("Woops, couldn't fetch APMs: "+err);
+  });
+
+  function processoutAPMsReady(confs) {
+    var formWrapper = document.getElementById("apms-form");
+    for (var conf of confs) {
+      var el = document.createElement("div");
+      el.className = "button";
+      el.innerHTML = "Pay with " + conf.gateway.display_name;
+
+      conf.hookForInvoice(el, function(token) {
+        document.getElementById("errors").innerHTML = "";
+        document.getElementById("success").innerHTML = "Your user went through the entire APM payment flow. Use the token below to verify the payment in your backend.";
+        document.getElementById("success-token").value = token;
+        document.getElementById("success-token").className = "";
+      }, function(err) {
+        document.getElementById("errors").innerHTML = err.message;
+        document.getElementById("success").innerHTML = "";
+        document.getElementById("success-token").className = "hidden";
+      });
+
+      // Inject our APM element in the form
+      formWrapper.appendChild(el);
+    }
+  }
+});
+```
+</div>
+
+## Set up your payments page for APMs
+
+Before showing the payment methods to the customer, we'll first need to
 create an invoice, as some of the gateways will need some information before
 the payment actually takes place.
-
-Please keep in mind that when using the ProcessOut sandbox, your gateway configurations
-aren't returned, but instead a single entry `sandbox` is. Its main purpose is to
-provide you with a way to easily test successful and errored checkouts. Because
-this guide provides you with a generic implementation that works with all
-alternative payments available on ProcessOut, switching over to production
-should not break any of your logic, and alternative payment solutions such as
-PayPal should work right out of the box.
 
 <div class="language-selector-wrapper">
 <%= partial "lg-selector" %>
 ```shell
-# Let's first create an invoice
+# Let's create an invoice
 curl https://api.processout.com/invoices \
     <%= partial "header-curl" %> \
     -d name="Awesome invoice" \
     -d amount="9.99" \
     -d currency=USD
-
-# And fetch the gateways
-curl -X GET -G https://api.processout.com/gateway-configurations \
-    -u <%= partial "projectID" %>:<%= partial "projectSecret" %> \
-    --data-urlencode expand[]=gateway \
-    --data-urlencode filter="tags: redirection flows: one-off"
 ```
 
 ```javascript
 <%= partial "header-js" %>
-// Let's first create an invoice
+// Let's create an invoice
 client.newInvoice().create({
     name:     "Amazing item",
     amount:   "4.99",
@@ -76,16 +219,7 @@ client.newInvoice().create({
 
     expand: ["project"]
 }).then(function(invoice) {
-    // And now fetch the project available gateways for one-off payments
-    client.newGatewayConfiguration().all({
-        expand: ["gateway"],
-        filter: "tags: redirection flows: one-off"
-    }).then(function(gateways) {
-        //
-
-    }, function(err) {
-        // Couldn't fetch the project's gateways
-    });
+    //
 
 }, function(err) {
     // An error occured
@@ -95,7 +229,7 @@ client.newInvoice().create({
 
 ```python
 <%= partial "header-python" %>
-# Let's first create an invoice
+# Let's create an invoice
 invoice = client.new_invoice().create({
     "name":     "Amazing item",
     "amount":   "4.99",
@@ -103,17 +237,11 @@ invoice = client.new_invoice().create({
 
     "expand": ["project"]
 })
-
-# And now fetch the project's available gateways
-gateways = client.new_gateway_configuration().all({
-    expand: ["gateway"],
-    filter: "tags: redirection flows: one-off"
-})
 ```
 
 ```ruby
 <%= partial "header-ruby" %>
-# Let's first create an invoice
+# Let's create an invoice
 invoice = client.invoice.create(
     name:     "Amazing item",
     amount:   "4.99",
@@ -121,17 +249,11 @@ invoice = client.invoice.create(
 
     expand: ["project"]
 )
-
-# And now fetch the project's available gateways
-gateways = client.gateway_configuration.all({
-    expand: ["gateway"],
-    filter: "tags: redirection flows: one-off"
-})
 ```
 
 ```php
 <%= partial "header-php" %>
-// Let's first create an invoice
+// Let's create an invoice
 $invoice = $client->newInvoice()->create(array(
     "name"     => "Amazing item",
     "amount"   => "4.99",
@@ -139,17 +261,11 @@ $invoice = $client->newInvoice()->create(array(
 
     "expand" => array("project")
 ));
-
-// And now fetch the project's available gateways
-$gateways = $client->newGatewayConfiguration()->all(array(
-    "expand" => array("gateway"),
-    "filter" => "tags: redirection flows: one-off"
-));
 ```
 
 ```go
 <%= partial "header-go" %>
-// Let's first create an invoice
+// Let's create an invoice
 iv, err := client.NewInvoice().Create(processout.InvoiceCreateParameters{
     Invoice: &processout.Invoice{
         Name:     processout.String("Amazing item"),
@@ -163,82 +279,80 @@ iv, err := client.NewInvoice().Create(processout.InvoiceCreateParameters{
 if err != nil {
     panic(err)
 }
-
-// And now fetch the project available gateways for one-off payments
-gateways, erri := client.NewGatewayConfiguration().All(processout.GatewayConfigurationAllParameters{
-    Options: &processout.Options{
-        Expand: []string{"gateway"},
-        Filter: "tags: redirection flows: one-off",
-    },
-})
 ```
 </div>
 
-## Display alternative methods payment links
-
-The `gateways` variable fetched in the previous steps now contains all the
-available alternative payment gateways that were configured and activated
-on your project. We also created a new [`Invoice` &nearr;](/refs/#invoices) that we'll
-use to redirect the customer to the payment page.
-
-A payment link for an alternative payment gateway is as follows:
+Now that we've created our Invoice, we can also set up a simple HTML `form`
+in which we'll inject the payment buttons for each APM. The form `action` URL
+will be used to post back the final token generated when your user pays on
+the APM.
 
 ```html
-<form action="/your-capture-endpoint" method="POST" id="payment-form">
-  <!-- Loop through all your gateway configurations and display the link
-       below.
-       ProcessOut-checkout-domain/:project_id/:invoice_id/redirect/:gateway_configuration_id -->
-  <a href="https://checkout.processout.com/test-<%= partial "projectID" %>/iv_tIWEiBcrXIFHzJeXcZzqyp8EpY0xwmuT/redirect/gway_conf_vMFNzz1GnWYRUJWFgUhn4HajCYmJiMsi"
-    class="alternative-payment-link">
-
-    Pay now!
-  </a>
+<form action="/your-capture-endpoint" method="POST" id="apms-payment-form">
+  <!-- We'll inject our payment links in the next part -->
 </form>
 ```
 
-**Note**: The links are put in a form so that we can later post the `token`
-representing the payment back to the merchant's backend.
+## Load up ProcessOut.js
 
-## Hook ProcessOut.js on the payment links
+Now that we've set up our form and invoice, we're ready to start showing
+our APMs payment buttons!
 
-We could technically stop there and simply redirect the customer to the checkout
-pages, but the merchant would lose control over its customer checkout flow.
-ProcessOut.js lets you control the redirection from your payment page so you can
-cancel the payment at any time, and be notified synchronously of a new payment.
+Please keep in mind that when using the ProcessOut sandbox, your actual enabled gateways
+aren't returned, but instead a single entry `sandbox` is. Its main purpose is to
+provide you with a way to easily test successful and errored checkouts. Because
+this guide provides you with a generic implementation that works with all
+alternative payments available on ProcessOut, switching over to production
+will not break any of your logic, and alternative payment solutions such as
+PayPal will work right out of the box.
+
+For the APMs integration to work properly, you will need to load ProcessOut.js. 
+It is important to always load it from our CDN like shown below. Please note 
+that ProcessOut.js has no dependency, meaning it can work without jQuery.
 
 ```html
 <script src="https://js.processout.com/processout.js"></script>
-<script type="text/javascript">
-  document.addEventListener("DOMContentLoaded", function() {
-    var client = new ProcessOut.ProcessOut("test-<%= partial "projectID" %>");
-    // Let's hook every link:
-    var formElement = document.getElementById("payment-form");
-    var links = formElement.querySelectorAll(".alternative-payment-link");
-    for(var i = 0; i < links.length; i++) {
-      links[i].addEventListener("click", processoutRedirectHandler);
-    }
+```
+
+Now that ProcessOut.js is loaded, we can start using it. Let’s first instanciate
+a new ProcessOut instance in a different script tag as soon as the DOM is fully 
+loaded, and fetch your enabled APMs:
+
+```javascript
+document.addEventListener("DOMContentLoaded", function() {
+  var client = new ProcessOut.ProcessOut(
+    "proj_gAO1Uu0ysZJvDuUpOGPkUBeE3pGalk3x");
+
+  client.fetchGatewayConfigurations({
+    invoiceID:                 "iv_tIWEiBcrXIFHzJeXcZzqyp8EpY0xwmuT",
+    alternativePaymentMethods: true
+  }, processoutAPMsReady, function(err) {
+    console.log("Woops, couldn't fetch APMs: "+err);
   });
-</script>
+});
 ```
 
 **Note**: Remember to replace the project ID in the example with your own. When testing,
 prepend your project ID with `test-` like so: `test-<%= partial "projectID" %>`.
 
-We also still have to add the handler, which we'll do just now:
+## Display your APMs links
 
-## Handle the redirection
+In the previous step, our call to `fetchGatewayConfigurations` makes a reference
+to the function `processoutAPMsReady` when the APMs list is successfully fetched.
+We now want to define this function to finally update our DOM with the payment
+links.
 
-When a customer will click on the alternative gateway link, the `processoutRedirectHandler`
-function will be called. Let's define it:
+The function takes one parameter: a list of `Gateway Configuration`.
 
 ```javascript
-function processoutRedirectHandler(e) {
-  var el = e.target;
-  // Prevent from doing the default redirection
-  e.preventDefault();
+function processoutAPMsReady(confs) {
+  var formWrapper = document.getElementById("apms-payment-form");
+  for (var conf of confs) {
+    var el = document.createElement("div");
+    el.className = "my-apm-link";
+    el.innerHTML = "Pay with " + conf.gateway.display_name;
 
-  var action = client.handleAction(el.getAttribute("href"),
-    function(token) {
+    conf.hookForInvoice(el, function(token) {
       // The customer completed the gateway payment flow,
       // we can send the token back to our backend to finish the
       // capture
@@ -246,16 +360,19 @@ function processoutRedirectHandler(e) {
       field.type  = "hidden";
       field.name  = "token";
       field.value = token;
-      formElement.appendChild(field);
-      formElement.submit();
+      formWrapper.appendChild(field);
+      formWrapper.submit();
     }, function(err) {
+
       // An error occured during checkout. This could just be the
       // customer that canceled the payment, or an error with
       // the payment gateway.
       alert(err);
     });
 
-  return false;
+    // Inject our APM element in the form
+    formWrapper.appendChild(el);
+  }
 }
 ```
 
