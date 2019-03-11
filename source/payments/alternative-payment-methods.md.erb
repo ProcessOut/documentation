@@ -330,8 +330,8 @@ document.addEventListener("DOMContentLoaded", function() {
     "proj_gAO1Uu0ysZJvDuUpOGPkUBeE3pGalk3x");
 
   client.fetchGatewayConfigurations({
-    invoiceID:                 "iv_tIWEiBcrXIFHzJeXcZzqyp8EpY0xwmuT",
-    alternativePaymentMethods: true
+    invoiceID: "iv_tIWEiBcrXIFHzJeXcZzqyp8EpY0xwmuT",
+    filter:    "alternative-payment-methods"
   }, processoutAPMsReady, function(err) {
     console.log("Woops, couldn't fetch APMs: "+err);
   });
