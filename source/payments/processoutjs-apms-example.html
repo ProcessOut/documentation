@@ -97,7 +97,7 @@
 		.hidden {
 			display: none;
 		}
-		#errors, #success {
+		#errors, #success, #loading {
 			margin-bottom: 1em;
 			text-align: center;
 			font-size: 0.9em;
@@ -105,6 +105,9 @@
 		}
 		#success {
 			color: #4CAF50;
+		}
+		#loading {
+			color: #bdc3c7;
 		}
 	</style>
 </head>
@@ -114,6 +117,7 @@
 			<div id="results">
 				<div id="errors"></div>
 				<div id="success"></div>
+				<div id="loading">Loading...</div>
 				<input id="success-token" class="hidden" />
 			</div>
 		</form>
@@ -125,13 +129,15 @@
             var client = new ProcessOut.ProcessOut(
                 "test-proj_KOUV5dqlCvDvYiWwXyxYq1dfyFkgHdM2");
             client.fetchGatewayConfigurations({
-                invoiceID:                 "prod_Z8463tezdDr0zHUyI06nC6BM67C3CidW",
-                alternativePaymentMethods: true
+                invoiceID: "prod_Z8463tezdDr0zHUyI06nC6BM67C3CidW",
+                filter:    "alternative-payment-methods"
             }, processoutAPMsReady, function(err) {
-                console.log("Woops, couldn't fetch APMs: "+err);
+				document.getElementById("loading").className = "hidden";
+				document.getElementById("errors").innerHTML = "Woops, couldn't fetch APMs: "+err;
             });
 
             function processoutAPMsReady(confs) {
+				document.getElementById("loading").className = "hidden";
                 var formWrapper = document.getElementById("apms-form");
                 for (var conf of confs) {
                     var el = document.createElement("div");

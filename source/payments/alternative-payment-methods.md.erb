@@ -45,6 +45,7 @@ and the original merchant payment page is notified of the payment via Javascript
     <div id="results">
       <div id="errors"></div>
       <div id="success"></div>
+      <div id="loading">Loading...</div>
       <input id="success-token" class="hidden" />
     </div>
   </form>
@@ -144,7 +145,7 @@ input {
 .hidden {
   display: none;
 }
-#errors, #success {
+#errors, #success, #loading {
   margin-bottom: 1em;
   text-align: center;
   font-size: 0.9em;
@@ -153,6 +154,9 @@ input {
 #success {
   color: #4CAF50;
 }
+#loading {
+  color: #bdc3c7;
+}
 ```
 
 ```js
@@ -160,13 +164,15 @@ document.addEventListener("DOMContentLoaded", function() {
   var client = new ProcessOut.ProcessOut(
     "test-<%= partial "projectID" %>");
   client.fetchGatewayConfigurations({
-    invoiceID:         "iv_tIWEiBcrXIFHzJeXcZzqyp8EpY0xwmuT",
-    alternativePaymentMethods: true
+    invoiceID: "iv_tIWEiBcrXIFHzJeXcZzqyp8EpY0xwmuT",
+    filter:    "alternative-payment-methods"
   }, processoutAPMsReady, function(err) {
-    console.log("Woops, couldn't fetch APMs: "+err);
+    document.getElementById("loading").className = "hidden";
+    document.getElementById("errors").innerHTML = "Woops, couldn't fetch APMs: "+err;
   });
 
   function processoutAPMsReady(confs) {
+    document.getElementById("loading").className = "hidden";
     var formWrapper = document.getElementById("apms-form");
     for (var conf of confs) {
       var el = document.createElement("div");
