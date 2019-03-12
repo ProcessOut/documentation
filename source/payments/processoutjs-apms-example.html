@@ -123,13 +123,13 @@
 		</form>
 	</div>
 
-	<script src="https://js.processout.ninja/processout.js"></script>
+	<script src="https://js.processout.com/processout.js"></script>
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
             var client = new ProcessOut.ProcessOut(
-                "test-proj_KOUV5dqlCvDvYiWwXyxYq1dfyFkgHdM2");
+                "test-proj_gAO1Uu0ysZJvDuUpOGPkUBeE3pGalk3x");
             client.fetchGatewayConfigurations({
-                invoiceID: "prod_Z8463tezdDr0zHUyI06nC6BM67C3CidW",
+                invoiceID: "prod_4UrlAxL8KfzzrpXi6zMAtqyRgRliopM4",
                 filter:    "alternative-payment-methods"
             }, processoutAPMsReady, function(err) {
 				document.getElementById("loading").className = "hidden";

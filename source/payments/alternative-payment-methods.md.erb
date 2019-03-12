@@ -221,9 +221,7 @@ curl https://api.processout.com/invoices \
 client.newInvoice().create({
     name:     "Amazing item",
     amount:   "4.99",
-    currency: "USD",
-
-    expand: ["project"]
+    currency: "USD"
 }).then(function(invoice) {
     //
 
@@ -239,9 +237,7 @@ client.newInvoice().create({
 invoice = client.new_invoice().create({
     "name":     "Amazing item",
     "amount":   "4.99",
-    "currency": "USD",
-
-    "expand": ["project"]
+    "currency": "USD"
 })
 ```
 
@@ -251,9 +247,7 @@ invoice = client.new_invoice().create({
 invoice = client.invoice.create(
     name:     "Amazing item",
     amount:   "4.99",
-    currency: "USD",
-
-    expand: ["project"]
+    currency: "USD"
 )
 ```
 
@@ -263,9 +257,7 @@ invoice = client.invoice.create(
 $invoice = $client->newInvoice()->create(array(
     "name"     => "Amazing item",
     "amount"   => "4.99",
-    "currency" => "USD",
-
-    "expand" => array("project")
+    "currency" => "USD"
 ));
 ```
 
@@ -277,9 +269,6 @@ iv, err := client.NewInvoice().Create(processout.InvoiceCreateParameters{
         Name:     processout.String("Amazing item"),
         Amount:   processout.String("4.99"),
         Currency: processout.String("USD"),
-    },
-    Options: &processout.Options{
-        Expand: []string{"project"},
     },
 })
 if err != nil {
@@ -327,7 +316,7 @@ loaded, and fetch your enabled APMs:
 ```javascript
 document.addEventListener("DOMContentLoaded", function() {
   var client = new ProcessOut.ProcessOut(
-    "proj_gAO1Uu0ysZJvDuUpOGPkUBeE3pGalk3x");
+    "test-<%= partial "projectID" %>");
 
   client.fetchGatewayConfigurations({
     invoiceID: "iv_tIWEiBcrXIFHzJeXcZzqyp8EpY0xwmuT",
