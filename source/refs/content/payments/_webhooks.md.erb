@@ -25,6 +25,91 @@ Furthermore, you should *remove all CSRF protection* on your endpoints receiving
 webhooks. Most frameworks and CMS activate it by default, which could
 prevent ProcessOut from correctly posting webhooks to your application.
 
+### Custom URL per Invoice
+
+Sometimes, it's also important for you to define custom webhook endpoints per
+order.
+
+You can achieve this by providing a `webhook_url` during the `POST` call on
+`/invoices` (i.e. when you're creating a new [Invoice](#Invoices). Events
+specific to the invoice the `webhook_url` is associated with will be sent to
+this URL. The other webhook endpoints you have defined at a global level on
+your ProcessOut project will still be used as well on Invoices that have a custom
+`webhook_url` defined.
+
+```shell
+curl -X POST https://api.processout.com/invoices \
+    <%= partial "header-curl" %> \
+    -d customer_id="cust_LvjCcLOVe6iWn2aeCNhNmK7RbbG6K8XF" \
+    -d name="Amazing item" \
+    -d amount="4.99" \
+    -d currency="USD" \
+    -d webhook_url="https://superstore.com/webhooks"
+```
+
+```javascript
+<%= partial "header-js" %>
+client.newInvoice().create({
+    customer_id:          "cust_LvjCcLOVe6iWn2aeCNhNmK7RbbG6K8XF",
+    name:                 "Amazing item",
+    amount:               "4.99",
+    currency:             "USD",
+    webhook_url:          "https://superstore.com/webhooks"
+}).then(function(invoice) {
+    //
+
+}, function(err) {
+    // An error occured
+
+});
+```
+
+```python
+<%= partial "header-python" %>
+invoice = client.new_invoice().create({
+    "customer_id":          "cust_LvjCcLOVe6iWn2aeCNhNmK7RbbG6K8XF",
+    "name":                 "Amazing item",
+    "amount":               "4.99",
+    "currency":             "USD",
+    "webhook_url":          "https://superstore.com/webhooks"
+})
+```
+
+```ruby
+<%= partial "header-ruby" %>
+invoice = client.invoice.create(
+    "customer_id":        "cust_LvjCcLOVe6iWn2aeCNhNmK7RbbG6K8XF",
+    name:                 "Amazing item",
+    amount:               "4.99",
+    currency:             "USD",
+    webhook_url:          "https://superstore.com/webhooks"
+)
+```
+
+```php
+<%= partial "header-php" %>
+$invoice = $client->newInvoice()->create(array(
+    "customer_id"          => "cust_LvjCcLOVe6iWn2aeCNhNmK7RbbG6K8XF",
+    "name"                 => "Amazing item",
+    "amount"               => "4.99",
+    "currency"             => "USD",
+    "webhook_url"          => "https://superstore.com/webhooks"
+));
+```
+
+```go
+<%= partial "header-go" %>
+iv, err := client.NewInvoice().Create(processout.InvoiceCreateParameters{
+    Invoice: &processout.Invoice{
+        CustomerID:          processout.String("cust_LvjCcLOVe6iWn2aeCNhNmK7RbbG6K8XF"),
+        Name:                processout.String("Amazing item"),
+        Amount:              processout.String("4.99"),
+        Currency:            processout.String("USD"),
+        WebhookURL:          processout.String("https://superstore.com/webhooks"),
+    },
+})
+```
+
 
 ### Usage
 
