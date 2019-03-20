@@ -27,16 +27,6 @@ prevent ProcessOut from correctly posting webhooks to your application.
 
 ### Custom URL per Invoice
 
-Sometimes, it's also important for you to define custom webhook endpoints per
-order.
-
-You can achieve this by providing a `webhook_url` during the `POST` call on
-`/invoices` (i.e. when you're creating a new [Invoice](#Invoices). Events
-specific to the invoice the `webhook_url` is associated with will be sent to
-this URL. The other webhook endpoints you have defined at a global level on
-your ProcessOut project will still be used as well on Invoices that have a custom
-`webhook_url` defined.
-
 ```shell
 curl -X POST https://api.processout.com/invoices \
     <%= partial "header-curl" %> \
@@ -109,6 +99,16 @@ iv, err := client.NewInvoice().Create(processout.InvoiceCreateParameters{
     },
 })
 ```
+
+Sometimes, it's also important for you to define custom webhook endpoints per
+order.
+
+You can achieve this by providing a `webhook_url` during the `POST` call on
+`/invoices` (i.e. when you're creating a new [Invoice](#Invoices). Events
+specific to the invoice the `webhook_url` is associated with will be sent to
+this URL. The other webhook endpoints you have defined at a global level on
+your ProcessOut project will still be used as well on Invoices that have a custom
+`webhook_url` defined.
 
 
 ### Usage
