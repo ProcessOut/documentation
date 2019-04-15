@@ -96,3 +96,53 @@ tr, err := client.NewTransaction().Find("tr_ItJdKlhfaVn0SUGd9z1i9Jqe0STl4jxC")
 
 It is possible to fetch a transaction by its ID. An error is thrown if the 
 transaction could not be found.
+
+### Fetch customers' transactions
+
+```shell
+curl -X GET https://api.processout.com/customers/cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb/transactions \
+    <%= partial "header-curl" %>
+```
+
+```javascript
+<%= partial "header-js" %>
+client.newCustomer({
+    id: "cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb"
+}).fetchTransactions().then(
+    function(transactions) {
+        // Transactions were fetched
+    }, function(err) {
+        // An error occured
+    });
+```
+
+```python
+<%= partial "header-python" %>
+transaction = client.new_customer({
+    "id": "cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb"
+}).fetch_transactions()
+```
+
+```ruby
+<%= partial "header-ruby" %>
+transaction = client.customer(
+    id: "cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb"
+).fetch_transactions()
+```
+
+```php
+<%= partial "header-php" %>
+$transaction = $client->newCustomer(array(
+    "id" => "cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb"
+))->fetchTransactions();
+```
+
+```go
+<%= partial "header-go" %>
+tr, err := client.NewCustomer(&processout.Customer{
+    ID: "cust_UVYZP5I5741rFHQDEZXGLm777fCZzQAb",
+}).FetchTransactions()
+```
+
+It is possible to fetch a transaction by its ID. An error is thrown if the 
+transaction could not be found.
