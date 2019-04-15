@@ -144,5 +144,6 @@ tr, err := client.NewCustomer(&processout.Customer{
 }).FetchTransactions()
 ```
 
-It is possible to fetch a transaction by its ID. An error is thrown if the 
-transaction could not be found.
+Paginate over all the transactions associated to a customer. Learn more about
+how to paginate on ProcessOut [here](#pagination). An error is thrown if the 
+customer could not be found.
