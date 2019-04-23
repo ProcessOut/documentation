@@ -112,6 +112,47 @@ p.listAlternativeMethods("invoice-id", new ListAlternativeMethodsCallback() {
 });
 ```
 
+Then you'll need to handle your customers returning to your app.
+To do so, add an `intent-filter` to your payment activity like so:
+
+```java
+<activity
+    android:name=".MainActivity"
+    android:label="@string/app_name"
+    android:theme="@style/AppTheme.NoActionBar" >
+    <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+
+        <category android:name="android.intent.category.LAUNCHER" />
+    </intent-filter>
+    <intent-filter android:label="@string/processout_return">
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data android:scheme="your_app"
+            android:host="processout.return" />
+    </intent-filter>
+</activity>
+```
+
+This will ensure that your app catches all the `your_app://processout.com` urls.
+Once done, you'll be able to retrieve the chargeable token :
+
+```java
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+
+    Intent intent = getIntent();
+    Uri data = intent.getData();
+    if (data != null)
+        Log.d("PROCESSOUT", "TOKEN=" + data.getQueryParameter("token"));
+}
+```
+
+You should then send this token to your backend in order to complete the charge.
+
 ## Next steps
 
 You're all set! You can now send the newly created token to your backend
