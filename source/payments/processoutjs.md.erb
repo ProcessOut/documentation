@@ -326,9 +326,9 @@ function processoutReadyHandler(form) {
     // Let's tokenize the card
     client.tokenize(form, {
       // It's possible to send cardholder information (optional)
-      name: document.getElementById("cardholdername"),
+      name: document.getElementById("cardholdername").value,
       contact: {
-        zip: document.getElementById("cardholderzip"),
+        zip: document.getElementById("cardholderzip").value,
         // Available contact fields:
         // address1, address2, city, state, country_code, zip
       }
