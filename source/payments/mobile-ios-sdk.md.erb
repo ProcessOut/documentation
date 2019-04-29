@@ -103,9 +103,11 @@ for gateway in gateways! {
 ```
 
 Then you'll need to handle your customers returning to your app in your app delegate.
+First of all, [register your app URL scheme](https://developer.apple.com/documentation/uikit/core_app/allowing_apps_and_websites_to_link_to_your_content/defining_a_custom_url_scheme_for_your_app).
+Then you'll be able to handle web returns:
 
 ```swift
-// This method handles opening native URLs (e.g., "your-app://")
+// This method handles opening native URLs (e.g., "yourapp://")
 func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
     if let token = ProcessOut.handleURLCallback(url: url) {
         print(token)
