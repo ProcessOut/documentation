@@ -1,0 +1,71 @@
+---
+title: Migrating to ProcessOut
+---
+
+# Migrating to ProcessOut
+
+Most of the time, if you operate a SaaS or recurring business, or even an eCommerce
+that provides one-click checkouts, you have tokenized your customers cards in
+your PSPs Vault.
+
+Because ProcessOut is a PCI-DSS Service Provider Level 1 ([see our certification here &nearr;](https://www.processout.com/documents/pci-dss-aoc.pdf)), we can store card details for you in the PSP Agnostic ProcessOut Vault. We can therefore make it easy for 
+you to switch over to ProcessOut by syncing with your old Payment Service Provider 
+and importing the card numbers they stored on their side. This allows you to 
+provide uninterrupted service to your customers as you switch over your payments 
+to ProcessOut.
+
+Please note that ProcessOut will only import Card objects from your old PSPs. 
+Re-creating Customer, Plans or Subscriptions objects should be done at your own discretion.
+
+<hr>
+
+## Step 1: Preparing your ProcessOut integration
+
+Before getting your cards exported from your old PSP to ProcessOut, you'll need
+to integrate ProcessOut into your application. This can be done following
+our integration guides and testing environment.
+
+Learn more about how to tokenize new cards with [ProcessOut.js &nearr;](/payments/processoutjs/), [create Customer
+Tokens from them &nearr;](/payments/save-token-and-capture-later/) and use our [Subscriptions engine &nearr;](/subscriptions/get-started/).
+
+Once your integration of ProcessOut is validated within your application, you'll
+need to start sending all new customers and cards to ProcessOut
+while keeping legacy customers going through your old PSP. This is a necessary
+step to ensure that when we initiate the import from your old PSP, we're sure
+that no new cards will be created in your old PSP, which would de-synchronize
+the import and miss cards leading to lost payments.
+
+## Step 2: Intro your ProcessOut Account Manager to your old PSP
+
+Now that you've launched ProcessOut in your application so that all new customers and
+cards get sent and processed on ProcessOut, you can intro your ProcessOut Account
+Manager to your old PSP Account Manager. We'll synchronize with them to initiate
+the cards export. This is a manual step that can take from a few days to 2 weeks
+depending on your old PSP.
+
+Typically, your old PSP will send a CSV or JSON file containing all your Customers' cards
+in an SFTP (a secure server used to store files), to which they'll give us access. These files
+will also be sent in an encrypted fashion with the public keys we'll provide to your old
+PSP so that only authorized/certified parties can access the cards.
+
+## Step 3: Cards get imported in ProcessOut and aliased
+
+The exported files from your old PSPs will most of the time contain the old
+IDs of their associated cards. For example,
+if on your old PSP had stored an ID of `12345` for the given card, we'll create 
+a card on our side with the ID `card_psp-name_12345` so it's easy for you to do
+the migration without requiring a map table.
+
+## Wrap-up
+
+With the cards now imported to ProcessOut, you can finalize the migration by
+removing instances of your old PSP in your applications code and switching over
+all the logic to ProcessOut. From that point on, all new and old transactions
+and customers will go through ProcessOut.
+
+Making all transactions go through ProcessOut doesn't necessarily mean you'll stop processing
+transactions on your old PSP though! If you chose so, you can configure your 
+ProcessOut routing rules to keep sending transactions (or only a specific portion of them,
+these can be your very own rules!) to your old PSP.
+
+We're glad to have you onboard!

@@ -77,6 +77,10 @@
             .main-content .content h2 {
                 margin-top: 2em;
             }
+            .main-content .content h3 {
+                margin-top: 1.3em;
+                font-size: 1.4em;
+            }
             .main-content table {
                 margin-top: 2em;
                 box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.1), 0 5px 8px 0 rgba(0, 0, 0, 0.1);
@@ -156,6 +160,13 @@
                 opacity: 0.75;
                 padding: 0;
                 margin-top: 5em;
+            }
+            .main-content .info-box {
+                padding: 1.2em; padding-left: 2em;
+                box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.1), 0 3px 8px 0 rgba(0, 0, 0, 0.1);
+                border-radius: 3px;
+                border-left: 4px solid #00b894;
+                margin-bottom: 1.5rem;
             }
 
             .margin-top {
@@ -312,12 +323,13 @@
                         <ul class="no-bullet">
                             <li><%= link_to 'Home', '/index.html' %></li> 
                             <li><%= link_to 'Getting started', '/getting-started.html' %></li>
+                            <li><%= link_to 'Migrating to ProcessOut', '/migrating-to-processout.html' %></li>
                             <li><%= link_to 'Testing', '/testing.html' %></li>
                         </ul>
 
                         <div class="category-title">Accept payments</div>
                         <ul class="no-bullet">
-                            <li><%= link_to 'Payment modal', '/payments/payment-modal.html' %></li>
+                            <li><%= link_to 'Accepting payments SCA ready', '/payments/payments-and-sca.html' %></li>
                             <li><%= link_to 'ProcessOut.js', '/payments/processoutjs.html' %></li>
                             <li><%= link_to 'iOS SDK', '/payments/mobile-ios-sdk.html' %></li>
                             <li><%= link_to 'Android SDK', '/payments/mobile-android-sdk.html' %></li>

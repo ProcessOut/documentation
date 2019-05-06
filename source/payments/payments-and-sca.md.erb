@@ -1,0 +1,510 @@
+---
+title: Accepting Payments, SCA ready
+---
+
+# Accepting Payments, SCA ready
+
+Accepting payments online is becoming increasingly complex. Merchants need to
+optimize the collection of their customers' card information, they need to do
+it securely (read: PCI-DSS certifications), while also being aware of new
+regulations happening in their markets.
+
+ProcessOut abstracts these complexities with its suit of tools and SDKs. ProcessOut.js
+provides an easy to use client-side library allowing you to securely accept card
+numbers on your own website while keeping your PCI-DSS certification requirements
+minimal.
+
+<div class="info-box">ProcessOut.js is SCA ready, meaning that the new regulations
+happening in Europe will be handled automatically for you.</div>
+
+ProcessOut.js can be fully customised to fit your website's and checkout's feel.
+Preview what the check out process looks like when using ProcessOut.js and being
+fully PCI compliant while staying on top of new regulations like SCA (Strong Customer Authentication) in Europe.
+
+<div class="language-selector-wrapper" style="margin: 2rem 0;">
+<div class="language-selector-preview">
+<a href="#" data-language="preview" class="selected">Preview</a> 
+<a href="#" data-language="html">HTML</a> 
+<a href="#" data-language="css">CSS</a> 
+<a href="#" data-language="javascript">JS</a>
+</div>
+<div>
+<div class="highlight preview">
+<script src="/javascripts/iframeSizer.min.js"></script>
+<iframe src="/payments/processoutjs-example" frameborder="0" width="100%" class="rounded shadowed" id="processoutjs-example" style="min-height: 270px; margin-top: 0.9rem;"></iframe>
+<script>iFrameResize({heightCalculationMethod: "max"}, '#processoutjs-example')</script>
+</div>
+</div>
+
+```html
+<div class="container">
+  <form action="" method="POST" id="card-form">
+    <div class="block-group">
+			<input type="text" placeholder="John Smith" class="b75 block" id="cardholdername">
+      <input type="text" placeholder="10018" class="b25 block" id="cardholderzip">
+		</div>
+
+    <div class="block-group">
+      <div class="block" data-processout-input="cc-number" 
+      data-processout-placeholder="4242 4242 4242 4242"></div>
+      <div class="block" data-processout-input="cc-exp" 
+        data-processout-placeholder="MM / YY"></div>
+      <div class="block" data-processout-input="cc-cvc" 
+        data-processout-placeholder="CVC"></div>
+    </div>
+
+    <div>
+      <input type="submit" id="paymentBtn">
+    </div>
+    <div id="errors"></div>
+    <div id="success"></div>
+  </form>
+</div>
+```
+
+```css
+/*! PocketGrid 1.1.0
+* Copyright 2013 Arnaud Leray
+* MIT License
+*/
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+/* Clearfix */
+.block-group {
+  *zoom: 1;
+}
+.block-group:before, .block-group:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.block-group:after {
+  clear: both;
+}
+
+.block-group {
+  /* ul/li compatibility */
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Nested grid */
+.block-group > .block-group {
+  clear: none;
+  float: left;
+  margin: 0 !important;
+}
+
+/* Default block */
+.block {
+  float: left;
+  width: 100%;
+}
+.b75 {
+  width: 74%;
+}
+.b25 {
+  width: 25%;
+  margin-left: 1%;
+}
+
+html, body {
+  background: #ECEFF1;
+  font-size: 16px;
+}
+
+.container {
+  width: 100%;
+  max-width: 400px;
+  background: white;
+  margin: 3em auto;
+  padding: 1em;
+  border-radius: 4px;
+  box-shadow: 0 5px 7px rgba(50, 50, 93, 0.04), 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+[data-processout-input], input {
+  border: 1px solid #ECEFF1;
+  border-radius: 4px;
+  box-shadow: 0 5px 7px rgba(50, 50, 93, 0.04), 0 1px 3px rgba(0, 0, 0, 0.03);
+  padding: 0.5em;
+  width: 100%;
+  margin-bottom: 1em;
+  font-size: 14px;
+  min-height: 2em;
+}
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+  color:    #ECEFF1;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color:    #ECEFF1;
+  opacity:  1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color:    #ECEFF1;
+  opacity:  1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color:    #ECEFF1;
+}
+[data-processout-input]:nth-child(1) {
+  width: 48%;
+  display: inline-block;
+}
+[data-processout-input]:nth-child(2) {
+  width: 25%;
+  display: inline-block;
+  margin-left: 1%;
+}
+[data-processout-input]:nth-child(3) {
+  width: 25%;
+  display: inline-block;
+  margin-left: 1%;
+}
+
+input[type="submit"] {
+  margin: 0;
+  box-shadow: 0 5px 7px rgba(50, 50, 93, 0.04), 0 1px 3px rgba(0, 0, 0, 0.03);
+  background: #3F51B5;
+  color: white;
+  border-radius: 4px;
+  border: 1px solid #303F9F;
+}
+
+#errors, #success {
+  margin-top: 1em;
+  text-align: center;
+  font-size: 0.9em;
+  color: #D84315;
+}
+#success {
+  color: #4CAF50;
+}
+```
+
+```js
+document.addEventListener("DOMContentLoaded", function() {
+  var processout = new ProcessOut.ProcessOut("test-<%= partial "projectID" %>");
+  var formElement = document.getElementById("card-form");
+  processout.setupForm(formElement, {
+    style: {
+      fontSize: "14px",
+      "::placeholder": {
+        color: "#ECEFF1",
+      },
+    }
+  }, function(form) {
+    form.getNumberField().on("focus", function(e) {
+      document.getElementById("errors").innerHTML = "";
+    });
+    form.getExpiryField().on("focus", function(e) {
+      document.getElementById("errors").innerHTML = "";
+    });
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      document.getElementById("paymentBtn").disabled = true;
+
+      // Let's tokenize the card
+      processout.tokenize(form, {
+        name: document.getElementById("cardholdername").value,
+        contact: {
+          zip:  document.getElementById("cardholderzip").value
+        }
+      }, function(token) {
+        document.getElementById("success").innerHTML = "Success! Your created card token is "+token;
+        document.getElementById("paymentBtn").disabled = false;
+      }, function(err) {
+        document.getElementById("errors").innerHTML = err.message;
+        document.getElementById("paymentBtn").disabled = false;
+      });
+
+      return false;
+    });
+  }, function(err) {
+    console.log(err);
+  });
+});
+```
+</div>
+
+<hr>
+
+## Step 1: Create an invoice
+
+Prior to getting paid, you first need to create an [`Invoice` &nearr;](/refs/#invoices) resource
+meant to define how much your customer will get charged, and set metadata
+related to the payment. This Invoice will also be sent back to your front-end
+to properly authenticate your customer if required by local regulations.
+
+<div class="language-selector-wrapper">
+<%= partial "lg-selector" %>
+```shell
+curl -X POST https://api.processout.com/invoices \
+    <%= partial "header-curl" %> \
+    -d name="Awesome invoice" \
+    -d amount="9.99" \
+    -d currency=USD 
+```
+
+```javascript
+<%= partial "header-js" %>
+client.newInvoice().create({
+    name:     "Amazing item",
+    amount:   "4.99",
+    currency: "USD"
+}).then(function(invoice) {
+    // invoice is our newly created resource
+
+}, function(err) {
+    // An error occured
+
+});
+```
+
+```python
+<%= partial "header-python" %>
+invoice = client.new_invoice().create({
+    "name":     "Amazing item",
+    "amount":   "4.99",
+    "currency": "USD"
+})
+```
+
+```ruby
+<%= partial "header-ruby" %>
+invoice = client.invoice.create(
+    name:     "Amazing item",
+    amount:   "4.99",
+    currency: "USD"
+)
+```
+
+```php
+<%= partial "header-php" %>
+$invoice = $client->newInvoice()->create(array(
+    "name"     => "Amazing item",
+    "amount"   => "4.99",
+    "currency" => "USD"
+));
+```
+
+```go
+<%= partial "header-go" %>
+iv, err := client.NewInvoice().Create(processout.InvoiceCreateParameters{
+    Invoice: &processout.Invoice{
+        Name:     processout.String("Amazing item"),
+        Amount:   processout.String("4.99"),
+        Currency: processout.String("USD"),
+    },
+})
+```
+</div>
+
+Optionally, you may also chose to tokenize the card with a [`Customer Token` &nearr](/payments/save-token-and-capture-later/)
+to be able to re-use the Card as you please in the future, either for one-click
+payments, subscriptions, or one-off charges.
+
+## Step 2: Create your payment form and tokenize
+
+Let's set up a payment form.
+**Please note that the credit card fields aren't actual input boxes,** but are only
+DOM containers. To ensure PCI-compliancy, ProcessOut hosts the credit card fields on its
+own servers.
+
+```html
+<form action="/your-capture-endpoint" method="POST" id="payment-form">
+  <div data-processout-input="cc-number"
+        data-processout-placeholder="4242 4242 4242 4242"></div>
+  <div data-processout-input="cc-exp-month"
+        data-processout-placeholder="Expiration month"></div>
+  <div data-processout-input="cc-exp-year"
+        data-processout-placeholder="Expiration year"></div>
+  
+  <!-- It is also possible to use a unified field for the expiration date: -->
+  <div data-processout-input="cc-exp"
+        data-processout-placeholder="Expiration date (mm / yy)"></div>
+
+
+  <div data-processout-input="cc-cvc"
+        data-processout-placeholder="CVC"></div>
+
+  <input type="submit" class="submit" value="Submit Payment">
+</form>
+```
+
+For the payment form to be interactable, you will need to load `ProcessOut.js`. 
+It is important to **always** load it from our CDN like shown below. Please note that
+ProcessOut.js has no dependency, meaning it can work without jQuery.
+
+```html
+<script src="https://js.processout.com/processout.js"></script>
+```
+
+Now that `ProcessOut.js` is loaded, we can start using it. Let's first
+instanciate a new `ProcessOut` instance in a different script tag as soon
+as the DOM is fully loaded, and setup our form:
+
+```javascript
+document.addEventListener("DOMContentLoaded", function() {
+  var client = new ProcessOut.ProcessOut(
+    "<%= partial "projectID" %>");
+  var formElement = document.getElementById("payment-form");
+  client.setupForm(formElement, processoutReadyHandler, function(err) {
+    console.log("Woops, couldn't setup the form: "+err);
+  });
+});
+```
+
+**Note**: Remember to replace the project ID in the example with your own. When testing,
+prepend your project ID with `test-` like so: `test-<%= partial "projectID" %>`.
+
+We also still have to add the handler, which we'll do just now:
+
+## Step 3: Bind the form and tokenize the card
+
+As soon as the form is fully loaded, `setupForm` will call `processoutReadyHandler` 
+with the created `CardForm` object. We'll use this object to handle the
+tokenization transparently.
+
+Let's bind the form submission and tokenize the card:
+
+```javascript
+function processoutReadyHandler(form) {
+  // The form is now fully loaded!
+  formElement.addEventListener("submit", function(e) {
+    // Cancel any default action
+    e.preventDefault();
+    // Blocking the form while performing the tokenization may also
+    // prevent from race conditions from happening, such as when
+    // the user double-clicks on the button
+    document.getElementById("paymentBtn").disabled = true;
+
+    // Let's tokenize the card
+    client.tokenize(form, {
+      // It's possible to send cardholder information (optional)
+      name: document.getElementById("cardholdername").value,
+      contact: {
+        zip: document.getElementById("cardholderzip").value,
+        // Available contact fields:
+        // address1, address2, city, state, country_code, zip
+      }
+    }, processoutCardTokenized, function(err) {
+
+      // Card validation errors or network issues are returned
+      // as well. Find the full list of errors below
+      alert(err.message);
+
+      // Enable back the button
+      document.getElementById("paymentBtn").disabled = false;
+    });
+
+    return false;
+  });
+}
+```
+
+We binded the form but we also want to implement the `processoutCardTokenized`
+handler which'll receive the tokenized card ID. This is the ID of the card which
+you can use to charge your customers, either directly, or by creating a [`Customer Token` &nearr;](/payments/save-token-and-capture-later/)
+from it.
+
+## Step 4: Make payment on Invoice
+
+For now, we'll simply get this card ID and use it to place our payment. If you
+choose to create a [`Customer Token` &nearr;](/payments/save-token-and-capture-later/)
+to be able to re-use the card details for future payments, you can also use
+that token directly instead of the card token in the `makeCardPayment` call.
+
+```javascript
+function processoutCardTokenized(token) {
+    // make sure `invoiceID` is available generate from
+    // your backend is available in this scope
+    processout.makeCardPayment(invoiceID, token, {
+        authorize_only: true, // set to true if you don't want to capture directly
+    }, function(iv) {
+        var field   = document.createElement("input");
+        field.type  = "hidden";
+        field.name  = "invoice_id";
+        field.value = iv;
+
+        // Enable back the button
+        document.getElementById("paymentBtn").disabled = false;
+
+        // We add the invoice_id input so that it's sent back to the server.
+        // The only thing left to do is to submit the form
+        formElement.appendChild(field);
+        formElement.submit();
+    }, function(err) {
+        document.getElementById("errors").innerHTML = err.message;
+    });
+}
+```
+
+## Step 5: Confirm payment in your backend (synchronous)
+
+The final step is to confirm the payment in your backend by confirming the
+payment on the invoice you created earlier. To do that, you can authorize or 
+capture the payment. If the payment was already confirmed in the front-end, the
+new capture request done in your backend will have no effect, but will allow you
+to validate the transaction's status.
+
+<div class="language-selector-wrapper">
+<%= partial "lg-selector" %>
+```shell
+curl -X POST https://api.processout.com/invoices/iv_lEZFFcQg5WwpKcolBrlzioeeFnnuPmyE/capture \
+    <%= partial "header-curl" %> \
+    -d source=card_Tpu6ZOCDu1tnDKp0kTnPOcVDMUbW7dTU
+```
+
+```javascript
+<%= partial "header-js" %>
+invoice.capture("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ").then(
+    function(transaction) {
+        // 
+
+    }, function(err) {
+        // The invoice could not be captured
+    });
+```
+
+```python
+<%= partial "header-python" %>
+transaction = invoice.capture("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ")
+```
+
+```ruby
+<%= partial "header-ruby" %>
+transaction = invoice.capture("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ")
+```
+
+```php
+<%= partial "header-php" %>
+$transaction = $invoice->capture("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ");
+```
+
+```go
+<%= partial "header-go" %>
+tr, _ := iv.Capture("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ")
+```
+</div>
+
+If the capture was successful, a transaction is returned. You may then check that
+its `status` attribute is set to `completed` in order to confirm the payment.
+Learn more about the transaction's statuses [here &nearr;](/payments/handle-status-changes-webhooks/#transaction-statuses).
+
+## Step 6: Listen to webhooks for payment updates
+
+Although ProcessOut.js supports a synchronous flow, allowing you to offer a greater
+experience to your users, you still strongly recommend you to also [listen to the
+webhooks](/payments/handle-status-changes-webhooks/) we send to be notified of payment updates.
+
+This can be especially important when the user drops from your Checkout after
+payment, which could lead to a transaction not being logged in your systems. Webhooks
+will ensure that your backend is always up to date with your transactions' statuses.
