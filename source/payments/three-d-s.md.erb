@@ -13,6 +13,8 @@ Please note that not every card scheme is compatible with the 3-D Secure protoco
 and even though a card could be compatible, it might not be enrolled in the 
 3-D Secure program.
 
+<div class="info-box">If you'd rather rely on ProcessOut and banks to automatically trigger 3DS, <a href="/payments/payments-and-sca">ProcessOut is SCA ready &nearr;</a> and can automatically authenticate your users when required.</div>
+
 <hr>
 
 ## 1. Set up ProcessOut.js
@@ -59,10 +61,6 @@ client.threeDS.authenticate({
     source:    "card_Tpu6ZOCDu1tnDKp0kTnPOcVDMUbW7dTU",
     // And the invoice ID
     invoiceID: "iv_lEZFFcQg5WwpKcolBrlzioeeFnnuPmyE"
-    // Alternatively, although not recommended, you can create a new invoice
-    amount:    "5.00",
-    currency:  "USD",
-    name:      "my 3-D Secure invoice",
 }, function(invoiceID) {
     // The 3-D Secure authentication was successful, you can call your backend
     // with the invoice ID and source to capture the invoice (see step 3.)
