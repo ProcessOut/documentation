@@ -9,7 +9,38 @@ is to use the ProcessOut iOS SDK.
 The SDK will take care of tokenizing your customers' card numbers, so that
 you can send those generated tokens to your backend and [process payments &nearr;](/payments/capture-a-payment).
 
-See our [Android integration guide &nearr;](/payments/mobile-android-sdk) to handle Android devices as well.
+<div class="row margin-top" style="margin-bottom: 4em;">
+    <div class="medium-4 columns">
+        <a href="/payments/mobile-ios-sdk/#tokenize-a-card">
+            <div class="shadow-background rounded">
+                Accept card payments &rsaquo;
+                <p style="color: black;">
+                    Accept card payments in your mobile app using our SDK.
+                </p>
+            </div>
+        </a>
+    </div>
+    <div class="medium-4 columns">
+        <a href="/payments/mobile-ios-sdk/#alternative-payment-methods">
+            <div class="shadow-background rounded">
+                Alternative payment methods &rsaquo;
+                <p style="color: black;">
+                    Allow users to pay using alternative payment methods.
+                </p>
+            </div>
+        </a>
+    </div>
+    <div class="medium-4 columns">
+        <a href="/payments/mobile-android-sdk/">
+            <div class="shadow-background rounded">
+                Android SDK &rsaquo;
+                <p style="color: black;">
+                    Accept payments on your Android app using our SDK.
+                </p>
+            </div>
+        </a>
+    </div>
+</div>
 
 <hr>
 
@@ -75,6 +106,119 @@ ProcessOut.Tokenize(card: card, metadata: [:], completion: {(token, error) -> Vo
     }
 })
 ```
+
+## Alternative payment methods
+
+
+First you'll need to generate an invoice in your backend and retrieve that invoice ID in order to fetch all the active configurations available for that invoice.
+You'll also need to provide this invoice with a specific return url of this form: `yourapp://processout.return`
+
+
+<div class="language-selector-wrapper">
+<%= partial "lg-selector" %>
+```shell
+curl -X POST https://api.processout.com/invoices \
+    <%= partial "header-curl" %> \
+    -d name="Awesome invoice" \
+    -d amount="9.99" \
+    -d currency=USD 
+    -d return_url="yourapp://processout.return"
+```
+
+```javascript
+<%= partial "header-js" %>
+client.newInvoice().create({
+    name:     "Amazing item",
+    amount:   "4.99",
+    currency: "USD",
+    return_url: "yourapp://processout.return"
+}).then(function(invoice) {
+    // invoice is our newly created resource
+
+}, function(err) {
+    // An error occured
+
+});
+```
+
+```python
+<%= partial "header-python" %>
+invoice = client.new_invoice().create({
+    "name":     "Amazing item",
+    "amount":   "4.99",
+    "currency": "USD",
+    "return_url": "yourapp://processout.return"
+})
+```
+
+```ruby
+<%= partial "header-ruby" %>
+invoice = client.invoice.create(
+    name:     "Amazing item",
+    amount:   "4.99",
+    currency: "USD",
+    return_url: "yourapp://processout.return"
+)
+```
+
+```php
+<%= partial "header-php" %>
+$invoice = $client->newInvoice()->create(array(
+    "name"     => "Amazing item",
+    "amount"   => "4.99",
+    "currency" => "USD"
+    "return_url" => "yourapp://processout.return"
+));
+```
+
+```go
+<%= partial "header-go" %>
+iv, err := client.NewInvoice().Create(processout.InvoiceCreateParameters{
+    Invoice: &processout.Invoice{
+        Name:     processout.String("Amazing item"),
+        Amount:   processout.String("4.99"),
+        Currency: processout.String("USD"),
+        ReturnUrl: processout.String("yourapp://processout.return")
+    },
+})
+```
+</div>
+
+ProcessOut also supports alternative payment methods with a redirection flow.
+First of all, make sure an alternative payment method has been activated on your account.
+
+Then start by listing all the available alternative payment methods configurations:
+
+```swift
+ProcessOut.listAlternativeMethods { (gateways, error) in
+    for gateway in gateways! {
+        // Display the gateway to your users
+    }
+}
+```
+Then, you'll be able to display your APM to your users using the `getRedirectURL` method of a gateway.
+
+
+You'll also need to handle your customers returning to your app in your app delegate.
+First of all, [register your app URL scheme](https://developer.apple.com/documentation/uikit/core_app/allowing_apps_and_websites_to_link_to_your_content/defining_a_custom_url_scheme_for_your_app).
+Then you'll be able to handle web returns:
+
+```swift
+// This method handles opening native URLs (e.g., "yourapp://")
+func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+    if let token = ProcessOut.handleURLCallback(url: url) {
+        print(token)
+        // You can now send this token to your backend to complete the charge
+        return true
+    } else {
+        // This was not a processout url
+        return false
+    }
+}
+```
+
+You should then send this token to your backend in order to complete the transaction.
+
 
 ## Next steps
 
