@@ -71,22 +71,8 @@ client.tokenize(card, new TokenCallback() {
 
 ## Alternative payment methods
 ProcessOut also supports alternative payment methods with a redirection flow.
-First, start by listing all the available alternative payment methods configurations:
 
-```java
-final ProcessOut p = new ProcessOut(this, "test-proj_OET06P4r3J8A1jT1XnaEZjWNp6zKFBZ5");
-p.listAlternativeMethods("invoice-id", new ListAlternativeMethodsCallback() {
-    @Override
-    public void onSuccess(ArrayList<AlternativeGateway> gateways) {
-    }
-
-    @Override
-    public void onError(Exception e) {
-        e.printStackTrace();
-    }
-});
-```
-Note that you'll need to generate an invoice in your backend and retrieve that invoice ID in order to fetch all the active configurations available for that invoice.
+First you'll need to generate an invoice in your backend and retrieve that invoice ID in order to fetch all the active configurations available for that invoice.
 You'll also need to provide this invoice with a specific return url of this form: `yourapp://processout.return`
 
 
@@ -161,7 +147,7 @@ iv, err := client.NewInvoice().Create(processout.InvoiceCreateParameters{
 </div>
 
 
-Once fetched, you'll be able to display your APM to your users.
+Then, you'll be able to display your APM to your users.
 In order to use a specific alternative payment method configuration simply use its `redirect` method:
 
 ```java
@@ -171,7 +157,7 @@ p.listAlternativeMethods("invoice-id", new ListAlternativeMethodsCallback() {
     public void onSuccess(ArrayList<AlternativeGateway> gateways) {
         for (AlternativeGateway g :
             gateways) {
-        g.redirect(); // Will redirect the user to the corresponding payment method
+        // display the gateway to your user
     }
     }
 
@@ -181,6 +167,8 @@ p.listAlternativeMethods("invoice-id", new ListAlternativeMethodsCallback() {
     }
 });
 ```
+
+In order to use a specific payment method simply call its `redirect` method.
 
 Then you'll need to handle your customers returning to your app.
 To do so, add an `intent-filter` to your payment activity like so:
