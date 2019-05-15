@@ -426,7 +426,7 @@ that token directly instead of the card token in the `makeCardPayment` call.
 function processoutCardTokenized(token) {
     // make sure `invoiceID` generated from
     // your backend is available in this scope
-    processout.makeCardPayment(invoiceID, token, {
+    client.makeCardPayment(invoiceID, token, {
         authorize_only: false, // set to true if you don't want to capture directly
     }, function(iv) {
         var field   = document.createElement("input");
