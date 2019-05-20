@@ -388,7 +388,7 @@ function processoutReadyHandler(form) {
 
     // Let’s tokenize the card
     client.tokenize(form, {
-      // It's possible to send cardholder information (optional)
+      // It’s possible to send cardholder information (optional)
       name: document.getElementById("cardholdername").value,
       contact: {
         zip: document.getElementById("cardholderzip").value,
@@ -415,9 +415,9 @@ handler which will receive the ID of the tokenized card. This is the ID which
 you can use to charge your customers, either directly, or by creating a [`Customer Token` &nearr;](/payments/save-token-and-capture-later/)
 from it.
 
-## Step 4: Make payment on Invoice
+## Step 4: Make payment on the Invoice
 
-For now, we'll simply get this card ID and use it to place our payment. If you
+For now, we’ll simply get this card ID and use it to place our payment. If you
 choose to create a [`Customer Token` &nearr;](/payments/save-token-and-capture-later/)
 to be able to re-use the card details for future payments, you can also use
 that token directly instead of the card token in the `makeCardPayment` call.
@@ -427,7 +427,7 @@ function processoutCardTokenized(token) {
     // make sure `invoiceID` generated from
     // your backend is available in this scope
     client.makeCardPayment(invoiceID, token, {
-        authorize_only: false, // set to true if you don't want to capture directly
+        authorize_only: false, // set to true if you don’t want to capture directly
     }, function(iv) {
         var field   = document.createElement("input");
         field.type  = "hidden";
@@ -437,7 +437,7 @@ function processoutCardTokenized(token) {
         // Enable back the button
         document.getElementById("paymentBtn").disabled = false;
 
-        // We add the invoice_id input so that it's sent back to the server.
+        // We add the invoice_id input so that it’s sent back to the server.
         // The only thing left to do is to submit the form
         formElement.appendChild(field);
         formElement.submit();
@@ -447,20 +447,19 @@ function processoutCardTokenized(token) {
 }
 ```
 
-## Step 5: Confirm payment in your backend (synchronous)
+## Step 5: Confirm the payment in your backend (synchronous)
 
-The final step is to confirm the payment in your backend by confirming the
-payment on the invoice you created earlier. To do that, you can authorize or 
-capture the payment. If the payment was already confirmed in the front-end, the
-new capture request done in your backend will have no effect, but will allow you
-to validate the transaction's status.
+The final step in processing the transaction is confirming the payment from 
+your backend. To do so, you should make an authorization or capture call on the 
+Invoice object. Even if the capture was performed from the frontend earlier, this 
+call will let your code verify the status of the transaction.
 
 <div class="language-selector-wrapper">
 <%= partial "lg-selector" %>
 ```shell
 curl -X POST https://api.processout.com/invoices/iv_lEZFFcQg5WwpKcolBrlzioeeFnnuPmyE/capture \
     <%= partial "header-curl" %> \
-    -d source=card_Tpu6ZOCDu1tnDKp0kTnPOcVDMUbW7dTU
+    -d source=card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ
 ```
 
 ```javascript
@@ -495,9 +494,9 @@ tr, _ := iv.Capture("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ")
 ```
 </div>
 
-If the capture was successful, a transaction is returned. You may then check that
+If the capture was successful, a Transaction object is returned. You may then check that
 its `status` attribute is set to `completed` in order to confirm the payment.
-Learn more about the transaction's statuses [here &nearr;](/payments/handle-status-changes-webhooks/#transaction-statuses).
+Learn more about the possible statuses for a transaction [here &nearr;](/payments/handle-status-changes-webhooks/#transaction-statuses).
 
 ## Step 6: Listen to webhooks for payment updates
 
