@@ -18,7 +18,7 @@ minimal.
 mandated by new regulations in Europe will be handled automatically for you.</div>
 
 ProcessOut.js can be fully customized to match the look of your website and checkout.
-Preview what the check out process looks like when using ProcessOut.js and being
+Preview what the checkout process looks like when using ProcessOut.js and being
 fully PCI compliant, while staying on top of new regulations like DSP2’s SCA (Strong Customer Authentication) in Europe.
 
 <div class="language-selector-wrapper" style="margin: 2rem 0;">
@@ -240,8 +240,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 Prior to getting paid, you first need to create an [`Invoice` &nearr;](/refs/#invoices) resource
 meant to define how much your customer will get charged, and set metadata
-related to the payment. This Invoice will also be sent back to your front-end
-to properly authenticate your customer if required by local regulations.
+related to the payment. This Invoice will also be sent back to your frontend
+to properly authenticate your customer, if required by local regulations.
 
 <div class="language-selector-wrapper">
 <%= partial "lg-selector" %>
@@ -249,7 +249,7 @@ to properly authenticate your customer if required by local regulations.
 curl -X POST https://api.processout.com/invoices \
     <%= partial "header-curl" %> \
     -d name="Awesome invoice" \
-    -d amount="9.99" \
+    -d amount="4.99" \
     -d currency=USD 
 ```
 
@@ -313,9 +313,9 @@ payments, subscriptions, or one-off charges.
 
 ## Step 2: Create your payment form and tokenize
 
-Let's set up a payment form.
-**Please note that the credit card fields aren't actual input boxes,** but are only
-DOM containers. To ensure PCI-compliancy, ProcessOut hosts the credit card fields on its
+Let’s set up a payment form.
+**Please note that the credit card fields aren’t actual input boxes,** but are only
+DOM containers. To ensure PCI compliance, ProcessOut hosts the credit card fields on its
 own servers.
 
 ```html
@@ -339,17 +339,17 @@ own servers.
 </form>
 ```
 
-For the payment form to be interactable, you will need to load `ProcessOut.js`. 
+For the payment form to be interactive, you will need to load `ProcessOut.js`. 
 It is important to **always** load it from our CDN like shown below. Please note that
-ProcessOut.js has no dependency, meaning it can work without jQuery.
+ProcessOut.js has no external dependencies, meaning it can work without jQuery.
 
 ```html
 <script src="https://js.processout.com/processout.js"></script>
 ```
 
-Now that `ProcessOut.js` is loaded, we can start using it. Let's first
+Now that `ProcessOut.js` is loaded, we can start using it. Let’s first
 instanciate a new `ProcessOut` instance in a different script tag as soon
-as the DOM is fully loaded, and setup our form:
+as the DOM is fully loaded, and set up our form:
 
 ```javascript
 document.addEventListener("DOMContentLoaded", function() {
@@ -357,7 +357,7 @@ document.addEventListener("DOMContentLoaded", function() {
     "<%= partial "projectID" %>");
   var formElement = document.getElementById("payment-form");
   client.setupForm(formElement, processoutReadyHandler, function(err) {
-    console.log("Woops, couldn't setup the form: "+err);
+    console.log("Woops, couldn’t setup the form: "+err);
   });
 });
 ```
@@ -365,15 +365,15 @@ document.addEventListener("DOMContentLoaded", function() {
 **Note**: Remember to replace the project ID in the example with your own. When testing,
 prepend your project ID with `test-` like so: `test-<%= partial "projectID" %>`.
 
-We also still have to add the handler, which we'll do just now:
+We also still have to add the handler, which we’ll do just now:
 
 ## Step 3: Bind the form and tokenize the card
 
 As soon as the form is fully loaded, `setupForm` will call `processoutReadyHandler` 
-with the created `CardForm` object. We'll use this object to handle the
+with the created `CardForm` object. We’ll use this object to handle the
 tokenization transparently.
 
-Let's bind the form submission and tokenize the card:
+Let’s bind the form submission and tokenize the card:
 
 ```javascript
 function processoutReadyHandler(form) {
@@ -382,11 +382,11 @@ function processoutReadyHandler(form) {
     // Cancel any default action
     e.preventDefault();
     // Blocking the form while performing the tokenization may also
-    // prevent from race conditions from happening, such as when
+    // prevent race conditions from happening, such as when
     // the user double-clicks on the button
     document.getElementById("paymentBtn").disabled = true;
 
-    // Let's tokenize the card
+    // Let’s tokenize the card
     client.tokenize(form, {
       // It's possible to send cardholder information (optional)
       name: document.getElementById("cardholdername").value,
@@ -410,8 +410,8 @@ function processoutReadyHandler(form) {
 }
 ```
 
-We binded the form but we also want to implement the `processoutCardTokenized`
-handler which'll receive the tokenized card ID. This is the ID of the card which
+We bound the form but we also want to implement the `processoutCardTokenized`
+handler which will receive the ID of the tokenized card. This is the ID which
 you can use to charge your customers, either directly, or by creating a [`Customer Token` &nearr;](/payments/save-token-and-capture-later/)
 from it.
 
