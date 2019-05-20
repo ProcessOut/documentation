@@ -357,6 +357,7 @@ function processoutAPMsReady(confs) {
       field.value = token;
       formWrapper.appendChild(field);
       formWrapper.submit();
+
     }, function(err) {
 
       // An error occured during checkout. This could just be the
@@ -369,6 +370,28 @@ function processoutAPMsReady(confs) {
     formWrapper.appendChild(el);
   }
 }
+```
+
+If you’d rather handle the DOM elements and hooks yourself, you can simply
+keep a reference to each `conf` element and call the following method to
+initiate the payment flow individually:
+
+```javascript
+conf.handleInvoiceAction(function(token) {
+  // The customer completed the gateway payment flow,
+  // we can send the token back to our backend to finish the
+  // capture
+  var field   = document.createElement("input");
+  field.type  = "hidden";
+  field.name  = "token";
+  field.value = token;
+  formWrapper.appendChild(field);
+  formWrapper.submit();
+
+}, function(err) {
+
+  // An error occured during checkout
+})
 ```
 
 ## Handle the capture on the server
