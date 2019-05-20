@@ -224,7 +224,12 @@ document.addEventListener("DOMContentLoaded", function() {
         name: document.getElementById("cardholdername").value,
         contact: {
           zip:  document.getElementById("cardholderzip").value
-        }
+        },
+
+        // Also, if you want to offer the customer a preferred scheme
+        // to pay on (for example, if the customer's card supports 
+        // co-schemes such as carte bancaire)
+        preferred_scheme: "carte bancaire"
       }, function(token) {
         document.getElementById("success").innerHTML = "Success! Your created card token is "+token;
         document.getElementById("paymentBtn").disabled = false;
@@ -331,7 +336,12 @@ function processoutReadyHandler(form) {
         zip: document.getElementById("cardholderzip").value,
         // Available contact fields:
         // address1, address2, city, state, country_code, zip
-      }
+      },
+
+      // Also, if you want to offer the customer a preferred scheme
+      // to pay on (for example, if the customer's card supports 
+      // co-schemes such as carte bancaire)
+      preferred_scheme: "carte bancaire"
     }, function(token) {
       var field   = document.createElement("input");
       field.type  = "hidden";
