@@ -27,16 +27,21 @@ can ask your customers to update their payment details.
 <span class="console-font">**exp_year**</span><br />*string*<br />Read-only | Expiry year of the card
 <span class="console-font">**cvc_check**</span><br />*string*<br />Read-only | CVC check status. Can be `pending`, `unavailable`, `unknown`, `failed`, or `passed`
 <span class="console-font">**avs_check**</span><br />*string*<br />Read-only | AVS check status. Can be `pending`, `unavailable`, `unknown`, `failed`, `failed-name`, `failed-address`, `failed-postal`, `failed-address-passed-postal`, `failed-postal-passed-address`, or `passed`
-<span class="console-font">**name**</span><br />*string*<br />Read-only | Cardholder name
-<span class="console-font">**address1**</span><br />*string*<br />Read-only | Cardholder primary address line
-<span class="console-font">**address2**</span><br />*string*<br />Read-only | Cardholder secondary address line
-<span class="console-font">**city**</span><br />*string*<br />Read-only | Cardholder city
-<span class="console-font">**state**</span><br />*string*<br />Read-only | Cardholder state
-<span class="console-font">**country_code**</span><br />*string*<br />Read-only | Cardholder country
-<span class="console-font">**zip**</span><br />*string*<br />Read-only | Cardholder zip
+<span class="console-font">**name**</span><br />*string* | Cardholder name
+<span class="console-font">**contact**</span><br />*CardContact* | Card contact attributes
 <span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the card, key-value pair (string - string)
 <span class="console-font">**sandbox**</span><br />*boolean*<br />Read-only |
 <span class="console-font">**created_at**</span><br />*RFC1123 date or timestamp*<br />Read-only |
+
+##### Card contact Attributes
+|||
+--:|:--
+<span class="console-font">**address1**</span><br />*string* | Cardholder primary address line
+<span class="console-font">**address2**</span><br />*string* | Cardholder secondary address line
+<span class="console-font">**city**</span><br />*string* | Cardholder city
+<span class="console-font">**state**</span><br />*string* | Cardholder state
+<span class="console-font">**country_code**</span><br />*string* | Cardholder country
+<span class="console-font">**zip**</span><br />*string* | Cardholder zip
 
 ### Tokenize a card
 

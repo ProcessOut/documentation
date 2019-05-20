@@ -2,7 +2,7 @@
 title: Accepting Payments, SCA-ready
 ---
 
-# Accepting Payments, SCA-ready
+# Accepting Payments, SCA-ready with 3DS2
 
 Accepting payments online is becoming increasingly complex. Merchants need to
 optimize the collection of their customers’ card information, they need to do
@@ -14,12 +14,13 @@ provides an easy to use client-side library allowing you to securely accept card
 numbers on your website while keeping your PCI DSS compliance requirements
 minimal.
 
-<div class="info-box">ProcessOut.js is SCA-ready, meaning that the new requirements
+<div class="info-box">ProcessOut.js is SCA and 3DS2-ready, meaning that the new requirements
 mandated by new regulations in Europe will be handled automatically for you.</div>
 
 ProcessOut.js can be fully customized to match the look of your website and checkout.
 Preview what the checkout process looks like when using ProcessOut.js and being
-fully PCI compliant, while staying on top of new regulations like DSP2’s SCA (Strong Customer Authentication) in Europe.
+fully PCI compliant, while staying on top of new regulations like DSP2’s SCA (Strong Customer Authentication,
+mostly enforced through 3DS2 or 3-D Secure version 2) in Europe.
 
 <div class="language-selector-wrapper" style="margin: 2rem 0;">
 <div class="language-selector-preview">
@@ -216,7 +217,12 @@ document.addEventListener("DOMContentLoaded", function() {
         name: document.getElementById("cardholdername").value,
         contact: {
           zip:  document.getElementById("cardholderzip").value
-        }
+        },
+
+        // Also, if you want to offer the customer a preferred scheme
+        // to pay on (for example, if the customer's card supports 
+        // co-schemes such as carte bancaire)
+        preferred_scheme: "carte bancaire"
       }, function(token) {
         document.getElementById("success").innerHTML = "Success! Your created card token is "+token;
         document.getElementById("paymentBtn").disabled = false;
@@ -394,7 +400,12 @@ function processoutReadyHandler(form) {
         zip: document.getElementById("cardholderzip").value,
         // Available contact fields:
         // address1, address2, city, state, country_code, zip
-      }
+      },
+
+      // Also, if you want to offer the customer a preferred scheme
+      // to pay on (for example, if the customer's card supports 
+      // co-schemes such as carte bancaire)
+      preferred_scheme: "carte bancaire"
     }, processoutCardTokenized, function(err) {
 
       // Card validation errors or network issues are returned
