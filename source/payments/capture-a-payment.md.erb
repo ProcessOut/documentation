@@ -228,3 +228,62 @@ tr, _ := iv.Capture("")
 If the capture was successful, the same transaction as the one returned when doing
 the authorization should be returned. You may check that its `status` attribute
 is now set to `completed` to confirm the payment.
+
+## Setting up auto-captures
+
+ProcessOut also allows you to only authorize a transaction at first, and to
+automatically capture it at a later date. This can for example be useful if you
+want to let some time for your fraud teams to review transactions before fully
+confirming them. To set up auto capture on a transaction, simply give the date
+at which you'd like to auto capture `auto_capture_at` during the authorization process:
+
+<div class="language-selector-wrapper">
+<%= partial "lg-selector" %>
+```shell
+curl -X POST https://api.processout.com/invoices/iv_lEZFFcQg5WwpKcolBrlzioeeFnnuPmyE/authorize \
+    <%= partial "header-curl" %> \
+    -d source=card_Tpu6ZOCDu1tnDKp0kTnPOcVDMUbW7dTU \
+    -d auto_capture_at="2022-10-02T15:00:00Z"
+```
+
+```javascript
+<%= partial "header-js" %>
+invoice.authorize("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ", {
+    "auto_capture_at": "2022-10-02T15:00:00Z"
+}).then(
+    function(transaction) {
+        //
+
+    }, function(err) {
+        // The invoice could not be authorized
+    });
+```
+
+```python
+<%= partial "header-python" %>
+transaction = invoice.authorize("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ", {
+    "auto_capture_at": "2022-10-02T15:00:00Z"
+})
+```
+
+```ruby
+<%= partial "header-ruby" %>
+transaction = invoice.authorize("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ", (
+    auto_capture_at: "2022-10-02T15:00:00Z"
+))
+```
+
+```php
+<%= partial "header-php" %>
+$transaction = $invoice->authorize("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ", array(
+    "auto_capture_at" => "2022-10-02T15:00:00Z"
+));
+```
+
+```go
+<%= partial "header-go" %>
+tr, _ := iv.Authorize("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ", InvoiceAuthorizeParameters{
+    AutoCaptureAt: "2022-10-02T15:00:00Z",
+})
+```
+</div>

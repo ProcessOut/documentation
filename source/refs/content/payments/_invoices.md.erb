@@ -258,6 +258,82 @@ flag in the request. However, beware that your PSPs need to support partial
 captures as well, otherwise you'll need to to do a full capture followed by a
 partial refund to achieve a similar goal.
 
+### Authorize only & auto capture
+
+```shell
+curl -X POST https://api.processout.com/invoices/iv_MgeLS2Rr3ZGwjqOvDvYSuWx7ce88luXl/authorize \
+    <%= partial "header-curl" %> \
+    -d source=card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ \
+    -d auto_capture_at="2022-10-02T15:00:00Z" # optional if you want us to auto capture for you
+```
+
+```javascript
+<%= partial "header-js" %>
+// The source could also be a token tok_fKK4btSG7wd13ZZaevzhMcuNbpjcu1Zy
+invoice.authorize("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ", {
+    // optional if you want us to auto capture for you
+    "auto_capture_at": "2022-10-02T15:00:00Z"
+}).then(
+    function(transaction) {
+        // The invoice was authorized and returned a transaction
+
+    }, function(err) {
+        // The invoice could not be authorized
+    });
+```
+
+```python
+<%= partial "header-python" %>
+# The source could also be a token tok_fKK4btSG7wd13ZZaevzhMcuNbpjcu1Zy
+transaction = invoice.authorize("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ", {
+    # optional if you want us to auto capture for you
+    "auto_capture_at": "2022-10-02T15:00:00Z"
+})
+```
+
+```ruby
+<%= partial "header-ruby" %>
+# The source could also be a token tok_fKK4btSG7wd13ZZaevzhMcuNbpjcu1Zy
+transaction = invoice.authorize("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ", (
+    # optional if you want us to auto capture for you
+    auto_capture_at: "2022-10-02T15:00:00Z"
+))
+```
+
+```php
+<%= partial "header-php" %>
+// The source could also be a token tok_fKK4btSG7wd13ZZaevzhMcuNbpjcu1Zy
+$transaction = $invoice->authorize("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ", array(
+    // optional if you want us to auto capture for you
+    "auto_capture_at" => "2022-10-02T15:00:00Z"
+));
+```
+
+```go
+<%= partial "header-go" %>
+// The source could also be a token tok_fKK4btSG7wd13ZZaevzhMcuNbpjcu1Zy
+tr, _ := iv.Authorize("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ", InvoiceAuthorizeParameters{
+    AutoCaptureAt: "2022-10-02T15:00:00Z",
+})
+```
+
+Instead of directly capturing a transaction, it's also possible to execute a
+transaction in two phases: the authorization, which confirms and locks the funds on your user's
+bank account but without doing the actual money movement, and the capture which initiates
+the money settlement.
+
+ProcessOut offers two ways of executing a two-step transaction: either handling the
+authorization and capture steps yourself, or performing the authorization and letting us
+auto capture the transaction at a later date for you.
+
+To manually capture after an authorization, simply call `capture` endpoint. To set up
+the auto capture, you can send the `auto_capture_at` field during the authorization, with the
+RFC3339 date at which the auto capture should be performed.
+
+Keep in a mind an authorization usually only lasts for 7 days, after which the capture
+may fail.
+
+
 ### Void an invoice
 
 ```shell
