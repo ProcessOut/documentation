@@ -65,7 +65,23 @@ The ProcessOut SDKs provide factories to build the 3DS2 test handler:
 ```
 
 ```java
-final ThreeDSHandler handler = ProcessOut.createDefaultTestHandler(MainActivity.this);
+final ThreeDSHandler handler = ProcessOut.createDefaultTestHandler(
+    MainActivity.this,
+    new ProcessOut.ThreeDSHandlerTestCallback() {
+        @Override
+        public void onSuccess(String invoiceId) {
+            // The authentication was done successfully, you can send
+            // back the invoice ID to your backend to validate the payment
+            Log.d("PROCESSOUT", "invoice: " + invoiceId);
+        }
+
+        @Override
+        public void onError(Exception error) {
+            // An error occurred
+            Log.e("PROCESSOUT", error.toString());
+        }
+    }
+);
 ```
 </div>
 
@@ -96,6 +112,21 @@ The below code implements the ProcessOut 3DS2 SDK using Adyen's certified SDK.
 ```
 
 ```java
+import com.adyen.threeds2.AuthenticationRequestParameters;
+import com.adyen.threeds2.ChallengeStatusReceiver;
+import com.adyen.threeds2.CompletionEvent;
+import com.adyen.threeds2.ProtocolErrorEvent;
+import com.adyen.threeds2.RuntimeErrorEvent;
+import com.adyen.threeds2.ThreeDS2Service;
+import com.adyen.threeds2.Transaction;
+import com.adyen.threeds2.exception.SDKAlreadyInitializedException;
+import com.adyen.threeds2.exception.SDKNotInitializedException;
+import com.adyen.threeds2.parameters.ChallengeParameters;
+import com.adyen.threeds2.parameters.ConfigParameters;
+import com.adyen.threeds2.util.AdyenConfigParameters;
+
+// ...
+
 final ThreeDSHandler handler = new ThreeDSHandler() {
     private Transaction mTransaction;
 
