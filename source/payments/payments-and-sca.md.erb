@@ -15,7 +15,7 @@ numbers on your website while keeping your PCI DSS compliance requirements
 minimal.
 
 <div class="info-box">ProcessOut.js is SCA and 3DS2-ready, meaning that the new requirements
-mandated by new regulations in Europe will be handled automatically for you.</div>
+mandated by new regulations in Europe will be handled automatically for you. Follow our <a href="/payments/migrating-to-sca">migration guide &nearr;</a> if you already have a ProcessOut integration and wish to support new SCA flows.</div>
 
 ProcessOut.js can be fully customized to match the look of your website and checkout.
 Preview what the checkout process looks like when using ProcessOut.js and being
@@ -432,6 +432,9 @@ For now, we’ll simply get this card ID and use it to place our payment. If you
 choose to create a [`Customer Token` &nearr;](/payments/save-token-and-capture-later/)
 to be able to re-use the card details for future payments, you can also use
 that token directly instead of the card token in the `makeCardPayment` call.
+
+If you're also working on mobile applications, you can see our [mobile SDK reference
+for 3DS2 here &nearr;](/payments/3ds2-mobile-sdk-references/)
 
 ```javascript
 function processoutCardTokenized(token) {
