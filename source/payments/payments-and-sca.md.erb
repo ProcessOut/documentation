@@ -256,7 +256,7 @@ curl -X POST https://api.processout.com/invoices \
     <%= partial "header-curl" %> \
     -d name="Awesome invoice" \
     -d amount="4.99" \
-    -d currency=USD 
+    -d currency=USD
 ```
 
 ```javascript
@@ -264,7 +264,10 @@ curl -X POST https://api.processout.com/invoices \
 client.newInvoice().create({
     name:     "Awesome invoice",
     amount:   "4.99",
-    currency: "USD"
+    currency: "USD",
+    device:   client.newInvoiceDevice({
+        channel: "web" // optional; can be web, ios or android
+    })
 }).then(function(invoice) {
     // invoice is our newly created resource
 
@@ -279,7 +282,10 @@ client.newInvoice().create({
 invoice = client.new_invoice().create({
     "name":     "Awesome invoice",
     "amount":   "4.99",
-    "currency": "USD"
+    "currency": "USD",
+    "device":   client.new_invoice_device({
+        "device": "web" # optional; can be web, ios or android
+    })
 })
 ```
 
@@ -288,7 +294,10 @@ invoice = client.new_invoice().create({
 invoice = client.invoice.create(
     name:     "Awesome invoice",
     amount:   "4.99",
-    currency: "USD"
+    currency: "USD",
+    device:   client.invoice_device.new(
+        channel: "web" # optional; can be web, ios or android
+    )
 )
 ```
 
@@ -297,7 +306,10 @@ invoice = client.invoice.create(
 $invoice = $client->newInvoice()->create(array(
     "name"     => "Awesome invoice",
     "amount"   => "4.99",
-    "currency" => "USD"
+    "currency" => "USD",
+    "device"   => $client->newInvoiceDevice(array(
+        "channel" => "web" // optional; can be web, ios or android
+    ))
 ));
 ```
 
@@ -308,12 +320,20 @@ iv, err := client.NewInvoice().Create(processout.InvoiceCreateParameters{
         Name:     processout.String("Awesome invoice"),
         Amount:   processout.String("4.99"),
         Currency: processout.String("USD"),
+        InvoiceDevice: client.NewInvoiceDevice(processout.InvoiceDevice{
+            // optional; can be web, ios or android
+            Channel: processout.String("web"),
+        }),
     },
 })
 ```
 </div>
 
-Optionally, you may also choose to tokenize the card with a [`Customer Token`](/payments/save-token-and-capture-later/)
+Note that, although it is optional, you can send the additional `InvoiceDevice`
+object within the `Invoice` to determine which `channel` will be used to process
+the transaction. This is especially useful to make use of native 3DS2 SDKs.
+
+Optionally, you may also choose to tokenize the card with a [`Customer Token` &nearr;](/payments/save-token-and-capture-later/)
 to be able to re-use the Card as you please in the future, either for one-click
 payments, subscriptions, or one-off charges.
 
