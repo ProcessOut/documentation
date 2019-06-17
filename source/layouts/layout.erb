@@ -144,16 +144,17 @@
                 background: none; border: none;
                 font-weight: 600;
             }
-            .main-content .language-selector, .main-content .language-selector-preview {
+            .main-content .language-selector, .main-content .language-selector-preview, .main-content .language-selector-mobile {
                 margin-bottom: 0.25em;
             }
-            .main-content .language-selector a, .main-content .language-selector-preview a {
+            .main-content .language-selector a, .main-content .language-selector-preview a, .main-content .language-selector-mobile a {
                 padding-right: 1em;
                 color: #1abc9c;
                 opacity: 0.6;
             }
             .main-content .language-selector a.selected, .main-content .language-selector a:hover,
-            .main-content .language-selector-preview a.selected, .main-content .language-selector-preview a:hover {
+            .main-content .language-selector-preview a.selected, .main-content .language-selector-preview a:hover,
+            .main-content .language-selector-mobile a.selected, .main-content .language-selector-mobile a:hover {
                 font-weight: 600;
             }
             .main-content .footer {
@@ -167,6 +168,12 @@
                 border-radius: 3px;
                 border-left: 4px solid #00b894;
                 margin-bottom: 1.5rem;
+            }
+            .main-content .columned-code p {
+                margin: 0; padding: 0;
+            }
+            .main-content .columned-code .hljs-line-numbers {
+                display: none;
             }
 
             .margin-top {
@@ -235,6 +242,9 @@
                 if (!getCookie("selected-language-preview")) {
                     setCookie("selected-language-preview", "preview", 7);
                 }
+                if (!getCookie("selected-language-mobile")) {
+                    setCookie("selected-language-mobile", "swift", 7);
+                }
 
                 function refreshSelectors() {
                     $(".language-selector").each(function() {
@@ -255,6 +265,15 @@
                         $(this).parent(".language-selector-wrapper").find(
                             ".highlight."+getCookie("selected-language-preview")).parent().removeClass("hide");
                     });
+                    $(".language-selector-mobile").each(function() {
+                        $(this).find("a").removeClass("selected");
+                        $(this).find("a[data-language="+getCookie("selected-language-mobile")+"]").addClass("selected");
+
+                        $(this).parent(".language-selector-wrapper").find(
+                            ".highlight").parent().addClass("hide");
+                        $(this).parent(".language-selector-wrapper").find(
+                            ".highlight."+getCookie("selected-language-mobile")).parent().removeClass("hide");
+                    });
                 };
                 refreshSelectors();
 
@@ -274,8 +293,19 @@
 
                     return false;
                 });
+                $(".language-selector-mobile a").click(function() {
+                    setCookie("selected-language-mobile", $(this).attr("data-language"), 7);
+                    var curOffset = $(this).offset().top - $(document).scrollTop();
+                    refreshSelectors();
+                    $(document).scrollTop($(this).offset().top-curOffset);
 
-                $(".main-content .content a").not(".language-selector a").not(".language-selector-preview a").not("a.no-redirect").click(function() {
+                    return false;
+                });
+
+                $(".main-content .content a").not(".language-selector a").not(".language-selector-preview a").not(".language-selector-mobile a").not("a.no-redirect").click(function() {
+                    if ($(this).attr("href").charAt(0) == '#') {
+                        return true;
+                    }
                     window.open($(this).attr("href"));
                     return false;
                 });
@@ -331,14 +361,13 @@
                         <ul class="no-bullet">
                             <li><%= link_to 'Accepting payments, SCA-ready', '/payments/payments-and-sca.html' %></li>
                             <li><%= link_to 'ProcessOut.js', '/payments/processoutjs.html' %></li>
+                            <li><%= link_to '3DS2 mobile SDK reference', '/payments/3ds2-mobile-sdk-references.html' %></li>
                             <li><%= link_to 'iOS SDK', '/payments/mobile-ios-sdk.html' %></li>
                             <li><%= link_to 'Android SDK', '/payments/mobile-android-sdk.html' %></li>
                         </ul>
                         <ul class="no-bullet">
                             <li><%= link_to 'Capture a payment', '/payments/capture-a-payment.html' %></li>
                             <li><%= link_to 'Save token and capture later', '/payments/save-token-and-capture-later.html' %></li>
-                            <li><%= link_to 'Status changes and webhooks', '/payments/handle-status-changes-webhooks.html' %></li>
-                            <li><%= link_to 'Issue a refund', '/payments/issue-a-refund.html' %></li>
                             <li><%= link_to 'Error codes', '/payments/error-codes.html' %></li>
                             <li><%= link_to 'CVC and AVS checks', '/payments/cvc-and-avs-checks-results.html' %></li>
                         </ul>
@@ -349,16 +378,10 @@
                             <li><%= link_to 'Refresh a card\'s CVC', '/payments/refresh-card-cvc.html' %></li>
                         </ul>
 
-                        <div class="category-title">Subscriptions</div>
+                        <div class="category-title">Monitor and manage</div>
                         <ul class="no-bullet">
-                            <li><%= link_to 'Subscribe a customer', '/subscriptions/get-started.html' %></li>
-                            <li><%= link_to 'Cancel a subscription', '/subscriptions/cancel-a-subscription.html' %></li>
-                        </ul>
-                        <ul class="no-bullet">
-                            <li><%= link_to 'Trials', '/subscriptions/trials.html' %></li>
-                            <li><%= link_to 'Coupons &amp; discounts', '/subscriptions/coupons-and-discounts.html' %></li>
-                            <li><%= link_to 'Addons &amp; metered usage', '/subscriptions/addons-and-metered-usage.html' %></li>
-                            <li><%= link_to 'Upgrades &amp; downgrades', '/subscriptions/upgrades-and-downgrades.html' %></li>
+                            <li><%= link_to 'Status changes and webhooks', '/payments/handle-status-changes-webhooks.html' %></li>
+                            <li><%= link_to 'Issue a refund', '/payments/issue-a-refund.html' %></li>
                         </ul>
                     </div>
                     <div class="medium-9 columns content">

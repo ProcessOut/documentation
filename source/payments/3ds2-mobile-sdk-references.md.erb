@@ -1,0 +1,212 @@
+---
+title: 3DS2 mobile SDKs References
+---
+
+# 3DS2 mobile SDKs References
+
+With the new 3-D Secure 2 specifications released by EMVCo (the consortium 
+composed of Visa, Mastercard, Amex and most card schemes), 3DS2 SDKs are 
+normalized with common interfaces. ProcessOut therefore embraces these new 
+principles and allows merchants to use the SDKs they want, working in a “bring 
+your own SDK” fashion.
+
+If you're not yet familiar with 3DS2 and SCA, and what these involve from a technical
+point of view, we advise you [read our guide first &nearr;](/payments/payments-and-sca/).
+
+<hr>
+
+## Handle payment on an invoice
+
+Once you've created an Invoice in your backend and tokenized a card, you can
+initiate a payment on your mobile (iOS or Android) device. The ProcessOut SDK
+handles all the payment flow, including the potentially required authentication
+steps.
+
+The most basic payment call on mobile is as follows:
+
+<div class="language-selector-wrapper">
+<%= partial "lg-selector-mobile" %>
+```swift
+// iOS SDK coming soon!
+```
+
+```java
+final ProcessOut client = new ProcessOut(
+    this, 
+    "proj_3RJagzMt7WihKaqHBeM51IpuwWkrhQuC"
+);
+client.makeCardPayment(
+    "iv_tIWEiBcrXIFHzJeXcZzqyp8EpY0xwmuT", 
+    "card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ", 
+    handler
+);
+```
+</div>
+
+`handler` is the 3DS handler that'll be used to execute the fingerprinting and
+challenge steps during the 3DS authentication. Generally, you'll work with
+two different kinds of 3DS handlers during your integration:
+
+- 1— The test handler;
+- 2— The handler with the production 3DS SDK
+
+## 1— The test handler
+
+The test handler is very simple: it simply emulates the 3DS authentication
+flow without having the make actual calls to ACS servers (servers of the banks
+of your customers used to process authentications).
+
+The ProcessOut SDKs provide factories to build the 3DS2 test handler:
+
+<div class="language-selector-wrapper">
+<%= partial "lg-selector-mobile" %>
+```swift
+// iOS SDK coming soon!
+```
+
+```java
+final ThreeDSHandler handler = ProcessOut.createDefaultTestHandler(
+    MainActivity.this,
+    new ProcessOut.ThreeDSHandlerTestCallback() {
+        @Override
+        public void onSuccess(String invoiceId) {
+            // The authentication was done successfully, you can send
+            // back the invoice ID to your backend to validate the payment
+            Log.d("PROCESSOUT", "invoice: " + invoiceId);
+        }
+
+        @Override
+        public void onError(Exception error) {
+            // An error occurred
+            Log.e("PROCESSOUT", error.toString());
+        }
+    }
+);
+```
+</div>
+
+The test handler can basically be used when integrating using ProcessOut's sandbox, 
+and can also be used to mock tests in your application.
+
+Once you chose to deploy your mobile application to production, you can then
+start using the official 3DS SDKs from your 3DS Server partners.
+
+## 2— The handler with the production 3DS SDK
+
+As mentioned previously, the ProcessOut 3DS2 SDK works in a "bring your own SDK" manner.
+Most 3DS Server providers/partners will provide you with their own certified SDKs, 
+which might also come with specific features you'd like to integrate.
+
+To help in the process, you can find below the 3DS SDKs we officially support:
+
+- [Adyen](#2.1%E2%80%94-adyen)
+
+### 2.1— Adyen
+
+The below code implements the ProcessOut 3DS2 SDK using Adyen's certified SDK.
+
+<div class="language-selector-wrapper">
+<%= partial "lg-selector-mobile" %>
+```swift
+// iOS SDK coming soon!
+```
+
+```java
+import com.adyen.threeds2.AuthenticationRequestParameters;
+import com.adyen.threeds2.ChallengeStatusReceiver;
+import com.adyen.threeds2.CompletionEvent;
+import com.adyen.threeds2.ProtocolErrorEvent;
+import com.adyen.threeds2.RuntimeErrorEvent;
+import com.adyen.threeds2.ThreeDS2Service;
+import com.adyen.threeds2.Transaction;
+import com.adyen.threeds2.exception.SDKAlreadyInitializedException;
+import com.adyen.threeds2.exception.SDKNotInitializedException;
+import com.adyen.threeds2.parameters.ChallengeParameters;
+import com.adyen.threeds2.parameters.ConfigParameters;
+import com.adyen.threeds2.util.AdyenConfigParameters;
+
+// ...
+
+final ThreeDSHandler handler = new ThreeDSHandler() {
+    private Transaction mTransaction;
+
+    @Override
+    public void doFingerprint(DirectoryServerData dsdata, DoFingerprintCallback callback) {
+        ConfigParameters config = new AdyenConfigParameters.Builder(
+            dsdata.getDirectoryServerID(), 
+            dsdata.getDirectoryServerPublicKey()
+        ).build();
+        try {
+            ThreeDS2Service.INSTANCE.initialize(MainActivity.this, config, null, null);
+            mTransaction = ThreeDS2Service.INSTANCE.createTransaction(null, null);
+            AuthenticationRequestParameters t = mTransaction.getAuthenticationRequestParameters();
+            ThreeDSFingerprintResponse gatewayRequest = new ThreeDSFingerprintResponse(
+                t.getDeviceData(), 
+                t.getSDKAppID(), 
+                new Gson().fromJson(t.getSDKEphemeralPublicKey(), SDKEPhemPubKey.class), 
+                t.getSDKReferenceNumber(), 
+                t.getSDKTransactionID()
+            );
+            callback.continueCallback(gatewayRequest);
+        } catch (SDKAlreadyInitializedException e) {
+            e.printStackTrace();
+        } catch (SDKNotInitializedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void doChallenge(AuthenticationChallengeData authenticateData, final DoChallengeCallback callback) {
+        ChallengeParameters challengeParameters = new ChallengeParameters();
+        challengeParameters.set3DSServerTransactionID(authenticateData.getThreeDSServerTransID());
+        challengeParameters.setAcsTransactionID(authenticateData.getAcsTransID());
+        challengeParameters.setAcsRefNumber(authenticateData.getAcsReferenceNumber());
+        challengeParameters.setAcsSignedContent(authenticateData.getAcsSignedContent());
+
+        mTransaction.doChallenge(MainActivity.this, challengeParameters, new ChallengeStatusReceiver() {
+            @Override
+            public void completed(CompletionEvent completionEvent) {
+                callback.success();
+            }
+
+            @Override
+            public void cancelled() {
+                // Cancelled by the user or the App.
+                callback.error();
+            }
+
+            @Override
+            public void timedout() {
+                // The user didn't submit the challenge within the given time, 5 minutes in this case.
+                callback.error();
+            }
+
+            @Override
+            public void protocolError(ProtocolErrorEvent protocolErrorEvent) {
+                // An error occurred.
+                callback.error();
+            }
+
+            @Override
+            public void runtimeError(RuntimeErrorEvent runtimeErrorEvent) {
+                // An error occurred.
+                callback.error();
+            }
+        }, 5);
+    }
+
+    @Override
+    public void onSuccess(String invoiceId) {
+        // The authentication was done successfully, you can send
+        // back the invoice ID to your backend to validate the payment
+        Log.d("PROCESSOUT", "SUCCESS:" + invoiceId);
+    }
+
+    @Override
+    public void onError(Exception error) {
+        // An error occurred
+        Log.e("PROCESSOUT", error.toString());
+    }
+};
+```
+</div>
