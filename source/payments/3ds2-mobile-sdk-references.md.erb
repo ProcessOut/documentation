@@ -31,7 +31,10 @@ The most basic payment call on mobile is as follows:
 <div class="language-selector-wrapper">
 <%= partial "lg-selector-mobile" %>
 ```swift
+// In your AppDelegate, configure the ProcessOut iOS SDK:
 ProcessOut.Setup(projectId: "<%= partial "projectID" %>")
+
+// When you want to initiate a payment, call makeCardPayment
 ProcessOut.makeCardPayment(
     "iv_tIWEiBcrXIFHzJeXcZzqyp8EpY0xwmuT", 
     "card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ", 
