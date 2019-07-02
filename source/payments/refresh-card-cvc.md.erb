@@ -4,20 +4,23 @@ title: Refresh your customers' cards CVC
 
 # Refresh your customers' cards CVC
 
-Once the first payment is placed using the card of a customer, the *PCI DSS 
-compliance* specifies that the card's CVC must be dropped. While this guarantees
-the security of the customer's card information, it can prevent some transactions
-from properly making it through. **Asking for the card's CVC code again** can help
-solve this issue.
+PCI DSS, the certification that allows platforms like ProcessOut to store card
+numbers in their systems, enforce the deletion of the cardholder CVC once an
+initial authorization is performed successfully. This means that although the first
+payment of your customer will contain the CVC, subsequent transactions won't be
+able to make use of it.  While this guarantees the security of the customer's 
+card information, it can prevent some transactions from properly being accepted by your users' banks. 
+**Asking for the card's CVC code again** can help solve this issue.
 
 <hr>
 
 ## Setting up
 
-Refreshing a CVC is very similar to [creating a card token &nearr;](/payments/processoutjs) using ProcessOut.js.
+Refreshing a CVC is very similar to [creating a card token &nearr;](/payments/processoutjs) using ProcessOut.js,
+the main difference being you'll re-use an already existing Card token to be refreshed.
 
 Let's first set up the form that'll be used to collect the CVC code. Similarly
-to payment fields, the CVC field isn't an actual input box, but only a div. 
+to payment fields, the CVC field isn't an actual input box, but only a `div`. 
 To ensure PCI-compliancy, ProcessOut hosts the credit card fields on its
 servers so no critical data ever touches your server and no XSS impacts your customer's
 security. 
