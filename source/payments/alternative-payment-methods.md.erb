@@ -212,16 +212,18 @@ curl https://api.processout.com/invoices \
     <%= partial "header-curl" %> \
     -d name="Awesome invoice" \
     -d amount="9.99" \
-    -d currency=USD
+    -d currency=USD \
+    -d return_url="https://www.super-merchant.com/return"
 ```
 
 ```javascript
 <%= partial "header-js" %>
 // Let's create an invoice
 client.newInvoice().create({
-    name:     "Amazing item",
-    amount:   "4.99",
-    currency: "USD"
+    name:       "Amazing item",
+    amount:     "4.99",
+    currency:   "USD",
+    return_url: "https://www.super-merchant.com/return"
 }).then(function(invoice) {
     //
 
@@ -235,9 +237,10 @@ client.newInvoice().create({
 <%= partial "header-python" %>
 # Let's create an invoice
 invoice = client.new_invoice().create({
-    "name":     "Amazing item",
-    "amount":   "4.99",
-    "currency": "USD"
+    "name":       "Amazing item",
+    "amount":     "4.99",
+    "currency":   "USD",
+    "return_url": "https://www.super-merchant.com/return"
 })
 ```
 
@@ -245,9 +248,10 @@ invoice = client.new_invoice().create({
 <%= partial "header-ruby" %>
 # Let's create an invoice
 invoice = client.invoice.create(
-    name:     "Amazing item",
-    amount:   "4.99",
-    currency: "USD"
+    name:       "Amazing item",
+    amount:     "4.99",
+    currency:   "USD",
+    return_url: "https://www.super-merchant.com/return"
 )
 ```
 
@@ -255,9 +259,10 @@ invoice = client.invoice.create(
 <%= partial "header-php" %>
 // Let's create an invoice
 $invoice = $client->newInvoice()->create(array(
-    "name"     => "Amazing item",
-    "amount"   => "4.99",
-    "currency" => "USD"
+    "name"       => "Amazing item",
+    "amount"     => "4.99",
+    "currency"   => "USD",
+    "return_url" => "https://www.super-merchant.com/return",
 ));
 ```
 
@@ -266,9 +271,10 @@ $invoice = $client->newInvoice()->create(array(
 // Let's create an invoice
 iv, err := client.NewInvoice().Create(processout.InvoiceCreateParameters{
     Invoice: &processout.Invoice{
-        Name:     processout.String("Amazing item"),
-        Amount:   processout.String("4.99"),
-        Currency: processout.String("USD"),
+        Name:      processout.String("Amazing item"),
+        Amount:    processout.String("4.99"),
+        Currency:  processout.String("USD"),
+        ReturnURL: processout.String("https://www.super-merchant.com/return"),
     },
 })
 if err != nil {
@@ -276,6 +282,7 @@ if err != nil {
 }
 ```
 </div>
+<div class="info-box">The `return_url` is not mandatory but highly suggested. In some browsers (Samsung Internet Browser, Facebook iOS SDK...), the callback to your existing page is not possible due to an incompatibility of this feature. The `return_url` will be used instead.</div>
 
 Now that we've created our Invoice, we can also set up a simple HTML `form`
 in which we'll inject the payment buttons for each APM. The form `action` URL
