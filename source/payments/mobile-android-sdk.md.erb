@@ -224,7 +224,7 @@ To do so, add an `intent-filter` to your payment activity like so:
 ```
 
 This will ensure that your app catches all the `your_app://processout.com` urls.
-Once done, you'll be able to retrieve the chargeable token :
+Once done, you'll be able to retrieve ProcessOut data from a return url:
 
 ```java
 @Override
@@ -234,12 +234,36 @@ protected void onCreate(Bundle savedInstanceState) {
 
     Intent intent = getIntent();
     Uri data = intent.getData();
-    if (data != null)
-        Log.d("PROCESSOUT", "TOKEN=" + data.getQueryParameter("token"));
+    if (data == null)
+        this.initiatePayment();
+    else {
+        // Check if the activity has been opened from ProcessOut
+        WebViewReturnAction returnAction = ProcessOut.handleProcessOutReturn(data);
+        if (returnAction == null) {
+            // Opening URI is not from ProcessOut
+        } else {
+            switch (returnAction.getType()) {
+                case APMAuthorization:
+                    // Value contains the APM token
+                    if (returnAction.isSuccess())
+                        Log.d("PROCESSOUT", returnAction.getValue());
+                    break;
+                case ThreeDSVerification:
+                    // Value contains the invoice_id
+                    if (returnAction.isSuccess())
+                        Log.d("PROCESSOUT", returnAction.getValue());
+                    break;
+            }
+        }
+    }
 }
 ```
 
-You should then send this token to your backend in order to complete the transaction.
+There a two cases where your app could be opened from a return URL:
+1- From an Alternative Payment Method authorization request in which case a APM token is returned
+2- From a ThreeDS1 check in which case the invoice ID is returned
+
+In either case you should send these information back to your backend to create the charge.
 
 ## Next steps
 
