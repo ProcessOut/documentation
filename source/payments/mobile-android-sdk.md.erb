@@ -261,7 +261,7 @@ protected void onCreate(Bundle savedInstanceState) {
 
 There a two cases where your app could be opened from a return URL:
 1- From an Alternative Payment Method authorization request in which case a APM token is returned
-2- From a ThreeDS1 check in which case the invoice ID is returned
+2- From a ThreeDS1 check in which case the invoice ID is returned (please note that even when performing a 3DS2 challenge, in some cases if the 3DS2 is not supported a fallback to 3DS1 will be performed.)
 
 In either case you should send these information back to your backend to create the charge.
 
