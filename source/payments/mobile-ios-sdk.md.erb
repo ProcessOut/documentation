@@ -200,25 +200,38 @@ Then, you'll be able to display your APM to your users using the `getRedirectURL
 
 
 You'll also need to handle your customers returning to your app in your app delegate.
-First of all, [register your app URL scheme](https://developer.apple.com/documentation/uikit/core_app/allowing_apps_and_websites_to_link_to_your_content/defining_a_custom_url_scheme_for_your_app).
+First of all, [register your app URL scheme](https://developer.apple.com/documentation/uikit/core_app/allowing_apps_and_websites_to_link_to_your_content/defining_a_custom_url_scheme_for_your_app). Please note that your URL scheme should be of the form: `yourapp://processout.return`
 Then you'll be able to handle web returns:
 
 ```swift
-// This method handles opening native URLs (e.g., "yourapp://")
+// This method handles opening native URLs (e.g., "yourapp://...")
 func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-    if let token = ProcessOut.handleURLCallback(url: url) {
-        print(token)
-        // You can now send this token to your backend to complete the charge
-        return true
+    if let processoutResult = ProcessOut.handleURLCallback(url: url) {
+        if processoutResult.success {
+            switch processoutResult.type {
+            case .APMAuthorization:
+                let token = processoutResult.value
+                // You can now send this token to your backend to complete the charge
+                break
+            case .ThreeDSResult:
+                let invoiceId = processoutResult.value
+                // Send the invoice ID to your backend to complete the charge
+            }
+        }
     } else {
-        // This was not a processout url
+        // This was not a processout url – do whatever url handling your app
+        // normally does, if any.
         return false
     }
+    return false
 }
 ```
 
-You should then send this token to your backend in order to complete the transaction.
+There are two cases where your app could be opened from a return URL:
+1- From an Alternative Payment Method authorization request in which case a APM token is returned
+2- From a ThreeDS1 check in which case the invoice ID is returned (please note that even when performing a 3DS2 challenge, in some cases if the 3DS2 is not supported a fallback to 3DS1 will be performed.)
 
+In either case you should send these information back to your backend to create the charge.
 
 ## Next steps
 
