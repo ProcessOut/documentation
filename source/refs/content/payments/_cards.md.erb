@@ -27,7 +27,7 @@ can ask your customers to update their payment details.
 <span class="console-font">**exp_year**</span><br />*string*<br />Read-only | Expiry year of the card
 <span class="console-font">**cvc_check**</span><br />*string*<br />Read-only | CVC check status. Can be `pending`, `unavailable`, `unknown`, `failed`, or `passed`
 <span class="console-font">**avs_check**</span><br />*string*<br />Read-only | AVS check status. Can be `pending`, `unavailable`, `unknown`, `failed`, `failed-name`, `failed-address`, `failed-postal`, `failed-address-passed-postal`, `failed-postal-passed-address`, or `passed`
-<span class="console-font">**name**</span><br />*string* | Cardholder name
+<span class="console-font">**name**</span><br />*string* | Cardholder name<br /><span style="opacity: 0.5">*Max 255 characters long*</span>
 <span class="console-font">**contact**</span><br />*CardContact* | Card contact attributes
 <span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the card, key-value pair (string - string)
 <span class="console-font">**sandbox**</span><br />*boolean*<br />Read-only |
@@ -36,12 +36,12 @@ can ask your customers to update their payment details.
 ##### Card contact Attributes
 |||
 --:|:--
-<span class="console-font">**address1**</span><br />*string* | Cardholder primary address line
-<span class="console-font">**address2**</span><br />*string* | Cardholder secondary address line
-<span class="console-font">**city**</span><br />*string* | Cardholder city
-<span class="console-font">**state**</span><br />*string* | Cardholder state
-<span class="console-font">**country_code**</span><br />*string* | Cardholder country
-<span class="console-font">**zip**</span><br />*string* | Cardholder zip
+<span class="console-font">**address1**</span><br />*string* | Cardholder primary address line<br /><span style="opacity: 0.5">*Max 255 characters long*</span>
+<span class="console-font">**address2**</span><br />*string* | Cardholder secondary address line<br /><span style="opacity: 0.5">*Max 255 characters long*</span>
+<span class="console-font">**city**</span><br />*string* | Cardholder city<br /><span style="opacity: 0.5">*Max 255 characters long*</span>
+<span class="console-font">**state**</span><br />*string* | Cardholder state<br /><span style="opacity: 0.5">*Max 255 characters long*</span>
+<span class="console-font">**country_code**</span><br />*string* | Cardholder country<br /><span style="opacity: 0.5">*Must be a valid ISO 3166 2 characters country code*</span>
+<span class="console-font">**zip**</span><br />*string* | Cardholder zip<br /><span style="opacity: 0.5">*Max 16 characters long*</span>
 
 ### Tokenize a card
 
@@ -93,27 +93,33 @@ curl -X GET https://api.processout.com/cards/card_1jSEVrx7oaRta1KEdxoMWbiGkK2Mij
 ```
 
 ```javascript
-// NodeJS is currently not supported for Cards
+<%= partial "header-js" %>
+client.newCard().find("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ").then(
+    function(card) {
+        //
+    }, function(err) {
+        // An error occured
+    });
 ```
 
 ```python
 <%= partial "header-python" %>
-# Python is currently not supported for Cards
+card = client.new_card().find("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ")
 ```
 
 ```ruby
 <%= partial "header-ruby" %>
-# Ruby is currently not supported for Cards
+card = client.card.find("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ")
 ```
 
 ```php
 <%= partial "header-php" %>
-// PHP is currently not supported for Cards
+$card = $client->newCard()->find("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ");
 ```
 
 ```go
 <%= partial "header-go" %>
-// Go is currently not supported for Cards
+card, err := client.NewCard().Find("card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ")
 ```
 
 Retrieve a card to fetch data stored earlier during a tokenization call.
