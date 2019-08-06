@@ -14,19 +14,20 @@ additional data if needed.
 <span class="console-font">**transactions**</span><br />*list of [Transactions](#transactions) expandable* | Transactions belonging to the customer (can be any transaction state)
 <span class="console-font">**balance**</span><br />*string* | Balance of the customer. This field is only used by the internal subscriptions engine to compute charges for plan changes- in most cases, do not update this field yourself
 <span class="console-font">**currency**</span><br />*string* | Currency of the customer balance- mostly automatically set by the internal subscriptions engine. Once set, it cannot be changed
-<span class="console-font">**email**</span><br />*string* | Customer's email
-<span class="console-font">**first_name**</span><br />*string* | First name of the customer
-<span class="console-font">**last_name**</span><br />*string* | Last name of the customer
-<span class="console-font">**address1**</span><br />*string* | Primary address line of the customer
-<span class="console-font">**address2**</span><br />*string* | Secondary address line of the customer
-<span class="console-font">**city**</span><br />*string* | City of the customer
-<span class="console-font">**state**</span><br />*string* | State of the customer
-<span class="console-font">**zip**</span><br />*string* | ZIP code of the customer
-<span class="console-font">**phone_number**</span><br />*string* | Phone number of the customer
-<span class="console-font">**legal_document**</span><br />*string* | Legal document number. Required in some countries. (example for a CPF document in Brazil: 853.513.468-93)
+<span class="console-font">**email**</span><br />*string* | Customer's email<br /><span style="opacity: 0.5">*Must be valid email*</span>
+<span class="console-font">**first_name**</span><br />*string* | First name of the customer<br /><span style="opacity: 0.5">*Max 80 characters long*</span>
+<span class="console-font">**last_name**</span><br />*string* | Last name of the customer<br /><span style="opacity: 0.5">*Max 80 characters long*</span>
+<span class="console-font">**address1**</span><br />*string* | Primary address line of the customer<br /><span style="opacity: 0.5">*Max 80 characters long*</span>
+<span class="console-font">**address2**</span><br />*string* | Secondary address line of the customer<br /><span style="opacity: 0.5">*Max 80 characters long*</span>
+<span class="console-font">**city**</span><br />*string* | City of the customer<br /><span style="opacity: 0.5">*Max 80 characters long*</span>
+<span class="console-font">**state**</span><br />*string* | State of the customer<br /><span style="opacity: 0.5">*Max 80 characters long*</span>
+<span class="console-font">**zip**</span><br />*string* | ZIP code of the customer<br /><span style="opacity: 0.5">*Max 16 characters long*</span>
+<span class="console-font">**phone_number**</span><br />*string* | Phone number of the customer<br /><span style="opacity: 0.5">*Max 16 characters long*</span>
+<span class="console-font">**legal_document**</span><br />*string* | Legal document number. Required in some countries<br /><span style="opacity: 0.5">*Max 255 characters long; example for a CPF document in Brazil: 853.513.468-93*</span>
+<span class="console-font">**ip_address**</span><br />*string* | IP address of the customer<br /><span style="opacity: 0.5">*Must be valid IP address*</span>
 <span class="console-font">**sex**</span><br />*string* | Sex of the customer. Can be `male` or `female`.
 <span class="console-font">**is_business**</span><br />*boolean* | Define whether or not the customer is a business
-<span class="console-font">**country_code**</span><br />*string* | Customer's address country code (ex: `US`, `FR`)
+<span class="console-font">**country_code**</span><br />*string* | Customer's address country code (ex: `US`, `FR`)<br /><span style="opacity: 0.5">*Must be a valid ISO 3166 2 characters country code*</span>
 <span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the customer, key-value pair (string - string)
 <span class="console-font">**sandbox**</span><br />*boolean*<br />Read-only |
 <span class="console-font">**created_at**</span><br />*RFC1123 date or timestamp*<br />Read-only |

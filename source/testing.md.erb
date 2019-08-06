@@ -84,10 +84,12 @@ the expiry date and CVC code of the cards will not be checked.
  | *Cards with 3-D Secure specific behaviour:*
 <div style="white-space: nowrap; color: #795da3;" class="console-font">4000 0000 0000 0101</div> | 3-D Secure supported and required on the card
 <div style="white-space: nowrap; color: #795da3;" class="console-font">4000 0000 0000 0119</div> | 3-D Secure not supported on the card
-<div style="white-space: nowrap; color: #795da3;" class="console-font">4000 0000 0000 0259</div> | 3-D Secure v2 supported by v1 not supported
-<div style="white-space: nowrap; color: #795da3;" class="console-font">4000 0000 0000 0259</div> | 3-D Secure v2 supported with frictionless (no fingerprint)
-<div style="white-space: nowrap; color: #795da3;" class="console-font">4000 0000 0000 0259</div> | 3-D Secure v2 supported with frictionless (with fingerprint)
-<div style="white-space: nowrap; color: #795da3;" class="console-font">4000 0000 0000 0259</div> | 3-D Secure v2 supported with fingerprint failing
+<div style="white-space: nowrap; color: #795da3;" class="console-font">4000 0000 0000 0259</div> | 3-D Secure v2 supported but v1 not supported
+<div style="white-space: nowrap; color: #795da3;" class="console-font">4000 0000 0000 3238</div> | 3-D Secure v2 not supported but v1 supported
+<div style="white-space: nowrap; color: #795da3;" class="console-font">4000 0000 0000 3055</div> | 3-D Secure v2 supported with frictionless (no fingerprint)
+<div style="white-space: nowrap; color: #795da3;" class="console-font">4000 0000 0000 3063</div> | 3-D Secure v2 supported with frictionless (with fingerprint)
+<div style="white-space: nowrap; color: #795da3;" class="console-font">4000 0000 0000 3220</div> | 3-D Secure v2 supported with fingerprint failing
+<div style="white-space: nowrap; color: #795da3;" class="console-font">4000 0000 0000 3253</div> | 3-D Secure v2 required for SCA, no authentication when Merchant Initiated Transaction
  | *Cards that will have a special behaviour:*
 <div style="white-space: nowrap; color: #795da3;" class="console-font">4000 0000 0000 0002</div> | The credit card will be denied
 <div style="white-space: nowrap; color: #795da3;" class="console-font">4000 0000 0000 0010</div> | The authorization on the card will be successful, but any capture will fail
