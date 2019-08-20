@@ -1,0 +1,290 @@
+---
+title: Save token and capture payments later
+---
+
+# Save a token to capture future payments
+
+While most e-commerce businesses handle one-off payments, you might need to
+ask for a customer's card and capture payments on it in the future (one, but
+also several if needed). This is done by tokenizing the card token created
+by [`ProcessOut.js` &nearr;](/payments/processoutjs).
+
+<hr>
+
+## Getting started
+
+Because tokens are specifically linked to one of your customers, you must first
+create a [`Customer` &nearr;](/refs/#customers) resource.
+
+## Step 1: Create a customer
+
+You can create any number of customer you may need. A customer object may be
+entirely empty, **but we strongly advise you to fill the object with as much
+data as you have**. This can help doing searches on your dashboard, but it also
+greatly **helps us when smart routing transactions related to this customer
+and decreases fraud risks**. You can find all the available Customer attributes
+[here &nearr;](/refs/#customers).
+
+The ID of the newly created customer should also be stored in your application
+or database so you can use it later.
+
+<div class="language-selector-wrapper">
+<%= partial "lg-selector" %>
+```shell
+curl -X POST https://api.processout.com/customers \
+    <%= partial "header-curl" %> \
+    -d first_name=John \
+    -d last_name=Smith \
+    -d currency=USD
+```
+
+```javascript
+<%= partial "header-js" %>
+var customer = client.newCustomer().create({
+    first_name: "John",
+    last_name:  "Smith",
+    currency:   "USD"
+}).then(function(customer) {
+    //
+
+}, function(err) {
+    // An error occured
+
+});
+```
+
+```python
+<%= partial "header-python" %>
+customer = client.new_customer().create({
+    "first_name": "John",
+    "last_name":  "Smith",
+    "currency":   "USD"
+})
+```
+
+```ruby
+<%= partial "header-ruby" %>
+customer = client.customer.create(
+    first_name: "John",
+    last_name:  "Smith",
+    currency:   "USD"
+)
+```
+
+```php
+<%= partial "header-php" %>
+$customer = $client->newCustomer()->create(array(
+    "first_name" => "John",
+    "last_name"  => "Smith",
+    "currency"   => "USD"
+));
+```
+
+```go
+<%= partial "header-go" %>
+cust, err := client.NewCustomer().Create(processout.CustomerCreateParameters{
+    Customer: &processout.Customer{
+        FirstName: processout.String("John"),
+        LastName:  processout.String("Smith"),
+        Currency:  processout.String("USD"),
+    },
+})
+```
+</div>
+
+**Note**: While the currency field is also optionnal, it will be automatically
+set to the currency of the first invoice your customer will pay. It is also
+immutable.
+
+## Step 2: Create a customer token
+
+Now that we have a customer object to work with, we can create tokens that'll
+belong to it. Customer tokens can be created from the ones returned by
+[`ProcessOut.js` &nearr;](/payments/processoutjs) and can be used any number of time. 
+
+<div class="language-selector-wrapper">
+<%= partial "lg-selector" %>
+```shell
+curl -X POST https://api.processout.com/customers/cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks/tokens \
+    <%= partial "header-curl" %>
+```
+
+```javascript
+<%= partial "header-js" %>
+client.newToken().create({
+    customer_id: "cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj"
+}).then(function(token) {
+    // 
+
+}, function(err) {
+    // An error occured
+
+});
+```
+
+```python
+<%= partial "header-python" %>
+token = client.new_token().create({
+    "customer_id": "cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj"
+})
+```
+
+```ruby
+<%= partial "header-ruby" %>
+token = client.token.create(
+    customer_id: "cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj"
+)
+```
+
+```php
+<%= partial "header-php" %>
+$token = $client->newToken()->create(array(
+    "customer_id" => "cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj"
+));
+```
+
+```go
+<%= partial "header-go" %>
+token, err := client.NewToken().Create(&processout.TokenCreateParameters{
+    Token: &processout.Token{
+        CustomerID: processout.String("cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj"),
+    },
+})
+```
+</div>
+
+## Step 3: Send Customer Token to front-end to finalize
+
+Now that a Customer Token is created, it still is in a pending state and 
+awaits an actual payment `source` to be assigned to it. Such payment source can
+for example be a `Card`. To link one, send the Customer Token ID to your
+front-end.
+
+```javascript
+function processoutCardTokenized(token) {
+    // make sure `invoiceID` generated from
+    // your backend is available in this scope
+    client.makeCardToken(card, customerID, customerTokenID, token, function(customerTokenID) {
+        var field   = document.createElement("input");
+        field.type  = "hidden";
+        field.name  = "customer_token_id";
+        field.value = customerTokenID;
+
+        // Enable back the button
+        document.getElementById("paymentBtn").disabled = false;
+
+        // We add the customer_token_id input so that it’s sent back to the server.
+        // The only thing left to do is to submit the form
+        formElement.appendChild(field);
+        formElement.submit();
+    }, function(err) {
+        document.getElementById("errors").innerHTML = err.message;
+    });
+}
+```
+
+## Step 3: Capture a payment using the customer token
+
+After having created a customer token, it is possible to use it to capture any 
+invoice of any amount at any given time. Simply pass along the Customer Token ID
+as the `source` when authorizing or capturing a transaction.
+
+<div class="info-box">If you're using the Customer Tokens to initiate one-click purchases of orders directly requested by the Customer (meaning, not automatically generated from your back-end for subscriptions or top-ups), these purchases might require SCA. <a href="/payments/payments-and-sca/">You can make use of ProcessOut.js to properly handle this case when necessary &nearr;.</a></div>
+
+<div class="language-selector-wrapper">
+<%= partial "lg-selector" %>
+```shell
+curl -X POST https://api.processout.com/invoices/iv_lEZFFcQg5WwpKcolBrlzioeeFnnuPmyE/capture \
+    <%= partial "header-curl" %> \
+    -d source=tok_fKK4btSG7wd13ZZaevzhMcuNbpjcu1Zy
+```
+
+```javascript
+<%= partial "header-js" %>
+invoice.capture("tok_fKK4btSG7wd13ZZaevzhMcuNbpjcu1Zy").then(
+    function(transaction) {
+        // 
+
+    }, function(err) {
+        // The invoice could not be captured
+    });
+```
+
+```python
+<%= partial "header-python" %>
+transaction = invoice.capture("tok_fKK4btSG7wd13ZZaevzhMcuNbpjcu1Zy")
+```
+
+```ruby
+<%= partial "header-ruby" %>
+transaction = invoice.capture("tok_fKK4btSG7wd13ZZaevzhMcuNbpjcu1Zy")
+```
+
+```php
+<%= partial "header-php" %>
+$transaction = $invoice->capture("tok_fKK4btSG7wd13ZZaevzhMcuNbpjcu1Zy");
+```
+
+```go
+<%= partial "header-go" %>
+tr, _ := iv.Capture("tok_fKK4btSG7wd13ZZaevzhMcuNbpjcu1Zy")
+```
+</div>
+
+## Listing and deleting customers' tokens
+
+Once you've stored a token for a customer, you might want to list them
+so you can show them to your customers, or delete them when your customers
+want to remove the payment method.
+
+<div class="language-selector-wrapper">
+<%= partial "lg-selector" %>
+```shell
+curl -X GET https://api.processout.com/customers/cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks/tokens \
+    <%= partial "header-curl" %>
+```
+
+```javascript
+<%= partial "header-js" %>
+customer.fetchTokens().then(
+    function(tokens) {
+        // And let's say our customer wants to remove its first token
+        tokens[0].delete(); 
+
+    }, function(err) {
+        // The customer's tokens could not be fetched
+    });
+```
+
+```python
+<%= partial "header-python" %>
+tokens = customer.fetch_tokens()
+
+# And let's say our customer wants to remove its first token
+tokens[0].delete()
+```
+
+```ruby
+<%= partial "header-ruby" %> 
+tokens = customer.fetch_tokens()
+
+# And let's say our customer wants to remove its first token
+tokens.first.delete
+```
+
+```php
+<%= partial "header-php" %>
+$tokens = $customer->fetchTokens();
+
+// And let's say our customer wants to remove its first token
+$tokens[0]->delete();
+```
+
+```go
+<%= partial "header-go" %>
+tok, _ := cust.FetchTokens()
+
+// And let's say our customer wants to remove its first token
+tok.Get().Delete()
+```
+</div>
