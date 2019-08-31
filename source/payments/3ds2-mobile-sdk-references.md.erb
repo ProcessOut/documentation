@@ -21,6 +21,8 @@ respective [Android &nearr;](/payments/mobile-android-sdk/#requirements) and
 
 ## Handle payment on an invoice
 
+### Initiate the payment
+
 Once you've created an Invoice in your backend and tokenized a card, you can
 initiate a payment on your mobile (iOS or Android) device. The ProcessOut SDK
 handles all the payment flow, including the potentially required authentication
@@ -38,7 +40,8 @@ ProcessOut.Setup(projectId: "<%= partial "projectID" %>")
 ProcessOut.makeCardPayment(
     "iv_tIWEiBcrXIFHzJeXcZzqyp8EpY0xwmuT", 
     "card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ", 
-    handler
+    handler,
+    with: self
 );
 ```
 
@@ -61,6 +64,70 @@ two different kinds of 3DS handlers during your integration:
 
 - 1— The test handler;
 - 2— The handler with the production 3DS SDK
+
+
+#### Confirm the payment in case of 3DS1 fallback
+
+<div class="language-selector-wrapper">
+<%= partial "lg-selector-mobile" %>
+```swift
+func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+    if let processoutResult = ProcessOut.handleURLCallback(url: url) {
+        if processoutResult.success {
+            switch processoutResult.type {
+            {...} // Other cases such as APM tokenization or 3DS1 callback
+            case .ThreeDSFallbackVerification:
+                ProcessOut.continueThreeDSVerification(invoiceId: processoutResult.invoideId, token: processoutResult.value, completion: {(invoiceId, error) in
+                    // If no error, send the invoice ID to your backend to complete the charge
+                })
+                break
+        }
+    } else {
+        // This was not a processout url – do whatever url handling your app
+        // normally does, if any.
+        return false
+    }
+    return false
+}
+```
+
+```java
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+
+    Intent intent = getIntent();
+    Uri data = intent.getData();
+    if (data == null)
+        this.initiatePayment();
+    else {
+        // Check if the activity has been opened from ProcessOut
+        WebViewReturnAction returnAction = ProcessOut.handleProcessOutReturn(data);
+        if (returnAction == null) {
+            // Opening URI is not from ProcessOut
+        } else {
+            switch (returnAction.getType()) {
+                {...} // Other cases such as APM tokenization or 3DS1 callback
+                case ThreeDSFallbackVerification:
+                    new ProcessOut(this, "project-id").continueThreeDSVerification(returnAction.getInvoiceId(), returnAction.getValue(), new ThreeDSVerificationCallback() {
+                        @Override
+                        public void onSuccess(String invoiceId) {
+                            // Invoice authorized, send the ID to your backend to capture the payment
+                        }
+                
+                        @Override
+                        public void onError(Exception error) {
+                            // Error
+                        }
+                    });
+                    break;
+            }
+        }
+    }
+}
+```
+</div>
 
 ## 1— The test handler
 
