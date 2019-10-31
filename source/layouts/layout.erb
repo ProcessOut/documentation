@@ -61,9 +61,12 @@
                 transition: text-shadow 0.025s ease-in-out;
                 color: #2c3e50;
             }
-            .main-content .menu-bar ul li a:hover {
+            .main-content .menu-bar ul li a:hover, .main-content .menu-bar ul li a.active {
                 text-shadow: 1px 0px 0px #2c3e50;
                 text-decoration: none;
+            }
+            .main-content .menu-bar ul li a.sub-item {
+                margin-left: 1.5em;
             }
 
             .main-content .content {
@@ -144,17 +147,18 @@
                 background: none; border: none;
                 font-weight: 600;
             }
-            .main-content .language-selector, .main-content .language-selector-preview, .main-content .language-selector-mobile {
+            .main-content .language-selector, .main-content .language-selector-preview, .main-content .language-selector-mobile, .main-content .language-selector-front {
                 margin-bottom: 0.25em;
             }
-            .main-content .language-selector a, .main-content .language-selector-preview a, .main-content .language-selector-mobile a {
+            .main-content .language-selector a, .main-content .language-selector-preview a, .main-content .language-selector-mobile a, .main-content .language-selector-front a {
                 padding-right: 1em;
                 color: #1abc9c;
                 opacity: 0.6;
             }
             .main-content .language-selector a.selected, .main-content .language-selector a:hover,
             .main-content .language-selector-preview a.selected, .main-content .language-selector-preview a:hover,
-            .main-content .language-selector-mobile a.selected, .main-content .language-selector-mobile a:hover {
+            .main-content .language-selector-mobile a.selected, .main-content .language-selector-mobile a:hover,
+            .main-content .language-selector-front a.selected, .main-content .language-selector-front a:hover {
                 font-weight: 600;
             }
             .main-content .footer {
@@ -245,6 +249,9 @@
                 if (!getCookie("selected-language-mobile")) {
                     setCookie("selected-language-mobile", "swift", 7);
                 }
+                if (!getCookie("selected-language-front")) {
+                    setCookie("selected-language-front", "javascript", 7);
+                }
 
                 function refreshSelectors() {
                     $(".language-selector").each(function() {
@@ -274,6 +281,15 @@
                         $(this).parent(".language-selector-wrapper").find(
                             ".highlight."+getCookie("selected-language-mobile")).parent().removeClass("hide");
                     });
+                    $(".language-selector-front").each(function() {
+                        $(this).find("a").removeClass("selected");
+                        $(this).find("a[data-language="+getCookie("selected-language-front")+"]").addClass("selected");
+
+                        $(this).parent(".language-selector-wrapper").find(
+                            ".highlight").parent().addClass("hide");
+                        $(this).parent(".language-selector-wrapper").find(
+                            ".highlight."+getCookie("selected-language-front")).parent().removeClass("hide");
+                    });
                 };
                 refreshSelectors();
 
@@ -301,8 +317,16 @@
 
                     return false;
                 });
+                $(".language-selector-front a").click(function() {
+                    setCookie("selected-language-front", $(this).attr("data-language"), 7);
+                    var curOffset = $(this).offset().top - $(document).scrollTop();
+                    refreshSelectors();
+                    $(document).scrollTop($(this).offset().top-curOffset);
 
-                $(".main-content .content a").not(".language-selector a").not(".language-selector-preview a").not(".language-selector-mobile a").not("a.no-redirect").click(function() {
+                    return false;
+                });
+
+                $(".main-content .content a").not(".language-selector a").not(".language-selector-preview a").not(".language-selector-mobile a").not(".language-selector-front a").not("a.no-redirect").click(function() {
                     if ($(this).attr("href").charAt(0) == '#') {
                         return true;
                     }
@@ -351,37 +375,38 @@
 
                         <div class="category-title">Welcome</div>
                         <ul class="no-bullet">
-                            <li><%= link_to 'Home', '/index.html' %></li> 
-                            <li><%= link_to 'Getting started', '/getting-started.html' %></li>
-                            <li><%= link_to 'Migrating to ProcessOut', '/migrating-to-processout.html' %></li>
-                            <li><%= link_to 'Testing', '/testing.html' %></li>
-                            <li><%= link_to 'Error codes', '/payments/error-codes.html' %></li>
+                            <li><%= active_link_to 'Home', '/' %></li> 
+                            <li><%= active_link_to 'Getting started', '/getting-started/' %></li>
+                            <li><%= active_link_to 'Migrating to ProcessOut', '/migrating-to-processout/' %></li>
+                            <li><%= active_link_to 'Testing', '/testing/' %></li>
+                            <li><%= active_link_to 'Error codes', '/payments/error-codes/' %></li>
                         </ul>
 
                         <div class="category-title">Accept payments</div>
                         <ul class="no-bullet">
-                            <li><%= link_to 'Accepting payments, SCA-ready', '/payments/payments-and-sca.html' %></li>
-                            <li><%= link_to 'Save token and capture later', '/payments/save-token-and-capture-later.html' %></li>
-                            <li><%= link_to 'ProcessOut.js reference', '/payments/processoutjs.html' %></li>
-                            <li><%= link_to '3DS2 mobile SDK reference', '/payments/3ds2-mobile-sdk-references.html' %></li>
-                            <li><%= link_to 'iOS SDK', '/payments/mobile-ios-sdk.html' %></li>
-                            <li><%= link_to 'Android SDK', '/payments/mobile-android-sdk.html' %></li>
+                            <li><%= active_link_to 'Accepting payments, SCA-ready', '/payments/payments-and-sca/' %></li>
+                            <li><%= active_link_to 'Save token and capture later', '/payments/save-token-and-capture-later/' %></li>
+                            <li><%= active_link_to 'ProcessOut.js reference', '/payments/processoutjs-reference/' %></li>
+                            <li><%= active_link_to 'iOS and Android SDKs reference', '/payments/mobile-sdks-reference/' %></li>
                         </ul>
                         <ul class="no-bullet">
-                            <li><%= link_to 'Capture a payment', '/payments/capture-a-payment.html' %></li>
-                            <li><%= link_to 'CVC and AVS checks', '/payments/cvc-and-avs-checks-results.html' %></li>
+                            <li><%= active_link_to 'Alternative payment methods', '/payments/alternative-payment-methods/' %></li>
+                            <li><%= active_link_to 'Tokenize APMs', '/payments/alternative-payment-methods-tokenize/' %></li>
                         </ul>
                         <ul class="no-bullet">
-                            <li><%= link_to 'Apple Pay', '/payments/applepay.html' %></li>
-                            <li><%= link_to 'Alternative payment methods', '/payments/alternative-payment-methods.html' %></li>
-                            <li><%= link_to 'Refresh a card\'s CVC', '/payments/refresh-card-cvc.html' %></li>
+                            <li><%= active_link_to 'Capture a payment', '/payments/capture-a-payment/' %></li>
+                            <li><%= active_link_to 'CVC and AVS checks', '/payments/cvc-and-avs-checks-results/' %></li>
+                        </ul>
+                        <ul class="no-bullet">
+                            <li><%= active_link_to 'Apple Pay', '/payments/applepay/' %></li>
+                            <li><%= active_link_to 'Refresh a card\'s CVC', '/payments/refresh-card-cvc/' %></li>
                         </ul>
 
                         <div class="category-title">Monitor and manage</div>
                         <ul class="no-bullet">
-                            <li><%= link_to 'Status changes and webhooks', '/payments/handle-status-changes-webhooks.html' %></li>
-                            <li><%= link_to 'Issue a refund', '/payments/issue-a-refund.html' %></li>
-                            <li><%= link_to 'Dashboard permissions', '/payments/dashboard-permissions.html' %></li>
+                            <li><%= active_link_to 'Status changes and webhooks', '/payments/handle-status-changes-webhooks/' %></li>
+                            <li><%= active_link_to 'Issue a refund', '/payments/issue-a-refund/' %></li>
+                            <li><%= active_link_to 'Dashboard permissions', '/payments/dashboard-permissions/' %></li>
                         </ul>
                     </div>
                     <div class="medium-9 columns content">

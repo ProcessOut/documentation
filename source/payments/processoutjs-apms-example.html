@@ -139,8 +139,9 @@
             function processoutAPMsReady(confs) {
 				document.getElementById("loading").className = "hidden";
                 var formWrapper = document.getElementById("apms-form");
-                for (var conf of confs) {
-                    var el = document.createElement("div");
+                for (var i = 0; i < confs.length; i++) {
+					var conf = confs[i];
+                    var el   = document.createElement("div");
                     el.className = "button";
                     el.innerHTML = "Pay with " + conf.gateway.display_name;
 

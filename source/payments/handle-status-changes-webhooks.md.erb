@@ -42,14 +42,16 @@ You may find the list of all the available transaction's statuses below:
 <div style="white-space: nowrap; color: #795da3;" class="console-font">waiting</div> | No payment has been placed yet
 <div style="white-space: nowrap; color: #795da3;" class="console-font">pending</div> | The payment is pending confirmation by the payment gateway
 <div style="white-space: nowrap; color: #795da3;" class="console-font">authorized</div>   | The payment was authorized but not yet captured
+<div style="white-space: nowrap; color: #795da3;" class="console-font">pending-capture</div>   | The payment gateway initiated a capture, but it wasn't confirmed yet
 <div style="white-space: nowrap; color: #795da3;" class="console-font">completed</div>   | The payment was sucessfully completed
 <div style="white-space: nowrap; color: #795da3;" class="console-font">failed</div> | The payment has been placed, but failed
 <div style="white-space: nowrap; color: #795da3;" class="console-font">voided</div> | The payment was voided
 <div style="white-space: nowrap; color: #795da3;" class="console-font">disputed</div> | The payment was previously completed but the customer filled a dispute
 <div style="white-space: nowrap; color: #795da3;" class="console-font">solved</div> | The previous dispute has been resolved in your favor
 <div style="white-space: nowrap; color: #795da3;" class="console-font">reversed</div> | The previous dispute has been resolved in your customer’s favor
-<div style="white-space: nowrap; color: #795da3;" class="console-font">partially-refunded</div> | The transaction was partially refunded
-<div style="white-space: nowrap; color: #795da3;" class="console-font">refunded</div> | The transaction was refunded
+<div style="white-space: nowrap; color: #795da3;" class="console-font">refunded</div> | The transaction was refunded (totally or partially)
+<div style="white-space: nowrap; color: #795da3;" class="console-font">in-review</div> | The transaction is pending fraud review
+<div style="white-space: nowrap; color: #795da3;" class="console-font">blocked</div> | The transaction was blocked by your blocking rules & by a fraud review
 
 ## Handling webhooks & status changes
 

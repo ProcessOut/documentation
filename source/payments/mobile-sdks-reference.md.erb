@@ -1,135 +1,109 @@
 ---
-title: 3DS2 mobile SDKs References
+title: "iOS/Swift and Android SDKs reference"
 ---
 
-# 3DS2 mobile SDKs References
+# iOS/Swift and Android SDKs reference
 
-With the new 3-D Secure 2 specifications released by EMVCo (the consortium 
-composed of Visa, Mastercard, Amex and most card schemes), 3DS2 SDKs are 
-normalized with common interfaces. ProcessOut therefore embraces these new 
-principles and allows merchants to use the SDKs they want, working in a “bring 
-your own SDK” fashion.
-
-If you're not yet familiar with 3DS2 and SCA, and what these involve from a technical
-point of view, we advise you [read our guide first &nearr;](/payments/payments-and-sca/).
-
-You can find additional information on how to set up our mobile SDKs on their
-respective [Android &nearr;](/payments/mobile-android-sdk/#requirements) and 
-[iOS &nearr;](/payments/mobile-ios-sdk/#requirements) SDKs.
+The easiest way to start accepting payments on mobile devices using ProcessOut
+is to use the ProcessOut mobile SDKs.
+The SDKs will take care of tokenizing your customers' card numbers, so that
+you can send those generated tokens to your backend and [process payments &nearr;](/payments/capture-a-payment).
 
 <hr>
 
-## Handle payment on an invoice
+## Set up the mobile SDK in your app
 
-### Initiate the payment
-
-Once you've created an Invoice in your backend and tokenized a card, you can
-initiate a payment on your mobile (iOS or Android) device. The ProcessOut SDK
-handles all the payment flow, including the potentially required authentication
-steps.
-
-The most basic payment call on mobile is as follows:
+Let's first make sure the ProcessOut SDK is installed and set up on your mobile application.
 
 <div class="language-selector-wrapper">
 <%= partial "lg-selector-mobile" %>
 ```swift
-// In your AppDelegate, configure the ProcessOut iOS SDK:
-ProcessOut.Setup(projectId: "<%= partial "projectID" %>")
+// The ProcessOut iOS SDK is available on *iOS 8.0+*, 
+// through http://cocoapods.org/.
+//
+// To install it,  simply add the following line to your Podfile:
+//   pod 'ProcessOut'
+// And then run `pod install`.
 
-// When you want to initiate a payment, call makeCardPayment
-ProcessOut.makeCardPayment(
-    "iv_tIWEiBcrXIFHzJeXcZzqyp8EpY0xwmuT", 
-    "card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ", 
-    handler,
-    with: self
-);
+// Once installed, in your AppDelegate, configure the ProcessOut iOS SDK:
+ProcessOut.Setup(projectId: "<%= partial "projectID" %>")
 ```
 
 ```java
+// The ProcessOut Android SDK is available on *Android SDK 14+*, 
+// through Jitpack.
+//
+// To install it,  simply add the following line to
+// your build file, under the repositories section:
+//   maven { url 'https://jitpack.io' }
+// as well as the following dependency in your build.gradle file:
+//   compile 'com.github.processout:processout-android:2.+'
+
+// You’ll then be able to import Processout in your code base and 
+// configure the SDK with your ProcessOut API credentials.
 final ProcessOut client = new ProcessOut(
     this, 
     "<%= partial "projectID" %>"
 );
-client.makeCardPayment(
-    "iv_tIWEiBcrXIFHzJeXcZzqyp8EpY0xwmuT", 
-    "card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ", 
-    handler
-);
 ```
 </div>
 
-`handler` is the 3DS handler that'll be used to execute the fingerprinting and
-challenge steps during the 3DS authentication. Generally, you'll work with
-two different kinds of 3DS handlers during your integration:
+## Tokenize a card
 
-- 1— The test handler;
-- 2— The handler with the production 3DS SDK
-
-
-#### Confirm the payment in case of 3DS1 fallback
+Once all set up, you'll be able to tokenize the card numbers. The returned
+token is a simple `string`.
 
 <div class="language-selector-wrapper">
 <%= partial "lg-selector-mobile" %>
 ```swift
-func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-    if let processoutResult = ProcessOut.handleURLCallback(url: url) {
-        if processoutResult.success {
-            switch processoutResult.type {
-            {...} // Other cases such as APM tokenization or 3DS1 callback
-            case .ThreeDSFallbackVerification:
-                ProcessOut.continueThreeDSVerification(invoiceId: processoutResult.invoideId, token: processoutResult.value, completion: {(invoiceId, error) in
-                    // If no error, send the invoice ID to your backend to complete the charge
-                })
-                break
+// First create a card object containing the card details
+let card = ProcessOut.Card(cardNumber: "4242424242424242", expMonth: 11, expYear: 19, cvc: nil, name: "NAME")
+
+// And then send the card data to ProcessOut to tokenize
+ProcessOut.Tokenize(card: card, metadata: [:], completion: {(token, error) -> Void in
+    if error != nil {
+        switch error! {
+        case .BadRequest(let message, let code):
+            print(message, code)
+        case .InternalError:
+            print("An internal error occured")
+        case .MissingProjectId:
+            print("Check your app delegate file")
+        case .NetworkError:
+            print("Request could not go through")
         }
     } else {
-        // This was not a processout url – do whatever url handling your app
-        // normally does, if any.
-        return false
+        // Send token to your backend to charge the customer
+        print(token!)
     }
-    return false
-}
+})
 ```
 
 ```java
-@Override
-protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
+// First create a card object containing the card details
+Card card = new Card("Jeremy lejoux", "4242424242424242", 11, 19, "123");
 
-    Intent intent = getIntent();
-    Uri data = intent.getData();
-    if (data == null)
-        this.initiatePayment();
-    else {
-        // Check if the activity has been opened from ProcessOut
-        WebViewReturnAction returnAction = ProcessOut.handleProcessOutReturn(data);
-        if (returnAction == null) {
-            // Opening URI is not from ProcessOut
-        } else {
-            switch (returnAction.getType()) {
-                {...} // Other cases such as APM tokenization or 3DS1 callback
-                case ThreeDSFallbackVerification:
-                    new ProcessOut(this, "project-id").continueThreeDSVerification(returnAction.getInvoiceId(), returnAction.getValue(), new ThreeDSVerificationCallback() {
-                        @Override
-                        public void onSuccess(String invoiceId) {
-                            // Invoice authorized, send the ID to your backend to capture the payment
-                        }
-                
-                        @Override
-                        public void onError(Exception error) {
-                            // Error
-                        }
-                    });
-                    break;
-            }
-        }
+// And then send the card data to ProcessOut to tokenize
+client.tokenize(card, new TokenCallback() {
+    @Override
+    public void onSuccess(String token) {
+        // Send the card token to your backend for charging
     }
-}
+
+    @Override
+    public void onError(Exception error) {
+        Log.e("ProcessOut", error.toString());
+    }
+});
 ```
 </div>
 
-## 1— The test handler
+## 3DS2 handlers
+
+3DS2 handlers are native elements that allow you to implement 3DS2 in your application
+while giving the best experience to your customers.
+
+### 1— The test handler
 
 The test handler is very simple: it simply emulates the 3DS authentication
 flow without having the make actual calls to ACS servers (servers of the banks
@@ -179,7 +153,7 @@ and can also be used to mock tests in your application.
 Once you chose to deploy your mobile application to production, you can then
 start using the official 3DS SDKs from your 3DS Server partners.
 
-## 2— The handler with the production 3DS SDK
+### 2— The handler with the production 3DS SDK
 
 As mentioned previously, the ProcessOut 3DS2 SDK works in a "bring your own SDK" manner.
 Most 3DS Server providers/partners will provide you with their own certified SDKs, 
@@ -189,7 +163,7 @@ To help in the process, you can find below the 3DS SDKs we officially support:
 
 - [Adyen](#2.1%E2%80%94-adyen)
 
-### 2.1— Adyen
+#### 2.1— Adyen
 
 The below code implements the ProcessOut 3DS2 SDK using Adyen's certified SDK.
 

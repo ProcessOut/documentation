@@ -21,7 +21,7 @@ activate :directory_indexes
 
 # This is needed for Github pages, since they're hosted on a subdomain
 activate :relative_assets
-set :relative_links, true
+# set :relative_links, true
 
 # Build-specific configuration
 configure :build do
@@ -39,4 +39,12 @@ configure :build do
 
   # Or use a different image path
   # set :http_prefix, "/Content/images/"
+end
+
+helpers do
+  def active_link_to(link_text, url, options = {})
+    options[:class] ||= ""
+    options[:class] << " active" if url == current_page.url
+    link_to(link_text, url, options)
+  end
 end

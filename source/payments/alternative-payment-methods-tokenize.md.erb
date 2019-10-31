@@ -1,0 +1,375 @@
+---
+title: Tokenize an alertnative payment method like PayPal
+---
+
+# Tokenize an alternative payment method
+
+Additionnally to simply accepting payments through alternative methods— such as
+local ones as iDeal, Oxxo or Alipay— ProcessOut also allows you to tokenize
+some of these payment methods to enable future one-click purchases.
+
+<hr>
+
+## APM tokenization flow
+
+Similarly to [simple payments on APMs](/payments/alternative-payment-methods/),
+ProcessOut SDKs also allow to merchants to let merchants keep control of their
+customer flow, **even after a redirection**. The customer is transparently
+redirected to the payment method's payment page in a new window, and once
+the payment is completed, the alternative payment method's window is closed
+and the original merchant payment page is notified of the payment via Javascript on the
+web, or the customer is returned back to the app on mobile.
+
+<div>
+<span style="color: #1abc9c; opacity: 0.6; font-weight: 700; margin-bottom: 0.25em;">Preview</span>
+<div class="highlight preview">
+<script src="/javascripts/iframeSizer.min.js"></script>
+<iframe src="/payments/processoutjs-apms-tokenization-example" frameborder="0" width="100%" class="rounded shadowed" id="processoutjs-example" style="min-height: 270px"></iframe>
+<script>iFrameResize({heightCalculationMethod: "max"}, '#processoutjs-example')</script>
+</div>
+</div>
+
+## Create a customer & initialize an empty token
+
+Before showing the tokenization methods to the customer, we'll first need to
+create a [`Customer` &nearr;](/refs/#customers) and a [`Customer Token` &nearr;](/refs/#tokens) 
+that'll be used to store the payment details.
+
+<div class="language-selector-wrapper">
+<%= partial "lg-selector" %>
+```shell
+curl -X POST https://api.processout.com/customers \
+    <%= partial "header-curl" %> \
+    -d first_name=John \
+    -d last_name=Smith \
+    -d currency=USD
+```
+
+```javascript
+<%= partial "header-js" %>
+var customer = client.newCustomer().create({
+    first_name: "John",
+    last_name:  "Smith",
+    currency:   "USD"
+}).then(function(customer) {
+    //
+
+}, function(err) {
+    // An error occured
+
+});
+```
+
+```python
+<%= partial "header-python" %>
+customer = client.new_customer().create({
+    "first_name": "John",
+    "last_name":  "Smith",
+    "currency":   "USD"
+})
+```
+
+```ruby
+<%= partial "header-ruby" %>
+customer = client.customer.create(
+    first_name: "John",
+    last_name:  "Smith",
+    currency:   "USD"
+)
+```
+
+```php
+<%= partial "header-php" %>
+$customer = $client->newCustomer()->create(array(
+    "first_name" => "John",
+    "last_name"  => "Smith",
+    "currency"   => "USD"
+));
+```
+
+```go
+<%= partial "header-go" %>
+cust, err := client.NewCustomer().Create(processout.CustomerCreateParameters{
+    Customer: &processout.Customer{
+        FirstName: processout.String("John"),
+        LastName:  processout.String("Smith"),
+        Currency:  processout.String("USD"),
+    },
+})
+```
+</div>
+
+**Note**: While the currency field is also optionnal, it will be automatically
+set to the currency of the first invoice your customer will pay. It is also
+immutable.
+
+As we mentioned earlier, let's also initialize an empty [`Customer Token` &nearr;](/refs/#tokens) that
+will store the tokenized payment method for future billing. As the Token
+will remain empty until final tokenization, we do not need to pass any source
+to it yet, we only need to link it to a previously created Customer.
+
+<div class="language-selector-wrapper">
+<%= partial "lg-selector" %>
+```shell
+curl -X POST https://api.processout.com/customers/cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks/tokens \
+    <%= partial "header-curl" %> \
+    -d return_url="https://www.super-merchant.com/return" \
+    # or, if you're integrating on mobile:
+    -d return_url="yourapp://processout.return"
+```
+
+```javascript
+<%= partial "header-js" %>
+client.newToken().create({
+    customer_id: "cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
+    return_url:  "https://www.super-merchant.com/return",
+    // Or, if you're integrating on mobile:
+    return_url: "yourapp://processout.return"
+}).then(function(token) {
+    // 
+
+}, function(err) {
+    // An error occured
+
+});
+```
+
+```python
+<%= partial "header-python" %>
+token = client.new_token().create({
+    "customer_id": "cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
+    "return_url":  "https://www.super-merchant.com/return",
+    # Or, if you're integrating on mobile:
+    "return_url": "yourapp://processout.return"
+})
+```
+
+```ruby
+<%= partial "header-ruby" %>
+token = client.token.create(
+    customer_id: "cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
+    return_url:  "https://www.super-merchant.com/return",
+    # Or, if you're integrating on mobile:
+    return_url: "yourapp://processout.return"
+)
+```
+
+```php
+<%= partial "header-php" %>
+$token = $client->newToken()->create(array(
+    "customer_id" => "cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
+    "return_url"  => "https://www.super-merchant.com/return",
+    // Or, if you're integrating on mobile:
+    "return_url" => "yourapp://processout.return",
+));
+```
+
+```go
+<%= partial "header-go" %>
+token, err := client.NewToken().Create(&processout.TokenCreateParameters{
+    Token: &processout.Token{
+        CustomerID: processout.String("cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj"),
+        ReturnURL:  processout.String("https://www.super-merchant.com/return"),
+        // Or, if you're integrating on mobile:
+        ReturnURL: processout.String("yourapp://processout.return"),
+    },
+})
+```
+</div>
+<div class="info-box">On the web, the `return_url` is not mandatory but highly suggested. In some browsers (Samsung Internet Browser and Facebook iOS (Messenger, Instagram...)), the callback to your existing page is not possible due to an incompatibility of this feature.<br />The `return_url` is mandatory on mobile integrations, or your users might not able to be redirected back to your application.</div>
+
+## Fetch available APMs and redirect
+
+As ProcessOut provides a fully dynamic implementation of alternative payment
+methods, our SDKs allow you to dynamically fetch the available ones so you can
+display dynamic payment links to your customers.
+
+<div class="language-selector-wrapper">
+<%= partial "lg-selector-front" %>
+```javascript
+client.fetchGatewayConfigurations({
+  customerID: "cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
+  tokenID:    "tok_fKK4btSG7wd13ZZaevzhMcuNbpjcu1Zy",
+  filter:     "alternative-payment-methods-with-tokenization"
+}, processoutAPMsReady, function(err) {
+  console.log("Woops, couldn't fetch APMs: "+err);
+});
+
+function processoutAPMsReady(confs) {
+  var formWrapper = document.getElementById("apms-payment-form");
+  for (var conf of confs) {
+    var el = document.createElement("div");
+    el.className = "my-apm-link";
+    el.innerHTML = "Save payment details with " + conf.gateway.display_name;
+
+    // Inject our APM element in the form
+    formWrapper.appendChild(el);
+
+    el.addEventListener("click", function() {
+      // The user clicked on the tokenization button, let's 
+      // redirect
+      conf.handleCustomerTokenAction(function(token) {
+        // The customer completed the gateway tokenization flow,
+        // we can send the token back to our backend to finish the flow
+        var field   = document.createElement("input");
+        field.type  = "hidden";
+        field.name  = "token";
+        field.value = token;
+        formWrapper.appendChild(field);
+        formWrapper.submit();
+
+      }, function(err) {
+
+        // An error occured during tokenization. This could just be the
+        // customer that canceled the tokenization, or an error with
+        // the payment gateway.
+        alert(err);
+      });
+    });
+  }
+}
+```
+
+```swift
+// In your application, list all the available APMs for display:
+client.fetchGatewayConfigurations(filter: .AlternativePaymentMethodWithTokenization) { (gateways, error) in
+  // Iterate over the available gateways and display the ones
+  // you want in your UI. Once a user choses one, execute the
+  // `makeAPMToken` call below to redirect your user:
+  client.makeAPMToken(
+    gateway:    gateways![0], 
+    customerId: "cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj", 
+    tokenId:    "tok_fKK4btSG7wd13ZZaevzhMcuNbpjcu1Zy",
+  )
+}
+
+// Additionally to the above, register the AppDelegate to handle
+// the user return:
+func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+  if let apmReturn = ProcessOut.handleAPMURLCallback(url: url) {
+    guard apmReturn.error == nil else {
+      // Error while parsing the URL
+      return false
+    }
+
+    switch apmReturn.returnType {
+    case .CreateToken:
+      // Call backend to update the customer token with:
+      //  - customerId: apmReturn.customerId
+      //  - tokenId: apmReturn.tokenId
+      //  - source: apmReturn.token
+      break
+    }
+  }
+  return false
+}
+```
+
+```java
+// In your application, list all the available APMs for display:
+p.fetchGatewayConfigurations(ProcessOut.GatewaysListingFilter.AlternativePaymentMethod, new FetchGatewaysConfigurationsCallback() {
+  @Override
+  public void onSuccess(ArrayList<GatewayConfiguration> gateways) {
+    // Iterate over the available gateways and display the ones
+    // you want in your UI. Once a user choses one, execute the
+    // `makeAPMToken` call below to redirect your user:
+    p.makeAPMToken(
+      gateways.get(0),
+      "cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
+      "tok_fKK4btSG7wd13ZZaevzhMcuNbpjcu1Zy"
+    );
+  }
+
+  @Override
+  public void onError(Exception e) {
+    Log.e("PROCESSOUT", e.toString());
+  }
+});
+
+// Additionally to the above, add the user return in your 
+// `onCreate` method of the `Activity`:
+public class MainActivity extends AppCompatActivity {
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+
+    // Check if we're landing back with a URL in our intent
+    Intent intent = getIntent();
+    Uri data = intent.getData();
+    if (data == null) {
+      return;
+    }
+    ProcessOut p = new ProcessOut(this,  <%= partial "projectID" %>);
+    APMTokenReturn apmReturn = p.handleAMPURLCallback(data);
+    if (apmReturn == null) {
+      return;
+    }
+
+    switch (apmReturn.getType()) {
+      case TokenCreation:
+        // Call backend to update the customer token with:
+        //  - customerId: apmReturn.getCustomerId()
+        //  - tokenId: apmReturn.getTokenId()
+        //  - source: apmReturn.getToken()
+        break;
+    }
+  }
+}
+```
+</div>
+
+## Finish the tokenization on the server
+
+`ProcessOut.js` sent the `token` back to our server so we need to validate
+its tokenization. We'll need both the `token`, the `customer ID`, and the `token ID` 
+we created earlier and used to redirect the customer.
+
+<div class="language-selector-wrapper">
+<%= partial "lg-selector" %>
+```shell
+curl https://api.processout.com/invoices/iv_tIWEiBcrXIFHzJeXcZzqyp8EpY0xwmuT/capture \
+    <%= partial "header-curl" %> \
+    -d source="gway_req_V2UncmUgaGlyaW5nIQ=="
+```
+
+```javascript
+<%= partial "header-js" %>
+invoice.capture("gway_req_V2UncmUgaGlyaW5nIQ==").then(
+    function(transaction) {
+        //
+
+    }, function(err) {
+        // The invoice could not be captured
+    });
+```
+
+```python
+<%= partial "header-python" %>
+transaction = invoice.capture("gway_req_V2UncmUgaGlyaW5nIQ==")
+```
+
+```ruby
+<%= partial "header-ruby" %>
+transaction = invoice.capture("gway_req_V2UncmUgaGlyaW5nIQ==")
+```
+
+```php
+<%= partial "header-php" %>
+$transaction = $invoice->capture("gway_req_V2UncmUgaGlyaW5nIQ==");
+```
+
+```go
+<%= partial "header-go" %>
+tr, _ := iv.Capture("gway_req_V2UncmUgaGlyaW5nIQ==")
+```
+</div>
+
+**Note**: The gateway request token sent by `ProcessOut.js` is actually only
+an abstraction of the request done by the customer on the gateway. The content
+of the token is therefore directly encoded inside it, in base64.
+
+The final token call should return the Token object. Upon return, it should
+have its attribute `is_chargeable` set to true. We highly recommend that you
+check the field to make sure that the Token can in fact be used to place future
+payments.

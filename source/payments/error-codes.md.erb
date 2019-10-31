@@ -38,6 +38,7 @@ represent transactions that shouldn't be retried at all.
  | *Soft declines:*
 <div style="white-space: nowrap; color: #795da3;" class="console-font">payment.declined</div> | The payment was declined, but no further information was returned
 <div style="white-space: nowrap; color: #795da3;" class="console-font">gateway.declined</div> | The gateway that attempted to process the payment returned a generic decline. This can be caused by validation errors, fraud prevention tool or other specific errors.
+<div style="white-space: nowrap; color: #795da3;" class="console-font">card.needs-authentication</div> | The card requires a 3DS authentication to be performed, for example in the scope of 3DS2/SCA
 <div style="white-space: nowrap; color: #795da3;" class="console-font">card.declined</div> | Similarly to payment.declined, the card payment was declined with no further information
 <div style="white-space: nowrap; color: #795da3;" class="console-font">card.do-not-honor</div> | Do Not Honor is the default error code sent by bank, without any additional information
 <div style="white-space: nowrap; color: #795da3;" class="console-font">card.no-action-taken</div> | No action was done by the payment provider, and should be retried
