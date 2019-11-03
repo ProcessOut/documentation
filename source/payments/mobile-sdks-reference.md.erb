@@ -176,6 +176,11 @@ import Adyen3DS2
 class AdyenThreeDSHandler: ThreeDSHandler {
     var transaction: ADYTransaction?
 
+    public func doPresentWebView(webView: ProcessOutWebView) {
+        // Called when a web challenge is required. Present 
+        // the webview to the user
+    }
+
     func doFingerprint(directoryServerData: DirectoryServerData, completion: @escaping (ThreeDSFingerprintResponse) -> Void) {
         let parameters = ADYServiceParameters()
         parameters.directoryServerIdentifier = directoryServerData.directoryServerID
@@ -254,6 +259,12 @@ import com.adyen.threeds2.util.AdyenConfigParameters;
 
 final ThreeDSHandler handler = new ThreeDSHandler() {
     private Transaction mTransaction;
+
+    @Override
+    public void doPresentWebView(ProcessOutWebView webView) {
+        // Called when a web challenge is required. Present 
+        // the webview to the user
+    }
 
     @Override
     public void doFingerprint(DirectoryServerData dsdata, DoFingerprintCallback callback) {

@@ -42,7 +42,10 @@ curl -X POST https://api.processout.com/customers \
     <%= partial "header-curl" %> \
     -d first_name=John \
     -d last_name=Smith \
-    -d currency=USD
+    -d currency=USD \
+    -d return_url="https://www.super-merchant.com/return" \
+    # or, if you're integrating on mobile:
+    -d return_url="yourapp://processout.return"
 ```
 
 ```javascript
@@ -50,7 +53,10 @@ curl -X POST https://api.processout.com/customers \
 var customer = client.newCustomer().create({
     first_name: "John",
     last_name:  "Smith",
-    currency:   "USD"
+    currency:   "USD",
+    return_url: "https://www.super-merchant.com/return",
+    // Or, if you're integrating on mobile:
+    return_url: "yourapp://processout.return"
 }).then(function(customer) {
     //
 
@@ -65,7 +71,10 @@ var customer = client.newCustomer().create({
 customer = client.new_customer().create({
     "first_name": "John",
     "last_name":  "Smith",
-    "currency":   "USD"
+    "currency":   "USD",
+    "return_url": "https://www.super-merchant.com/return",
+    # Or, if you're integrating on mobile:
+    "return_url": "yourapp://processout.return"
 })
 ```
 
@@ -74,7 +83,10 @@ customer = client.new_customer().create({
 customer = client.customer.create(
     first_name: "John",
     last_name:  "Smith",
-    currency:   "USD"
+    currency:   "USD",
+    return_url: "https://www.super-merchant.com/return",
+    # Or, if you're integrating on mobile:
+    return_url: "yourapp://processout.return"
 )
 ```
 
@@ -83,7 +95,10 @@ customer = client.customer.create(
 $customer = $client->newCustomer()->create(array(
     "first_name" => "John",
     "last_name"  => "Smith",
-    "currency"   => "USD"
+    "currency"   => "USD",
+    "return_url" => "https://www.super-merchant.com/return",
+    // Or, if you're integrating on mobile:
+    "return_url" => "yourapp://processout.return",
 ));
 ```
 
@@ -94,10 +109,14 @@ cust, err := client.NewCustomer().Create(processout.CustomerCreateParameters{
         FirstName: processout.String("John"),
         LastName:  processout.String("Smith"),
         Currency:  processout.String("USD"),
+        ReturnURL: processout.String("https://www.super-merchant.com/return"),
+        // Or, if you're integrating on mobile:
+        ReturnURL: processout.String("yourapp://processout.return"),
     },
 })
 ```
 </div>
+<div class="info-box">On the web, the `return_url` is not mandatory but highly suggested. In some browsers (Samsung Internet Browser and Facebook iOS (Messenger, Instagram...)), the callback to your existing page is not possible due to an incompatibility of this feature.<br />The `return_url` is mandatory on mobile integrations, or your users might not able to be redirected back to your application.</div>
 
 **Note**: While the currency field is also optionnal, it will be automatically
 set to the currency of the first invoice your customer will pay. It is also
