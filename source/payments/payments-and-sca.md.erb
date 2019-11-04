@@ -10,15 +10,15 @@ it securely (read: PCI DSS compliance), while also following new
 regulations happening in their markets.
 
 ProcessOut abstracts this complexity with its suite of tools and SDKs. ProcessOut.js
-provides an easy to use client-side library allowing you to securely accept card
-numbers on your website while keeping your PCI DSS compliance requirements
-minimal.
+and ProcessOut's iOS and Android SDKs provide easy to use client-side libraries 
+allowing you to securely accept card numbers on your website and application 
+while keeping your PCI DSS compliance requirements minimal.
 
-<div class="info-box">ProcessOut.js is SCA and 3DS2-ready, meaning that the new requirements
+<div class="info-box">ProcessOut.js and ProcessOut mobile SDKs are SCA and 3DS2-ready, meaning that the new requirements
 mandated by new regulations in Europe will be handled automatically for you. Follow our <a href="/payments/migrating-to-sca">migration guide &nearr;</a> if you already have a ProcessOut integration and wish to support new SCA flows.</div>
 
-ProcessOut.js can be fully customized to match the look of your website and checkout.
-Preview what the checkout process looks like when using ProcessOut.js and being
+ProcessOut.js and ProcessOut mobile SDKs can be fully customized to match the look of your website, application and checkout.
+Preview what the web checkout process looks like when using ProcessOut.js and being
 fully PCI compliant, while staying on top of new regulations like DSP2’s SCA (Strong Customer Authentication,
 mostly enforced through 3DS2 or 3-D Secure version 2) in Europe.
 
@@ -337,125 +337,28 @@ Optionally, you may also choose to tokenize the card with a [`Customer Token` &n
 to be able to re-use the Card as you please in the future, either for one-click
 payments, subscriptions, or one-off charges.
 
-## Step 2: Create your payment form and tokenize
+## Step 2: Gather the card or token IDs for payment
 
-Let’s set up a payment form.
-**Please note that the credit card fields aren’t actual input boxes,** but are only
-DOM containers. To ensure PCI compliance, ProcessOut hosts the credit card fields on its
-own servers.
+In order to proceed with the payment, you'll need to have an actual payment `source`.
+For card payments, this `source` can be either a [`Card` &nearr;](/refs/#cards) ID, or 
+a [`Customer Token` &nearr;](/refs/#tokens) ID if you tokenized the card details
+of your customer for future usage/one-click payments.
 
-```html
-<form action="/your-capture-endpoint" method="POST" id="payment-form">
-  <div data-processout-input="cc-number"
-        data-processout-placeholder="4242 4242 4242 4242"></div>
-  <div data-processout-input="cc-exp-month"
-        data-processout-placeholder="Expiration month"></div>
-  <div data-processout-input="cc-exp-year"
-        data-processout-placeholder="Expiration year"></div>
-  
-  <!-- It is also possible to use a unified field for the expiration date: -->
-  <div data-processout-input="cc-exp"
-        data-processout-placeholder="Expiration date (mm / yy)"></div>
+- [Tokenize a card on your website using ProcessOut.js &nearr;](/payments/processoutjs-reference/)
+- [Tokenize a card in your applications &nearr;](/payments/mobile-sdks-reference/#tokenize-a-card)
+- [Save token for one-click payments &nearr;](/payments/save-token-and-capture-later/)
 
+## Step 3: Make payment on the Invoice
 
-  <div data-processout-input="cc-cvc"
-        data-processout-placeholder="CVC"></div>
-
-  <input type="submit" class="submit" value="Submit Payment">
-</form>
-```
-
-For the payment form to be interactive, you will need to load `ProcessOut.js`. 
-It is important to **always** load it from our CDN like shown below. Please note that
-ProcessOut.js has no external dependencies, meaning it can work without jQuery.
-
-```html
-<script src="https://js.processout.com/processout.js"></script>
-```
-
-Now that `ProcessOut.js` is loaded, we can start using it. Let’s first
-instanciate a new `ProcessOut` instance in a different script tag as soon
-as the DOM is fully loaded, and set up our form:
-
-```javascript
-document.addEventListener("DOMContentLoaded", function() {
-  var client = new ProcessOut.ProcessOut(
-    "<%= partial "projectID" %>");
-  var formElement = document.getElementById("payment-form");
-  client.setupForm(formElement, processoutReadyHandler, function(err) {
-    console.log("Woops, couldn’t setup the form: "+err);
-  });
-});
-```
-
-**Note**: Remember to replace the project ID in the example with your own. When testing,
-prepend your project ID with `test-` like so: `test-<%= partial "projectID" %>`.
-
-We also still have to add the handler, which we’ll do just now:
-
-## Step 3: Bind the form and tokenize the card
-
-As soon as the form is fully loaded, `setupForm` will call `processoutReadyHandler` 
-with the created `CardForm` object. We’ll use this object to handle the
-tokenization transparently.
-
-Let’s bind the form submission and tokenize the card:
-
-```javascript
-function processoutReadyHandler(form) {
-  // The form is now fully loaded!
-  formElement.addEventListener("submit", function(e) {
-    // Cancel any default action
-    e.preventDefault();
-    // Blocking the form while performing the tokenization may also
-    // prevent race conditions from happening, such as when
-    // the user double-clicks on the button
-    document.getElementById("paymentBtn").disabled = true;
-
-    // Let’s tokenize the card
-    client.tokenize(form, {
-      // It’s possible to send cardholder information (optional)
-      name: document.getElementById("cardholdername").value,
-      contact: {
-        zip: document.getElementById("cardholderzip").value,
-        // Available contact fields:
-        // address1, address2, city, state, country_code, zip
-      },
-
-      // Also, if you want to offer the customer a preferred scheme
-      // to pay on (for example, if the customer's card supports 
-      // co-schemes such as carte bancaire)
-      preferred_scheme: "carte bancaire"
-    }, processoutCardTokenized, function(err) {
-
-      // Card validation errors or network issues are returned
-      // as well. Find the full list of errors below
-      alert(err.message);
-
-      // Enable back the button
-      document.getElementById("paymentBtn").disabled = false;
-    });
-
-    return false;
-  });
-}
-```
-
-We have bound the form but we also want to implement the `processoutCardTokenized`
-handler which will receive the ID of the tokenized card. This is the ID which
-you can use to charge your customers, either directly, or by creating a [`Customer Token` &nearr;](/payments/save-token-and-capture-later/)
-from it.
-
-## Step 4: Make payment on the Invoice
-
-For now, we’ll simply get this card ID and use it to place our payment. If you
+In the example below, we’ll simply get this card ID and use it to place our payment. If you
 choose to create a [`Customer Token` &nearr;](/payments/save-token-and-capture-later/)
 to be able to re-use the card details for future payments, you can also use
 that token directly instead of the card token in the `makeCardPayment` call.
 
-If you're also working on mobile applications, you can see our [mobile SDK reference
-for 3DS2 here &nearr;](/payments/3ds2-mobile-sdk-references/)
+<div class="info-box">For mobile, 3DS2 flow is native. For full documentation on how to handle the `handler` function parameter, please refer to the more in-depth <a href="/payments/mobile-sdks-reference/#3ds2-handlers">mobile SDKs reference &nearr;</a></div>.
 
+<div class="language-selector-wrapper">
+<%= partial "lg-selector-front" %>
 ```javascript
 function processoutCardTokenized(token) {
     // make sure `invoiceID` generated from
@@ -481,7 +384,25 @@ function processoutCardTokenized(token) {
 }
 ```
 
-## Step 5: Confirm the payment in your backend (synchronous)
+```swift
+ProcessOut.makeCardPayment(
+    "iv_tIWEiBcrXIFHzJeXcZzqyp8EpY0xwmuT", 
+    "card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ", 
+    handler,
+    with: self
+);
+```
+
+```java
+client.makeCardPayment(
+    "iv_tIWEiBcrXIFHzJeXcZzqyp8EpY0xwmuT", 
+    "card_1jSEVrx7oaRta1KEdxoMWbiGkK2MijrZ", 
+    handler
+);
+```
+</div>
+
+## Step 4: Confirm the payment in your backend (synchronous)
 
 The final step in processing the transaction is confirming the payment from 
 your backend. To do so, you should make an authorization or capture call on the 
@@ -532,7 +453,7 @@ If the capture was successful, a Transaction object is returned. You may then ch
 its `status` attribute is set to `completed` in order to confirm the payment.
 Learn more about the possible statuses for a transaction [here &nearr;](/payments/handle-status-changes-webhooks/#transaction-statuses).
 
-## Step 6: Listen to webhooks for payment updates
+## Step 5: Listen to webhooks for payment updates
 
 Although ProcessOut.js supports a synchronous flow, allowing you to give your users 
 a better experience, we strongly recommend that you also set up an endpoint [to receive the 

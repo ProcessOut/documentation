@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>ProcessOut payment page</title>
+
+	<style>
+		/*! PocketGrid 1.1.0
+		* Copyright 2013 Arnaud Leray
+		* MIT License
+		*/
+		* {
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+			font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+		}
+
+		/* Clearfix */
+		.block-group {
+			*zoom: 1;
+		}
+		.block-group:before, .block-group:after {
+			display: table;
+			content: "";
+			line-height: 0;
+		}
+		.block-group:after {
+			clear: both;
+		}
+
+		.block-group {
+			/* ul/li compatibility */
+			list-style-type: none;
+			padding: 0;
+			margin: 0;
+		}
+
+		/* Nested grid */
+		.block-group > .block-group {
+			clear: none;
+			float: left;
+			margin: 0 !important;
+		}
+
+		/* Default block */
+		.block {
+			float: left;
+			width: 100%;
+		}
+        .b75 {
+            width: 74%;
+        }
+        .b25 {
+            width: 24%;
+            margin-left: 2%;
+        }
+
+		html, body {
+			background: #ECEFF1;
+			font-size: 16px;
+		}
+
+		.container {
+			width: 100%;
+			max-width: 400px;
+			background: white;
+			margin: 3em auto;
+			padding: 1em;
+            border-radius: 4px;
+            box-shadow: 0 5px 7px rgba(50, 50, 93, 0.04), 0 1px 3px rgba(0, 0, 0, 0.03);
+		}
+
+		input {
+			border: 1px solid #ECEFF1;
+			border-radius: 4px;
+			box-shadow: 0 5px 7px rgba(50, 50, 93, 0.04), 0 1px 3px rgba(0, 0, 0, 0.03);
+			padding: 0.5em;
+			width: 100%;
+			margin-bottom: 1em;
+			font-size: 14px;
+			min-height: 2em;
+		}
+
+		.button {
+			margin: 0; margin-bottom: 1em;
+            padding: 0.75em;
+            text-align: center;
+			box-shadow: 0 5px 7px rgba(50, 50, 93, 0.04), 0 1px 3px rgba(0, 0, 0, 0.03);
+			background: #3F51B5;
+			color: white;
+			border-radius: 4px;
+			border: 1px solid #303F9F;
+            cursor: pointer;
+		}
+
+		.hidden {
+			display: none;
+		}
+		#errors, #success, #loading {
+			text-align: center;
+			font-size: 0.9em;
+			color: #D84315;
+			margin-top: 1em;
+		}
+		#success {
+			color: #4CAF50;
+		}
+		#loading {
+			color: #bdc3c7;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div id="loading-ids">Loading...</div>
+		<div>
+			<p style="margin-top: 0;">Tokenizing for customer and tokens:</p>
+			<input id="customer-id" />
+			<input id="token-id" style="margin: 0;" />
+		</div>
+		<div class="results">
+			<div id="errors"></div>
+			<div id="success"></div>
+		</div>
+	</div>
+	<div class="container">
+		<form action="" method="POST" id="apms-form" style="padding-top: 1em;">
+			<div class="results">
+				<div id="loading-apms">Loading...</div>
+			</div>
+		</form>
+	</div>
+
+	<script src="https://js.processout.com/processout.js"></script>
+	<script>
+		const projectID  = "test-proj_gAO1Uu0ysZJvDuUpOGPkUBeE3pGalk3x";
+		const projectKey = "key_sandbox_mah31RDFqcDxmaS7MvhDbJfDJvjtsFTB";
+		function doAPICall(method, url, data, success, error) {
+			var request = new XMLHttpRequest();
+			request.open(method, url, true);
+			request.setRequestHeader("Content-Type", "application/json");
+			request.setRequestHeader("Authorization", "Basic " + btoa(projectID+":"+projectKey));
+			request.onload = function(e) {
+				var parsed = {};
+                try {
+                    parsed = JSON.parse(request.responseText);
+                } catch (e) {
+                    // Set sensible default for the success calls below to
+                    // behave as expected down the chain
+                    parsed = {};
+                }
+
+                if (window.XDomainRequest)
+                    success(parsed);
+                else if (e.currentTarget.readyState == 4)
+                    success(parsed);
+                return;
+			};
+			request.onerror = function(e) {
+				if (request.status && request.status >= 200 && 
+                    request.status < 500 && request.responseText)
+
+                    request.onload(e);
+                else
+                    error(request, e);
+			};
+			request.ontimeout  = function() {};
+			request.onprogress = function() {};
+
+			request.send(JSON.stringify(data));
+		}
+		function createCustomer(success, error) {
+			doAPICall("POST", "https://api.processout.com/customers", {
+				email: "test@test.com"
+			}, function(r) {
+				success(r.customer.id);
+			}, error);
+		}
+		function createCustomerToken(success, error) {
+			createCustomer(function(customerID) {
+				doAPICall("POST", "https://api.processout.com/customers/"+customerID+"/tokens", {},
+				function(r) {
+					success(customerID, r.token.id);
+				}, error);
+			}, error);
+		}
+		function validateCustomerToken(customerID, tokenID, source, success, error) {
+			doAPICall("PUT", "https://api.processout.com/customers/"+customerID+"/tokens/"+tokenID, {
+				source: source
+			}, function(r) {
+				success(r);
+			}, error);
+		}
+
+		document.addEventListener("DOMContentLoaded", function() {
+			createCustomerToken(function(customerID, tokenID) {
+				document.getElementById("loading-ids").className = "hidden";
+				document.getElementById("customer-id").value = customerID;
+				document.getElementById("token-id").value = tokenID;
+
+				var client = new ProcessOut.ProcessOut(projectID);
+				client.fetchGatewayConfigurations({
+					customerID: document.getElementById("customer-id").value,
+					tokenID:    document.getElementById("token-id").value,
+					filter:     "alternative-payment-methods-with-tokenization"
+				}, processoutAPMsReady, function(err) {
+					document.getElementById("loading-ids").className = "hidden";
+					document.getElementById("errors").innerHTML = "Woops, couldn't fetch APMs: "+err;
+				});
+
+				function processoutAPMsReady(confs) {
+					document.getElementById("loading-apms").className = "hidden";
+					var formWrapper = document.getElementById("apms-form");
+					for (var i = 0; i < confs.length; i++) {
+						var conf = confs[i];
+						var el   = document.createElement("div");
+						el.className = "button";
+						el.innerHTML = "Pay with " + conf.gateway.display_name;
+
+						conf.hookForCustomerToken(el, function(token) {
+							validateCustomerToken(customerID, tokenID, token, function(r) {
+								document.getElementById("errors").innerHTML = "";
+								document.getElementById("success").innerHTML = "Your user went through the entire APM payment flow. The customer token listed above can now be used to capture a transaction.";
+							}, function(err) {
+								document.getElementById("errors").innerHTML = err.message;
+								document.getElementById("success").innerHTML = "";
+							})
+						}, function(err) {
+							document.getElementById("errors").innerHTML = err.message;
+							document.getElementById("success").innerHTML = "";
+						});
+
+						// Inject our APM element in the form
+						formWrapper.appendChild(el);
+					}
+				}
+			});
+        });
+	</script>
+    <script src="/javascripts/iframeSizer.contentWindow.min.js"></script>
+</body>
+</html>
