@@ -1,5 +1,3 @@
-activate :dotenv
-
 set :css_dir, 'stylesheets'
 
 set :js_dir, 'javascripts'
@@ -15,13 +13,14 @@ set :markdown, :fenced_code_blocks => true, :smartypants => true, :disable_inden
 # Activate the syntax highlighter
 activate :syntax
 
+page "/*", :layout => "layout"
 page "/refs/*", :layout => "layout-refs"
 
 activate :directory_indexes
 
 # This is needed for Github pages, since they're hosted on a subdomain
 activate :relative_assets
-set :relative_links, true
+# set :relative_links, true
 
 # Build-specific configuration
 configure :build do
