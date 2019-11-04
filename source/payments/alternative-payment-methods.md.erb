@@ -22,7 +22,8 @@ ProcessOut tries to bridge that gap by letting merchants keep control of their
 customer flow, **even after a redirection**. The customer is transparently
 redirected to the payment method's payment page in a new window, and once
 the payment is completed, the alternative payment method's window is closed
-and the original merchant payment page is notified of the payment via Javascript.
+and the original merchant payment page is notified of the payment via Javascript on the
+web, or the customer is returned back to the app on mobile.
 
 <div class="language-selector-wrapper" style="margin-top: 4rem;">
 <div class="language-selector-preview">
@@ -213,7 +214,9 @@ curl https://api.processout.com/invoices \
     -d name="Awesome invoice" \
     -d amount="9.99" \
     -d currency=USD \
-    -d return_url="https://www.super-merchant.com/return"
+    -d return_url="https://www.super-merchant.com/return" \
+    # or, if you're integrating on mobile:
+    -d return_url="yourapp://processout.return"
 ```
 
 ```javascript
@@ -223,7 +226,9 @@ client.newInvoice().create({
     name:       "Amazing item",
     amount:     "4.99",
     currency:   "USD",
-    return_url: "https://www.super-merchant.com/return"
+    return_url: "https://www.super-merchant.com/return",
+    // Or, if you're integrating on mobile:
+    return_url: "yourapp://processout.return"
 }).then(function(invoice) {
     //
 
@@ -240,7 +245,9 @@ invoice = client.new_invoice().create({
     "name":       "Amazing item",
     "amount":     "4.99",
     "currency":   "USD",
-    "return_url": "https://www.super-merchant.com/return"
+    "return_url": "https://www.super-merchant.com/return",
+    # Or, if you're integrating on mobile:
+    "return_url": "yourapp://processout.return"
 })
 ```
 
@@ -251,7 +258,9 @@ invoice = client.invoice.create(
     name:       "Amazing item",
     amount:     "4.99",
     currency:   "USD",
-    return_url: "https://www.super-merchant.com/return"
+    return_url: "https://www.super-merchant.com/return",
+    # Or, if you're integrating on mobile:
+    return_url: "yourapp://processout.return"
 )
 ```
 
@@ -263,6 +272,8 @@ $invoice = $client->newInvoice()->create(array(
     "amount"     => "4.99",
     "currency"   => "USD",
     "return_url" => "https://www.super-merchant.com/return",
+    // Or, if you're integrating on mobile:
+    "return_url" => "yourapp://processout.return",
 ));
 ```
 
@@ -275,6 +286,8 @@ iv, err := client.NewInvoice().Create(processout.InvoiceCreateParameters{
         Amount:    processout.String("4.99"),
         Currency:  processout.String("USD"),
         ReturnURL: processout.String("https://www.super-merchant.com/return"),
+        // Or, if you're integrating on mobile:
+        ReturnURL: processout.String("yourapp://processout.return"),
     },
 })
 if err != nil {
@@ -282,71 +295,24 @@ if err != nil {
 }
 ```
 </div>
-<div class="info-box">The `return_url` is not mandatory but highly suggested. In some browsers (Samsung Internet Browser and Facebook iOS (Messenger, Instagram...)), the callback to your existing page is not possible due to an incompatibility of this feature. The `return_url` will be used instead.</div>
+<div class="info-box">On the web, the `return_url` is not mandatory but highly suggested. In some browsers (Samsung Internet Browser and Facebook iOS (Messenger, Instagram...)), the callback to your existing page is not possible due to an incompatibility of this feature.<br />The `return_url` is mandatory on mobile integrations, or your users might not able to be redirected back to your application.</div>
 
-Now that we've created our Invoice, we can also set up a simple HTML `form`
-in which we'll inject the payment buttons for each APM. The form `action` URL
-will be used to post back the final token generated when your user pays on
-the APM.
+## Fetch available APMs and redirect
 
-```html
-<form action="/your-capture-endpoint" method="POST" id="apms-payment-form">
-  <!-- We'll inject our payment links in the next part -->
-</form>
-```
+As ProcessOut provides a fully dynamic implementation of alternative payment
+methods, our SDKs allow you to dynamically fetch the available ones so you can
+display dynamic payment links to your customers.
 
-## Load up ProcessOut.js
-
-Now that we've set up our form and invoice, we're ready to start showing
-our APMs payment buttons!
-
-Please keep in mind that when using the ProcessOut sandbox, your actual enabled gateways
-aren't returned, but instead a single entry `sandbox` is. Its main purpose is to
-provide you with a way to easily test successful and errored checkouts. Because
-this guide provides you with a generic implementation that works with all
-alternative payments available on ProcessOut, switching over to production
-will not break any of your logic, and alternative payment solutions such as
-PayPal will work right out of the box.
-
-For the APMs integration to work properly, you will need to load ProcessOut.js. 
-It is important to always load it from our CDN like shown below. Please note 
-that ProcessOut.js has no dependency, meaning it can work without jQuery.
-
-```html
-<script src="https://js.processout.com/processout.js"></script>
-```
-
-Now that ProcessOut.js is loaded, we can start using it. Let’s first instanciate
-a new ProcessOut instance in a different script tag as soon as the DOM is fully 
-loaded, and fetch your enabled APMs:
-
+<div class="language-selector-wrapper">
+<%= partial "lg-selector-front" %>
 ```javascript
-document.addEventListener("DOMContentLoaded", function() {
-  var client = new ProcessOut.ProcessOut(
-    "test-<%= partial "projectID" %>");
-
-  client.fetchGatewayConfigurations({
-    invoiceID: "iv_tIWEiBcrXIFHzJeXcZzqyp8EpY0xwmuT",
-    filter:    "alternative-payment-methods"
-  }, processoutAPMsReady, function(err) {
-    console.log("Woops, couldn't fetch APMs: "+err);
-  });
+client.fetchGatewayConfigurations({
+  invoiceID: "iv_tIWEiBcrXIFHzJeXcZzqyp8EpY0xwmuT",
+  filter:    "alternative-payment-methods"
+}, processoutAPMsReady, function(err) {
+  console.log("Woops, couldn't fetch APMs: "+err);
 });
-```
 
-**Note**: Remember to replace the project ID in the example with your own. When testing,
-prepend your project ID with `test-` like so: `test-<%= partial "projectID" %>`.
-
-## Display your APMs links
-
-In the previous step, our call to `fetchGatewayConfigurations` makes a reference
-to the function `processoutAPMsReady` when the APMs list is successfully fetched.
-We now want to define this function to finally update our DOM with the payment
-links.
-
-The function takes one parameter: a list of `Gateway Configuration`.
-
-```javascript
 function processoutAPMsReady(confs) {
   var formWrapper = document.getElementById("apms-payment-form");
   for (var conf of confs) {
@@ -354,61 +320,118 @@ function processoutAPMsReady(confs) {
     el.className = "my-apm-link";
     el.innerHTML = "Pay with " + conf.gateway.display_name;
 
-    conf.hookForInvoice(el, function(token) {
-      // The customer completed the gateway payment flow,
-      // we can send the token back to our backend to finish the
-      // capture
-      var field   = document.createElement("input");
-      field.type  = "hidden";
-      field.name  = "token";
-      field.value = token;
-      formWrapper.appendChild(field);
-      formWrapper.submit();
-
-    }, function(err) {
-
-      // An error occured during checkout. This could just be the
-      // customer that canceled the payment, or an error with
-      // the payment gateway.
-      alert(err);
-    });
-
     // Inject our APM element in the form
     formWrapper.appendChild(el);
+
+    el.addEventListener("click", function() {
+      // The user clicked on the payment button, let's 
+      // redirect
+      conf.handleInvoiceAction(function(token) {
+        // The customer completed the gateway payment flow,
+        // we can send the token back to our backend to finish the
+        // capture
+        var field   = document.createElement("input");
+        field.type  = "hidden";
+        field.name  = "token";
+        field.value = token;
+        formWrapper.appendChild(field);
+        formWrapper.submit();
+
+      }, function(err) {
+
+        // An error occured during checkout. This could just be the
+        // customer that canceled the payment, or an error with
+        // the payment gateway.
+        alert(err);
+      });
+    });
   }
 }
 ```
 
-If you’d rather handle the DOM elements and hooks yourself, you can simply
-keep a reference to each `conf` element and call the following method to
-initiate the payment flow individually:
+```swift
+// In your application, list all the available APMs for display:
+client.fetchGatewayConfigurations(filter: .AlternativePaymentMethod) { (gateways, error) in
+  // Iterate over the available gateways and display the ones
+  // you want in your UI. Once a user choses one, execute the
+  // `makeAPMPayment` call below to redirect your user:
+  client.makeAPMPayment(gateway: gateways![0], invoiceId: "iv_tIWEiBcrXIFHzJeXcZzqyp8EpY0xwmuT")
+}
 
-```javascript
-conf.handleInvoiceAction(function(token) {
-  // The customer completed the gateway payment flow,
-  // we can send the token back to our backend to finish the
-  // capture
-  var field   = document.createElement("input");
-  field.type  = "hidden";
-  field.name  = "token";
-  field.value = token;
-  formWrapper.appendChild(field);
-  formWrapper.submit();
+// Additionally to the above, register the AppDelegate to handle
+// the user return:
+func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+  if let apmReturn = ProcessOut.handleAPMURLCallback(url: url) {
+    guard apmReturn.error == nil else {
+      // Error while parsing the URL
+      return false
+    }
 
-}, function(err) {
-
-  // An error occured during checkout
-})
+    switch apmReturn.returnType {
+    case .Authorization:
+      // Finish the charge on your backend with apmReturn.token
+      break
+    }
+  }
+  return false
+}
 ```
+
+```java
+// In your application, list all the available APMs for display:
+p.fetchGatewayConfigurations(ProcessOut.GatewaysListingFilter.AlternativePaymentMethod, new FetchGatewaysConfigurationsCallback() {
+  @Override
+  public void onSuccess(ArrayList<GatewayConfiguration> gateways) {
+    // Iterate over the available gateways and display the ones
+    // you want in your UI. Once a user choses one, execute the
+    // `makeAPMPayment` call below to redirect your user:
+    p.makeAPMPayment(gateways.get(0), "iv_tIWEiBcrXIFHzJeXcZzqyp8EpY0xwmuT");
+  }
+
+  @Override
+  public void onError(Exception e) {
+    Log.e("PROCESSOUT", e.toString());
+  }
+});
+
+// Additionally to the above, add the user return in your 
+// `onCreate` method of the `Activity`:
+public class MainActivity extends AppCompatActivity {
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+
+    // Check if we're landing back with a URL in our intent
+    Intent intent = getIntent();
+    Uri data = intent.getData();
+    if (data == null) {
+      return;
+    }
+    ProcessOut p = new ProcessOut(this,  <%= partial "projectID" %>);
+    APMTokenReturn apmReturn = p.handleAMPURLCallback(data);
+    if (apmReturn == null) {
+      return;
+    }
+
+    switch (apmReturn.getType()) {
+      case Authorization:
+        // Call backend to charge with apmReturn.getToken()
+        break;
+    }
+  }
+}
+```
+</div>
 
 ## Handle the capture on the server
 
-`ProcessOut.js` sent the `token` back to our server so we need to finish
-its capture. We'll need both the `token` and the `invoice ID` we created
+`ProcessOut.js` or your mobile app sent the `token` back to our server so we need 
+to finish its capture. We'll need both the `token` and the `invoice ID` we created
 earlier and used to redirect the customer.
 
-The code to capture the token returned by `ProcessOut.js` during an alternative
-gateway checkout is *identical* to the capture of a card token.
+The code to capture the token of an alternative payment method is *identical* to 
+the capture of a card token.
 
 <div class="language-selector-wrapper">
 <%= partial "lg-selector" %>
@@ -450,13 +473,9 @@ tr, _ := iv.Capture("gway_req_V2UncmUgaGlyaW5nIQ==")
 ```
 </div>
 
-**Note**: The gateway request token sent by `ProcessOut.js` is actually only
-an abstraction of the request done by the customer on the gateway. The content
-of the token is therefore directly encoded inside it, in base64.
-
 The capture should return a transaction if it was successful. It is strongly
 advised to check its `status` attribute is set to `completed` to make sure the
-payment made it through. We highly recommand you to set up a way to
+payment made it through. We highly recommend you to set up a way to
 [receive webhooks &nearr;](/payments/handle-status-changes-webhooks) as
 this will make you able to handle updates on payments made using alternative
 payment methods.

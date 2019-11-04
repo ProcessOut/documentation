@@ -1,6 +1,6 @@
 ## Cards
 
-Cards resources are card objects created using [ProcessOut.js](/payments/processoutjs).
+Cards resources are card objects created using [ProcessOut.js](/payments/processoutjs-reference/).
 A card object is an immutable object that should only be used once. Once the card
 has been used to capture a payment or create a customer token, the 
 card object may not be used anymore. 
@@ -16,8 +16,12 @@ can ask your customers to update their payment details.
 |||
 --:|:--
 <span class="console-font">**id**</span><br />*string*<br />Read-only |
+<span class="console-font">**device**</span><br />*CardDevice* | Attributes of the device of the user tokenizing the card (such as IP Address etc)
+<span class="console-font">**contact**</span><br />*CardContact* | Card contact attributes
 <span class="console-font">**token**</span><br />*[Token](#tokens) expandable* | Token created using this card object, if any
 <span class="console-font">**scheme**</span><br />*string*<br />Read-only | Scheme of the card, such as Visa or Mastercard
+<span class="console-font">**co_scheme**</span><br />*string*<br />Read-only | Co-scheme of the card, such as Carte Bancaire
+<span class="console-font">**preferred_scheme**</span><br />*string*<br />Read-only | Preferred scheme of the card, mostly defined by your Customer and used in priority to process the Transaction
 <span class="console-font">**type**</span><br />*string*<br />Read-only | Type of card, such as debit or credit
 <span class="console-font">**bank_name**</span><br />*string*<br />Read-only | Card issuing bank
 <span class="console-font">**brand**</span><br />*string*<br />Read-only | Brand of the card, such as Electron, Classic or Gold
@@ -28,10 +32,24 @@ can ask your customers to update their payment details.
 <span class="console-font">**cvc_check**</span><br />*string*<br />Read-only | CVC check status. Can be `pending`, `unavailable`, `unknown`, `failed`, or `passed`
 <span class="console-font">**avs_check**</span><br />*string*<br />Read-only | AVS check status. Can be `pending`, `unavailable`, `unknown`, `failed`, `failed-name`, `failed-address`, `failed-postal`, `failed-address-passed-postal`, `failed-postal-passed-address`, or `passed`
 <span class="console-font">**name**</span><br />*string* | Cardholder name<br /><span style="opacity: 0.5">*Max 255 characters long*</span>
-<span class="console-font">**contact**</span><br />*CardContact* | Card contact attributes
 <span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the card, key-value pair (string - string)
 <span class="console-font">**sandbox**</span><br />*boolean*<br />Read-only |
 <span class="console-font">**created_at**</span><br />*RFC1123 date or timestamp*<br />Read-only |
+
+##### Card device Attributes
+|||
+--:|:--
+<span class="console-font">**request_origin**</span><br />*string* | Origin of the request: coming directly from your users' browser, or from your backend<br /><span style="opacity: 0.5">*Use the value `backend` if you're tokenizing from your backend*</span>
+<span class="console-font">**channel**</span><br />*string* | Channel of the device<br /><span style="opacity: 0.5">*Can be `web`, `ios`, `android` or `other`*</span>
+<span class="console-font">**ip_address**</span><br />*string* | IP address of the cardholder<br /><span style="opacity: 0.5">*Must be a valid IP address*</span>
+<span class="console-font">**user_agent**</span><br />*string* | User Agent header of the cardholder, if any
+<span class="console-font">**header_accept**</span><br />*string* | Accept header of the cardholder, if any
+<span class="console-font">**app_color_depth**</span><br />*string* | Supported color depth on the cardholder screen, if any
+<span class="console-font">**app_java_enabled**</span><br />*boolean* | Whether or not java is enabled on the cardholder device, null if unknonwn
+<span class="console-font">**app_language**</span><br />*string* | Language of the cardholder's device, if any<br /><span style="opacity: 0.5">*example: FR/fr*</span>
+<span class="console-font">**app_screen_height**</span><br />*integer* | Height in pixels of the cardholder's screen
+<span class="console-font">**app_screen_width**</span><br />*integer* | Width in pixels of the cardholder's screen
+<span class="console-font">**app_timezone_offset**</span><br />*integer* | Timezone offset of the user
 
 ##### Card contact Attributes
 |||
