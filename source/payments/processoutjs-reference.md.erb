@@ -200,6 +200,7 @@ document.addEventListener("DOMContentLoaded", function() {
   var processout = new ProcessOut.ProcessOut("test-<%= partial "projectID" %>");
   var formElement = document.getElementById("card-form");
   processout.setupForm(formElement, {
+    requireCVC: true,
     style: {
       fontSize: "14px",
       "::placeholder": {
@@ -297,7 +298,9 @@ document.addEventListener("DOMContentLoaded", function() {
   var client = new ProcessOut.ProcessOut(
     "<%= partial "projectID" %>");
   var formElement = document.getElementById("payment-form");
-  client.setupForm(formElement, processoutReadyHandler, function(err) {
+  client.setupForm(formElement, {
+    requireCVC: true
+  }, processoutReadyHandler, function(err) {
     console.log("Woops, couldn't setup the form: "+err);
   });
 });
@@ -450,7 +453,7 @@ It is possible to hook functions to specific events happening on card inputs,
 such as when the use clicks or focuses on an input.
 
 ```js
-client.setupForm(formElement, function(form) {
+client.setupForm(formElement, {}, function(form) {
   form.getNumberField().on("click", function(e) {
     console.log(e);
   });

@@ -1,0 +1,261 @@
+---
+title: Alternative payment methods for payments (backend version)
+---
+
+# Handle alternative payment methods (backend version)
+
+This integration reflects to the backend version of our Alternative Payment
+Methods integration. The recommended integration for APMs on ProcessOut is 
+[to make use of our front-end SDKs &nearr;](/payments/alternative-payment-methods).
+
+<hr>
+
+## Fetch the list of Alternative Payment Methods
+
+You can dynamically fetch the list of all the alternative payment methods
+you have enabled on ProcessOut for display to your users.
+You'll need to pass along the `id` field of the configurations you display
+to your users, as this will be needed later on to redirect your customer
+to the selected APM.
+
+Additionnaly, you can [expand &nearr;](/refs/#expanding-resources) the `gateway` field of the Gateway Configuration
+object to get some helpful fields, such as the name of the APM, or a handy logo
+to be displayed on your checkout pages. 
+
+<div class="language-selector-wrapper">
+<%= partial "lg-selector" %>
+```shell
+curl -X GET https://api.processout.com/gateway-configurations?filter=alternative-payment-methods&expand_merchant_accounts=true \
+    <%= partial "header-curl" %>
+```
+
+```javascript
+<%= partial "header-js" %>
+client.newGatewayConfiguration().all({
+    filter:                   "alternative-payment-methods",
+    expand_merchant_accounts: true
+}).then(function(confs) {
+    // Iterate over the available confs and display them
+
+}, function(err) {
+    // An error occured
+
+});
+```
+
+```python
+<%= partial "header-python" %>
+confs = client.new_gateway_configuration().create({
+    "filter":                   "alternative-payment-methods",
+    "expand_merchant_accounts": True
+})
+# Iterate over the available confs and display them
+```
+
+```ruby
+<%= partial "header-ruby" %>
+confs = client.gateway_configuration.new().all(
+    filter:                   "alternative-payment-methods",
+    expand_merchant_accounts: true
+)
+# Iterate over the available confs and display them
+```
+
+```php
+<%= partial "header-php" %>
+// Let's create an invoice
+$confs = $client->newGatewayConfiguration()->all(array(
+    "filter":                   "alternative-payment-methods",
+    "expand_merchant_accounts": true
+));
+// Iterate over the available confs and display them
+```
+
+```go
+<%= partial "header-go" %>
+// Let's create an invoice
+confs, err := client.NewGatewayConfiguration().All(processout.GatewayConfigurationAllParameters{
+    ExpandMerchantAccounts: true,
+    Options: &processout.Options{
+        Filter: "alternative-payment-methods",
+    },
+})
+if err != nil {
+    panic(err)
+}
+// Iterate over the available confs and display them
+```
+</div>
+
+## Create your Invoice
+
+Once the user has chosen an APM on which it wants to pay, you can create the Invoice
+we'll use to initiate the payment. In your case, because you are integrating using
+our backend integration method, you'll need to send us a `return_url` to which
+the user will land back once the payment is placed on the selected APM.
+
+<div class="language-selector-wrapper">
+<%= partial "lg-selector" %>
+```shell
+# Let's create an invoice
+curl https://api.processout.com/invoices \
+    <%= partial "header-curl" %> \
+    -d name="Awesome invoice" \
+    -d amount="9.99" \
+    -d currency=USD \
+    -d return_url="https://www.super-merchant.com/return" \
+    -d metadata[skip_processoutjs]=true
+```
+
+```javascript
+<%= partial "header-js" %>
+// Let's create an invoice
+client.newInvoice().create({
+    name:       "Amazing item",
+    amount:     "4.99",
+    currency:   "USD",
+    return_url: "https://www.super-merchant.com/return",
+    metadata: {
+      skip_processoutjs: "true"
+    }
+}).then(function(invoice) {
+    //
+
+}, function(err) {
+    // An error occured
+
+});
+```
+
+```python
+<%= partial "header-python" %>
+# Let's create an invoice
+invoice = client.new_invoice().create({
+    "name":       "Amazing item",
+    "amount":     "4.99",
+    "currency":   "USD",
+    "return_url": "https://www.super-merchant.com/return",
+    "metadata": {
+      "skip_processoutjs": "true"
+    }
+})
+```
+
+```ruby
+<%= partial "header-ruby" %>
+# Let's create an invoice
+invoice = client.invoice.create(
+    name:       "Amazing item",
+    amount:     "4.99",
+    currency:   "USD",
+    return_url: "https://www.super-merchant.com/return",
+    metadata: {
+      skip_processoutjs: "true"
+    }
+)
+```
+
+```php
+<%= partial "header-php" %>
+// Let's create an invoice
+$invoice = $client->newInvoice()->create(array(
+    "name"       => "Amazing item",
+    "amount"     => "4.99",
+    "currency"   => "USD",
+    "return_url" => "https://www.super-merchant.com/return",
+    "metadata": array(
+      "skip_processoutjs" => "true"
+    )
+));
+```
+
+```go
+<%= partial "header-go" %>
+// Let's create an invoice
+iv, err := client.NewInvoice().Create(processout.InvoiceCreateParameters{
+    Invoice: &processout.Invoice{
+        Name:      processout.String("Amazing item"),
+        Amount:    processout.String("4.99"),
+        Currency:  processout.String("USD"),
+        ReturnURL: processout.String("https://www.super-merchant.com/return"),
+        Metadata:  &map[string]string{
+          "skip_processoutjs": "true",
+        },
+    },
+})
+if err != nil {
+    panic(err)
+}
+```
+</div>
+<div class="info-box">Although not required, the `skip_processoutjs` metadata allows us to speed up the redirection by avoiding to display the Javascript middleman we generally use to bind ProcessOut.js handlers, by skipping this step and HTTP redirecting the user directly once the payment is placed.</div>
+
+## Redirect your customer to the APM
+
+The final step to make your user pay on the APM is to redirect the user to it.
+Now that you have both the Invoice ID created and the Gateway Configuration ID chosen,
+the redirection must be done to the following URL:
+
+```
+https://checkout.processout.com/<%= partial "projectID" %>/iv_tIWEiBcrXIFHzJeXcZzqyp8EpY0xwmuT/redirect/gway_conf_9ie0prejnta3p9l2ns9030fiphlra7sz.apmname
+```
+
+## Handle user return and capture
+
+Once the payment is placed on the APM, the user will be redirected back to your 
+`return_url`. A `token` GET parameter will be set in the URL. For example, the user
+will land back to the URL:
+
+```
+https://www.super-merchant.com/return?token=gway_req_V2UncmUgaGlyaW5nIQ==
+```
+
+The code to capture the token of an alternative payment method is *identical* to 
+the capture of a card token.
+
+<div class="language-selector-wrapper">
+<%= partial "lg-selector" %>
+```shell
+curl https://api.processout.com/invoices/iv_tIWEiBcrXIFHzJeXcZzqyp8EpY0xwmuT/capture \
+    <%= partial "header-curl" %> \
+    -d source="gway_req_V2UncmUgaGlyaW5nIQ=="
+```
+
+```javascript
+<%= partial "header-js" %>
+invoice.capture("gway_req_V2UncmUgaGlyaW5nIQ==").then(
+    function(transaction) {
+        //
+
+    }, function(err) {
+        // The invoice could not be captured
+    });
+```
+
+```python
+<%= partial "header-python" %>
+transaction = invoice.capture("gway_req_V2UncmUgaGlyaW5nIQ==")
+```
+
+```ruby
+<%= partial "header-ruby" %>
+transaction = invoice.capture("gway_req_V2UncmUgaGlyaW5nIQ==")
+```
+
+```php
+<%= partial "header-php" %>
+$transaction = $invoice->capture("gway_req_V2UncmUgaGlyaW5nIQ==");
+```
+
+```go
+<%= partial "header-go" %>
+tr, _ := iv.Capture("gway_req_V2UncmUgaGlyaW5nIQ==")
+```
+</div>
+
+The capture should return a transaction if it was successful. It is strongly
+advised to check its `status` attribute is set to `completed` to make sure the
+payment made it through. We highly recommend you to set up a way to
+[receive webhooks &nearr;](/payments/handle-status-changes-webhooks) as
+this will make you able to handle updates on payments made using alternative
+payment methods.
