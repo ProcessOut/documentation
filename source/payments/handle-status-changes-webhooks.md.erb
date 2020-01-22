@@ -46,12 +46,14 @@ You may find the list of all the available transaction's statuses below:
 <div style="white-space: nowrap; color: #795da3;" class="console-font">completed</div>   | The payment was sucessfully completed
 <div style="white-space: nowrap; color: #795da3;" class="console-font">failed</div> | The payment has been placed, but failed
 <div style="white-space: nowrap; color: #795da3;" class="console-font">voided</div> | The payment was voided
-<div style="white-space: nowrap; color: #795da3;" class="console-font">disputed</div> | The payment was previously completed but the customer filled a dispute
-<div style="white-space: nowrap; color: #795da3;" class="console-font">solved</div> | The previous dispute has been resolved in your favor
-<div style="white-space: nowrap; color: #795da3;" class="console-font">reversed</div> | The previous dispute has been resolved in your customer’s favor
 <div style="white-space: nowrap; color: #795da3;" class="console-font">refunded</div> | The transaction was refunded (totally or partially)
 <div style="white-space: nowrap; color: #795da3;" class="console-font">in-review</div> | The transaction is pending fraud review
 <div style="white-space: nowrap; color: #795da3;" class="console-font">blocked</div> | The transaction was blocked by your blocking rules & by a fraud review
+<div style="white-space: nowrap; color: #795da3;" class="console-font">retrieval-request</div> | The payment was previously completed but the customer does not recognize the payment and is asking for information
+<div style="white-space: nowrap; color: #795da3;" class="console-font">fraud-notification</div> | The payment was previously completed but the bank is notifying you a chargeback might be on its way
+<div style="white-space: nowrap; color: #795da3;" class="console-font">chargeback-initiated</div> | The payment was previously completed but the customer filled a dispute
+<div style="white-space: nowrap; color: #795da3;" class="console-font">solved</div> | The previous dispute has been resolved in your favor
+<div style="white-space: nowrap; color: #795da3;" class="console-font">reversed</div> | The previous dispute has been resolved in your customer’s favor
 
 ## Handling webhooks & status changes
 
