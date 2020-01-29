@@ -347,40 +347,51 @@ we created earlier and used to redirect the customer.
 <div class="language-selector-wrapper">
 <%= partial "lg-selector" %>
 ```shell
-curl https://api.processout.com/invoices/iv_tIWEiBcrXIFHzJeXcZzqyp8EpY0xwmuT/capture \
+curl -X PUT https://api.processout.com/customers/cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks/tokens/tok_fKK4btSG7wd13ZZaevzhMcuNbpjcu1Zy \
     <%= partial "header-curl" %> \
     -d source="gway_req_V2UncmUgaGlyaW5nIQ=="
 ```
 
 ```javascript
 <%= partial "header-js" %>
-invoice.capture("gway_req_V2UncmUgaGlyaW5nIQ==").then(
-    function(transaction) {
-        //
+client.newToken().find("cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks", "tok_fKK4btSG7wd13ZZaevzhMcuNbpjcu1Zy").then(function(token) {
+    token.save({"source": "gway_req_V2UncmUgaGlyaW5nIQ=="}).then(function(token) {
+        // Customer Token was saved with the new source. Check that
+        // token.is_chargeable is true
 
     }, function(err) {
-        // The invoice could not be captured
-    });
+        // The source could not be used on the Customer Token
+    })
+
+}, function(err) {
+    // Customer Token could not be found
+});
 ```
 
 ```python
 <%= partial "header-python" %>
-transaction = invoice.capture("gway_req_V2UncmUgaGlyaW5nIQ==")
+token = client.new_token().find("cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks", "tok_fKK4btSG7wd13ZZaevzhMcuNbpjcu1Zy")
+token.save({"source": "gway_req_V2UncmUgaGlyaW5nIQ=="})
 ```
 
 ```ruby
 <%= partial "header-ruby" %>
-transaction = invoice.capture("gway_req_V2UncmUgaGlyaW5nIQ==")
+token = client.token.find("cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks", "tok_fKK4btSG7wd13ZZaevzhMcuNbpjcu1Zy")
+token.save("source": "gway_req_V2UncmUgaGlyaW5nIQ==")
 ```
 
 ```php
 <%= partial "header-php" %>
-$transaction = $invoice->capture("gway_req_V2UncmUgaGlyaW5nIQ==");
+$token = $client->newToken()->find("cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks", "tok_fKK4btSG7wd13ZZaevzhMcuNbpjcu1Zy");
+$token = $token->save(array("source" => "gway_req_V2UncmUgaGlyaW5nIQ=="));
 ```
 
 ```go
 <%= partial "header-go" %>
-tr, _ := iv.Capture("gway_req_V2UncmUgaGlyaW5nIQ==")
+token, _ := client.NewToken().Find("cust_WtaVdUjAGpOlbLiYWYXBR67whr91Rlks", "tok_fKK4btSG7wd13ZZaevzhMcuNbpjcu1Zy")
+_, err := token.Save(processout.TokenSaveParameters{
+    Source: "gway_req_V2UncmUgaGlyaW5nIQ==",
+})
 ```
 </div>
 
