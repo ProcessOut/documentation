@@ -286,6 +286,7 @@ func application(_ app: UIApplication, open url: URL, options: [UIApplication.Op
 
 ```java
 // In your application, list all the available APMs for display:
+final Context with = this;
 p.fetchGatewayConfigurations(ProcessOut.GatewaysListingFilter.AlternativePaymentMethod, new FetchGatewaysConfigurationsCallback() {
   @Override
   public void onSuccess(ArrayList<GatewayConfiguration> gateways) {
@@ -295,7 +296,8 @@ p.fetchGatewayConfigurations(ProcessOut.GatewaysListingFilter.AlternativePayment
     p.makeAPMToken(
       gateways.get(0),
       "cust_C4hZXQTU0aWoYeenHYC0DektYDqf8ocj",
-      "tok_fKK4btSG7wd13ZZaevzhMcuNbpjcu1Zy"
+      "tok_fKK4btSG7wd13ZZaevzhMcuNbpjcu1Zy",
+      with
     );
   }
 
