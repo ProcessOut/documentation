@@ -21,6 +21,7 @@ those tokens to your customers when listing their stored payment methods.
 <span class="console-font">**customer**</span><br />*customer_id*<br />*[Customer](#customers) expandable* | Customer for which the token was created
 <span class="console-font">**card**</span><br />*card_id*<br />*[Card](#cards) expandable* | Card used to create the token
 <span class="console-font">**type**</span><br />*string*<br />Read-only | Source used to create the token. Most of the time will be a `card`
+<span class="console-font">**description**</span><br />*string*<br /> Description that will be sent to the tokenization gateway service
 <span class="console-font">**is_subscription_only**</span><br />*boolean*<br />Read-only | Whether or not the token was created for a specific subscription
 <span class="console-font">**is_default**</span><br />*boolean*<br />Read-only | Whether or not the token is the default customer token (i.e. the one used when capturing a payment using the customer ID as the source)
 <span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the customer, key-value pair (string - string)
