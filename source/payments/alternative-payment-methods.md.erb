@@ -315,10 +315,11 @@ client.fetchGatewayConfigurations({
 
 function processoutAPMsReady(confs) {
   var formWrapper = document.getElementById("apms-payment-form");
-  for (var conf of confs) {
-    var el = document.createElement("div");
+  for (var i = 0; i < confs.length; i++) {
+    const el = document.createElement("div");
     el.className = "my-apm-link";
-    el.innerHTML = "Pay with " + conf.gateway.display_name;
+    el.innerHTML = "Pay with " + confs[i].gateway.display_name;
+    el.setAttribute('apm-number', i);
 
     // Inject our APM element in the form
     formWrapper.appendChild(el);
@@ -326,7 +327,7 @@ function processoutAPMsReady(confs) {
     el.addEventListener("click", function() {
       // The user clicked on the payment button, let's 
       // redirect
-      conf.handleInvoiceAction(function(token) {
+      confs[el.getAttribute('apm-number')].handleCustomerTokenAction(function(token) {
         // The customer completed the gateway payment flow,
         // we can send the token back to our backend to finish the
         // capture
