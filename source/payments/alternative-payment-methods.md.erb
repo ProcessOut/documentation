@@ -313,39 +313,45 @@ client.fetchGatewayConfigurations({
   console.log("Woops, couldn't fetch APMs: "+err);
 });
 
+var configFunctions = [];
+
+function createHandler(i, conf) {
+  return function(){
+    conf.handleInvoiceAction(function(token) {
+    // The customer completed the gateway tokenization flow,
+    // we can send the token back to our backend to finish the flow
+      document.getElementById("success").innerHTML = "Success! Token "+token+" on customer "+document.getElementById('customer-id').value;
+    }, function(err) {
+    // An error occured during tokenization. This could just be the
+    // customer that canceled the tokenization, or an error with
+    // the payment gateway.
+      document.getElementById("errors").innerHTML = err.message;
+    });
+  }
+}
+
 function processoutAPMsReady(confs) {
   var formWrapper = document.getElementById("apms-payment-form");
+  var elements = [];
   for (var i = 0; i < confs.length; i++) {
-    const el = document.createElement("div");
+    var el = document.createElement("div");
     el.className = "my-apm-link";
     el.innerHTML = "Pay with " + confs[i].gateway.display_name;
-    el.setAttribute('apm-number', i);
+
+    configFunctions[i] = createHandler(i, confs[i]);
 
     // Inject our APM element in the form
     formWrapper.appendChild(el);
 
-    el.addEventListener("click", function() {
-      // The user clicked on the payment button, let's 
-      // redirect
-      confs[el.getAttribute('apm-number')].handleCustomerTokenAction(function(token) {
-        // The customer completed the gateway payment flow,
-        // we can send the token back to our backend to finish the
-        // capture
-        var field   = document.createElement("input");
-        field.type  = "hidden";
-        field.name  = "token";
-        field.value = token;
-        formWrapper.appendChild(field);
-        formWrapper.submit();
-
-      }, function(err) {
-
-        // An error occured during checkout. This could just be the
-        // customer that canceled the payment, or an error with
-        // the payment gateway.
-        alert(err);
+    elements[i] = el;
+  }
+  for (var i = 0; i < confs.length; i++) {
+    (function () {
+      var k = i;
+      elements[k].addEventListener("click", function() {
+        configFunctions[k]();
       });
-    });
+    }());
   }
 }
 ```
