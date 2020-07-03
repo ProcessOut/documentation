@@ -4,11 +4,14 @@ DISTRIBUTION=E3GA5RMWGG0DB3
 
 .PHONY: build
 build:
-	bundle exec middleman build
+	docker run -v $(shell pwd):/usr/src/app -p 4567:4567 -p 1234:1234 -it $(shell docker build -q .) middleman build
 
 .PHONY: test
 test:
-	bundle exec middleman
+	@echo "####################################################"
+	@echo "## SERVER WILL BE HOSTED ON http://127.0.0.1:4567 ##"
+	@echo "####################################################"
+	docker run -v $(shell pwd):/usr/src/app -p 4567:4567 -p 1234:1234 -it $(shell docker build -q .) middleman server
 
 .PHONY: deploy-staging
 deploy-staging: deploy
