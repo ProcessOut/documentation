@@ -1,4 +1,6 @@
-import "gopkg.in/processout.v4"
-client := processout.New(
+import "github.com/processout/processout-go"
+
+var client = processout.New(
     "test-<%= partial "projectID" %>", 
-    "<%= partial "projectSecret" %>")
+    "<%= partial "projectSecret" %>",
+)
