@@ -176,56 +176,54 @@ default:
 
 ```go
 <%= partial "header-go" %>
-// EventData is the definition of a ProcessOut Event data
-type EventData struct {
-    Transaction *processout.Transaction `json:"invoice"`
-}
-
-// ProcessOutWebhook is the definition of a ProcessOut webhook
+// ProcessOutWebhook is the data received from a webhook request.
 type ProcessOutWebhook struct {
     EventID string `json:"event_id"`
 }
 
-func handleProcessOutWebhooks(w http.ResponseWriter,
-	r *http.Request) {
+type TransactionEvent struct {
+    Transaction *processout.Transaction `mapstructure:"transaction"`
+}
 
-	defer r.Body.Close()
-	reqRaw, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		panic(err)
-	}
+func handleProcessOutWebhooks(
+    w http.ResponseWriter,
+    r *http.Request,
+) {
 
-	// Decode the webhook
-	webhook := &ProcessOutWebhook{}
-	json.Unmarshal(reqRaw, &webhook)
-
-    // Fetching the associated event
-    event, err := client.NewEvent().Find(webhook.EventID)
-    if err != nil {
-        // Webhook not found, most likely coming from an
-        // insecure source
-		w.WriteHeader(http.StatusBadRequest)
-		return
+    // Decode the webhook.
+    var webhook ProcessOutWebhook
+    defer r.Body.Close()
+    if err := json.NewDecoder(r.Body).Decode(&webhook); err != nil {
+        panic(err)
     }
 
-	switch event.Name {
-	case "transaction.captured":
-		// Successful payment
+    // Fetching the associated event.
+    event, err := client.NewEvent().Find(webhook.EventID)
+    if err != nil {
+        // Webhook not found, possibly injected by a malicious third-party
+        w.WriteHeader(http.StatusBadRequest)
+        return
+    }
 
-	case "transaction.authorized":
-		// Payment was authorized but not yet captured
+    switch *event.Name {
+    case "transaction.captured":
+        // Successful payment.
 
-	// ...
-    // Access data from within the Data field
-    // e, _ := event.Data.(EventData)
-    // fmt.Println(e.Transaction)
+    case "transaction.authorized":
+        // Payment was authorized but not yet captured.
 
-	default:
-		// Return an HTTP OK response so that unsuported
-		// webhooks do not get sent again
-		w.WriteHeader(http.StatusOK)
-		return
-	}
+        // …
+        // Access data from within the Data field:
+        //
+        // var ev TransactionEvent
+        // if err := mapstructure.Decode(event.Data, &ev); err != nil {
+        //  panic(err)
+        // }
+        // fmt.Println(*ev.Transaction.Amount, *ev.Transaction.Currency)
+
+    }
+    // Always return a HTTP 200 OK response to signal the event was received.
+    w.WriteHeader(http.StatusOK)
 }
 ```
 </div>
