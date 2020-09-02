@@ -53,6 +53,7 @@ using the ProcessOut API. To start using invoices, [let's create one](#create-an
 --:|:--
 <span class="console-font">**score**</span><br />*string* | Scoring of the invoice. There is no validation done on this field as it is used to forward risk information on compatible payment providers<br /><span style="opacity: 0.5">*Max 12 characters long*</span>
 <span class="console-font">**is_legit**</span><br />*bool* | Define whether or not the invoice is legit
+<span class="console-font">**skip_gateway_rules**</span><br />*bool* | Skip payment gateway fraud engine rules (on compatible gateways only. Please contact us to know more.)
 
 ##### Device attributes
 |||
