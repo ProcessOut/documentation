@@ -26,6 +26,7 @@ using the ProcessOut API. To start using invoices, [let's create one](#create-an
 <span class="console-font">**return_url**</span><br />*string* | `URL` used to redirect the customer once the payment is placed<br /><span style="opacity: 0.5">*Must be a valid URL*</span>
 <span class="console-font">**cancel_url**</span><br />*string* | `URL` used to redirect the customer when the payment is canceled<br /><span style="opacity: 0.5">*Must be a valid URL*</span>
 <span class="console-font">**metadata**</span><br />[Metadata](#metadata)<br />*dictionary* | Context related to the invoice, key-value pair (string - string)
+<span class="console-font">**exemption_reason_3ds2**</span><br />*string* | Optional reason for requesting 3DS2 not to be invoked (Note: Must also be supported by the PSP. Please contact our support to know more!)<br /><span style="opacity: 0.5">Allowed values are: "low-value", "trusted-beneficiary" or "transaction-risk-analysis"</span>
 <span class="console-font">**sandbox**</span><br />*boolean*<br />Read-only |
 <span class="console-font">**created_at**</span><br />*RFC1123 date or timestamp*<br />Read-only |
 
