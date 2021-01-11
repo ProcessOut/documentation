@@ -229,7 +229,7 @@ GEM
     rb-fsevent (0.9.5)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
-    redcarpet (3.2.3)
+    redcarpet (3.5.1)
     ref (1.0.5)
     rouge (1.7.2)
     ruby-progressbar (1.7.5)
@@ -275,7 +275,7 @@ DEPENDENCIES
   middleman-s3_sync
   middleman-syntax
   rake (~> 10.4.0)
-  redcarpet (~> 3.2.1)
+  redcarpet (~> 3.5.1)
   rouge (= 1.7.2)
   ruby18_source_location
   therubyracer
